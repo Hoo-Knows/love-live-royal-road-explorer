@@ -1,0 +1,38 @@
+{
+  "name": "love-live-royal-road-explorer",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "preview": "vite preview",
+    "build": "tsc -b && vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "npm run lint:python && npm run lint:frontend",
+    "lint:python": "uv run --no-cache ruff check analyze.py scripts",
+    "lint:frontend": "biome lint src vite.config.ts",
+    "validate:data": "uv run --cache-dir .uv-cache python scripts/validate_data.py",
+    "analysis": "uv run --cache-dir .uv-cache analyze.py",
+    "compile:catalog": "uv run --cache-dir .uv-cache python scripts/compile_catalog.py",
+    "test:python": "uv run --cache-dir .uv-cache python -m unittest discover -s scripts/tests -p \"test_*.py\""
+  },
+  "dependencies": {
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "6.1.1",
+    "@testing-library/jest-dom": "7.0.1",
+    "@testing-library/react": "16.3.3",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.5",
+    "@types/node": "26.4.0",
+    "@biomejs/biome": "2.5.11",
+    "jsdom": "30.0.1",
+    "typescript": "7.0.2",
+    "vite": "8.2.2",
+    "vitest": "4.1.11"
+  }
+}

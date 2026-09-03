@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://royal-road.example/schemas/catalog.schema.json",
+  "type": "object",
+  "required": ["schemaVersion", "isFixture", "patterns", "metrics", "songs"],
+  "properties": {
+    "schemaVersion": {"const": "4.1.0"},
+    "isFixture": {"type": "boolean"},
+    "patterns": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/namedDefinition"}
+    },
+    "metrics": {
+      "type": "object",
+      "required": ["matchingSongCount", "totalOccurrenceCount", "analyzedSongCount", "catalogSongCount", "unavailableSongCount", "failedSongCount"],
+      "properties": {
+        "matchingSongCount": {"type": "integer", "minimum": 0},
+        "totalOccurrenceCount": {"type": "integer", "minimum": 0},
+        "analyzedSongCount": {"type": "integer", "minimum": 0},
+        "catalogSongCount": {"type": "integer", "minimum": 0},
+        "unavailableSongCount": {"type": "integer", "minimum": 0},
+        "failedSongCount": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "songs": {"type": "array", "items": {"$ref": "#/$defs/song"}}
+  },
+  "$defs": {
+    "namedDefinition": {
+      "type": "object",
+      "required": ["id", "label"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "label": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "titles": {
+      "type": "object",
+      "properties": {
+        "ja": {"type": ["string", "null"]},
+        "en": {"type": ["string", "null"]},
+        "phonetic": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "occurrence": {
+      "type": "object",
+      "required": ["id", "exactStartSeconds", "exactEndSeconds", "playbackStartSeconds", "playbackEndSeconds", "chordLabels", "chordBounds", "patternIds", "romanNumeralAnalyses", "passingChordIndex", "provenance"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "exactStartSeconds": {"type": "number", "minimum": 0},
+        "exactEndSeconds": {"type": "number", "exclusiveMinimum": 0},
+        "playbackStartSeconds": {"type": "number", "minimum": 0},
+        "playbackEndSeconds": {"type": "number", "exclusiveMinimum": 0},
+        "chordLabels": {"type": "array", "minItems": 4, "maxItems": 5, "items": {"type": "string", "minLength": 1}},
+        "chordBounds": {"type": "array", "minItems": 4, "maxItems": 5, "items": {"$ref": "#/$defs/chordBound"}},
+        "patternIds": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "romanNumeralAnalyses": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "passingChordIndex": {"type": ["integer", "null"], "minimum": 1, "maximum": 3},
+        "provenance": {"enum": ["automatic", "manual"]}
+      },
+      "additionalProperties": false
+    },
+    "chordBound": {
+      "type": "object",
+      "required": ["startSeconds", "endSeconds"],
+      "properties": {
+        "startSeconds": {"type": "number", "minimum": 0},
+        "endSeconds": {"type": "number", "exclusiveMinimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "song": {
+      "type": "object",
+      "required": ["id", "titles", "artistNames", "artistAliases", "seriesNames", "seriesAliases", "audioUrl", "releaseDate", "status", "durationSeconds", "error", "occurrenceCount", "occurrences"],
+      "properties": {
+        "id": {"type": "string"},
+        "titles": {"$ref": "#/$defs/titles"},
+        "artistNames": {"type": "array", "items": {"type": "string"}},
+        "artistAliases": {"type": "array", "items": {"type": "string"}},
+        "seriesNames": {"type": "array", "items": {"type": "string"}},
+        "seriesAliases": {"type": "array", "items": {"type": "string"}},
+        "audioUrl": {"type": ["string", "null"]},
+        "releaseDate": {"type": ["string", "null"]},
+        "status": {"enum": ["analyzed", "unavailable", "failed"]},
+        "durationSeconds": {"type": ["number", "null"], "minimum": 0},
+        "error": {"type": ["string", "null"]},
+        "occurrenceCount": {"type": "integer", "minimum": 0},
+        "occurrences": {"type": "array", "items": {"$ref": "#/$defs/occurrence"}}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

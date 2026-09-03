@@ -1,0 +1,787 @@
+{
+  "schemaVersion": "2.0.0",
+  "songId": "827",
+  "durationSeconds": 211.451066,
+  "segments": [
+    {
+      "index": 0,
+      "startSeconds": 0.0,
+      "endSeconds": 2.7863945578231295,
+      "label": "N"
+    },
+    {
+      "index": 1,
+      "startSeconds": 2.7863945578231295,
+      "endSeconds": 7.8251247165532885,
+      "label": "E:maj"
+    },
+    {
+      "index": 2,
+      "startSeconds": 7.8251247165532885,
+      "endSeconds": 8.870022675736962,
+      "label": "C#:min"
+    },
+    {
+      "index": 3,
+      "startSeconds": 8.870022675736962,
+      "endSeconds": 10.704399092970522,
+      "label": "A:maj"
+    },
+    {
+      "index": 4,
+      "startSeconds": 10.704399092970522,
+      "endSeconds": 12.422675736961452,
+      "label": "B:maj"
+    },
+    {
+      "index": 5,
+      "startSeconds": 12.422675736961452,
+      "endSeconds": 14.140952380952381,
+      "label": "E:maj"
+    },
+    {
+      "index": 6,
+      "startSeconds": 14.140952380952381,
+      "endSeconds": 15.836009070294786,
+      "label": "C#:min"
+    },
+    {
+      "index": 7,
+      "startSeconds": 15.836009070294786,
+      "endSeconds": 17.554285714285715,
+      "label": "A:maj"
+    },
+    {
+      "index": 8,
+      "startSeconds": 17.554285714285715,
+      "endSeconds": 20.108480725623583,
+      "label": "B:maj"
+    },
+    {
+      "index": 9,
+      "startSeconds": 20.108480725623583,
+      "endSeconds": 35.34077097505669,
+      "label": "E:maj"
+    },
+    {
+      "index": 10,
+      "startSeconds": 35.34077097505669,
+      "endSeconds": 36.45532879818594,
+      "label": "C#:min"
+    },
+    {
+      "index": 11,
+      "startSeconds": 36.45532879818594,
+      "endSeconds": 36.94294784580499,
+      "label": "A:maj"
+    },
+    {
+      "index": 12,
+      "startSeconds": 36.94294784580499,
+      "endSeconds": 38.15038548752835,
+      "label": "E:maj"
+    },
+    {
+      "index": 13,
+      "startSeconds": 38.15038548752835,
+      "endSeconds": 38.93986394557823,
+      "label": "B:maj"
+    },
+    {
+      "index": 14,
+      "startSeconds": 38.93986394557823,
+      "endSeconds": 39.82222222222222,
+      "label": "C#:min"
+    },
+    {
+      "index": 15,
+      "startSeconds": 39.82222222222222,
+      "endSeconds": 40.63492063492063,
+      "label": "A:maj"
+    },
+    {
+      "index": 16,
+      "startSeconds": 40.63492063492063,
+      "endSeconds": 41.61015873015873,
+      "label": "E:maj"
+    },
+    {
+      "index": 17,
+      "startSeconds": 41.61015873015873,
+      "endSeconds": 42.190657596371885,
+      "label": "B:maj"
+    },
+    {
+      "index": 18,
+      "startSeconds": 42.190657596371885,
+      "endSeconds": 43.25877551020408,
+      "label": "C#:min"
+    },
+    {
+      "index": 19,
+      "startSeconds": 43.25877551020408,
+      "endSeconds": 43.95537414965987,
+      "label": "A:maj"
+    },
+    {
+      "index": 20,
+      "startSeconds": 43.95537414965987,
+      "endSeconds": 44.7912925170068,
+      "label": "E:maj"
+    },
+    {
+      "index": 21,
+      "startSeconds": 44.7912925170068,
+      "endSeconds": 45.65043083900227,
+      "label": "B:maj"
+    },
+    {
+      "index": 22,
+      "startSeconds": 45.65043083900227,
+      "endSeconds": 46.69532879818594,
+      "label": "E:maj"
+    },
+    {
+      "index": 23,
+      "startSeconds": 46.69532879818594,
+      "endSeconds": 48.4368253968254,
+      "label": "C#:min"
+    },
+    {
+      "index": 24,
+      "startSeconds": 48.4368253968254,
+      "endSeconds": 50.108662131519274,
+      "label": "E:maj/3"
+    },
+    {
+      "index": 25,
+      "startSeconds": 50.108662131519274,
+      "endSeconds": 50.944580498866216,
+      "label": "A:maj"
+    },
+    {
+      "index": 26,
+      "startSeconds": 50.944580498866216,
+      "endSeconds": 51.80371882086168,
+      "label": "E:maj/5"
+    },
+    {
+      "index": 27,
+      "startSeconds": 51.80371882086168,
+      "endSeconds": 53.59165532879819,
+      "label": "E:maj"
+    },
+    {
+      "index": 28,
+      "startSeconds": 53.59165532879819,
+      "endSeconds": 55.42603174603175,
+      "label": "C#:min"
+    },
+    {
+      "index": 29,
+      "startSeconds": 55.42603174603175,
+      "endSeconds": 56.93532879818594,
+      "label": "E:maj/3"
+    },
+    {
+      "index": 30,
+      "startSeconds": 56.93532879818594,
+      "endSeconds": 58.72326530612245,
+      "label": "F#:min7"
+    },
+    {
+      "index": 31,
+      "startSeconds": 58.72326530612245,
+      "endSeconds": 60.395102040816326,
+      "label": "B:maj"
+    },
+    {
+      "index": 32,
+      "startSeconds": 60.395102040816326,
+      "endSeconds": 62.18303854875283,
+      "label": "A:maj"
+    },
+    {
+      "index": 33,
+      "startSeconds": 62.18303854875283,
+      "endSeconds": 63.87809523809524,
+      "label": "B:maj"
+    },
+    {
+      "index": 34,
+      "startSeconds": 63.87809523809524,
+      "endSeconds": 65.59637188208617,
+      "label": "E:maj"
+    },
+    {
+      "index": 35,
+      "startSeconds": 65.59637188208617,
+      "endSeconds": 67.24498866213152,
+      "label": "C#:min"
+    },
+    {
+      "index": 36,
+      "startSeconds": 67.24498866213152,
+      "endSeconds": 68.98648526077098,
+      "label": "A:maj"
+    },
+    {
+      "index": 37,
+      "startSeconds": 68.98648526077098,
+      "endSeconds": 70.44934240362812,
+      "label": "B:sus4"
+    },
+    {
+      "index": 38,
+      "startSeconds": 70.44934240362812,
+      "endSeconds": 74.09487528344671,
+      "label": "E:maj"
+    },
+    {
+      "index": 39,
+      "startSeconds": 74.09487528344671,
+      "endSeconds": 75.8595918367347,
+      "label": "A:maj"
+    },
+    {
+      "index": 40,
+      "startSeconds": 75.8595918367347,
+      "endSeconds": 77.5546485260771,
+      "label": "B:maj"
+    },
+    {
+      "index": 41,
+      "startSeconds": 77.5546485260771,
+      "endSeconds": 79.29614512471656,
+      "label": "E:maj"
+    },
+    {
+      "index": 42,
+      "startSeconds": 79.29614512471656,
+      "endSeconds": 81.01442176870748,
+      "label": "C#:min"
+    },
+    {
+      "index": 43,
+      "startSeconds": 81.01442176870748,
+      "endSeconds": 82.63981859410431,
+      "label": "A:maj"
+    },
+    {
+      "index": 44,
+      "startSeconds": 82.63981859410431,
+      "endSeconds": 84.38131519274377,
+      "label": "B:maj"
+    },
+    {
+      "index": 45,
+      "startSeconds": 84.38131519274377,
+      "endSeconds": 85.28689342403628,
+      "label": "A:maj"
+    },
+    {
+      "index": 46,
+      "startSeconds": 85.28689342403628,
+      "endSeconds": 86.14603174603175,
+      "label": "B:maj"
+    },
+    {
+      "index": 47,
+      "startSeconds": 86.14603174603175,
+      "endSeconds": 87.00517006802721,
+      "label": "Ab:min"
+    },
+    {
+      "index": 48,
+      "startSeconds": 87.00517006802721,
+      "endSeconds": 87.91074829931974,
+      "label": "C#:min"
+    },
+    {
+      "index": 49,
+      "startSeconds": 87.91074829931974,
+      "endSeconds": 88.72344671201814,
+      "label": "A:maj"
+    },
+    {
+      "index": 50,
+      "startSeconds": 88.72344671201814,
+      "endSeconds": 89.55936507936508,
+      "label": "B:maj"
+    },
+    {
+      "index": 51,
+      "startSeconds": 89.55936507936508,
+      "endSeconds": 91.27764172335601,
+      "label": "E:maj"
+    },
+    {
+      "index": 52,
+      "startSeconds": 91.27764172335601,
+      "endSeconds": 92.11356009070295,
+      "label": "A:maj"
+    },
+    {
+      "index": 53,
+      "startSeconds": 92.11356009070295,
+      "endSeconds": 93.06557823129252,
+      "label": "B:maj"
+    },
+    {
+      "index": 54,
+      "startSeconds": 93.06557823129252,
+      "endSeconds": 93.55319727891157,
+      "label": "Ab:min"
+    },
+    {
+      "index": 55,
+      "startSeconds": 93.55319727891157,
+      "endSeconds": 94.76063492063493,
+      "label": "C#:min"
+    },
+    {
+      "index": 56,
+      "startSeconds": 94.76063492063493,
+      "endSeconds": 95.2714739229025,
+      "label": "A:maj"
+    },
+    {
+      "index": 57,
+      "startSeconds": 95.2714739229025,
+      "endSeconds": 96.4324716553288,
+      "label": "B:maj"
+    },
+    {
+      "index": 58,
+      "startSeconds": 96.4324716553288,
+      "endSeconds": 96.9665306122449,
+      "label": "Ab:min"
+    },
+    {
+      "index": 59,
+      "startSeconds": 96.9665306122449,
+      "endSeconds": 98.1275283446712,
+      "label": "C#:min"
+    },
+    {
+      "index": 60,
+      "startSeconds": 98.1275283446712,
+      "endSeconds": 98.87056689342404,
+      "label": "A:maj"
+    },
+    {
+      "index": 61,
+      "startSeconds": 98.87056689342404,
+      "endSeconds": 99.84580498866214,
+      "label": "B:sus4"
+    },
+    {
+      "index": 62,
+      "startSeconds": 99.84580498866214,
+      "endSeconds": 100.37986394557824,
+      "label": "Ab:min"
+    },
+    {
+      "index": 63,
+      "startSeconds": 100.37986394557824,
+      "endSeconds": 101.56408163265306,
+      "label": "C#:min"
+    },
+    {
+      "index": 64,
+      "startSeconds": 101.56408163265306,
+      "endSeconds": 102.26068027210884,
+      "label": "A:maj"
+    },
+    {
+      "index": 65,
+      "startSeconds": 102.26068027210884,
+      "endSeconds": 103.09659863945578,
+      "label": "B:sus4"
+    },
+    {
+      "index": 66,
+      "startSeconds": 103.09659863945578,
+      "endSeconds": 104.9774149659864,
+      "label": "E:maj"
+    },
+    {
+      "index": 67,
+      "startSeconds": 104.9774149659864,
+      "endSeconds": 106.7653514739229,
+      "label": "A:maj"
+    },
+    {
+      "index": 68,
+      "startSeconds": 106.7653514739229,
+      "endSeconds": 108.41396825396825,
+      "label": "Ab:maj"
+    },
+    {
+      "index": 69,
+      "startSeconds": 108.41396825396825,
+      "endSeconds": 110.17868480725623,
+      "label": "C#:min"
+    },
+    {
+      "index": 70,
+      "startSeconds": 110.17868480725623,
+      "endSeconds": 110.99138321995466,
+      "label": "B:min"
+    },
+    {
+      "index": 71,
+      "startSeconds": 110.99138321995466,
+      "endSeconds": 111.85052154195012,
+      "label": "E:maj"
+    },
+    {
+      "index": 72,
+      "startSeconds": 111.85052154195012,
+      "endSeconds": 113.63845804988662,
+      "label": "A:maj"
+    },
+    {
+      "index": 73,
+      "startSeconds": 113.63845804988662,
+      "endSeconds": 115.28707482993198,
+      "label": "B:maj"
+    },
+    {
+      "index": 74,
+      "startSeconds": 115.28707482993198,
+      "endSeconds": 118.70040816326531,
+      "label": "E:maj"
+    },
+    {
+      "index": 75,
+      "startSeconds": 118.70040816326531,
+      "endSeconds": 120.41868480725624,
+      "label": "A:maj"
+    },
+    {
+      "index": 76,
+      "startSeconds": 120.41868480725624,
+      "endSeconds": 122.48526077097506,
+      "label": "B:maj"
+    },
+    {
+      "index": 77,
+      "startSeconds": 122.48526077097506,
+      "endSeconds": 123.83201814058957,
+      "label": "Ab:min"
+    },
+    {
+      "index": 78,
+      "startSeconds": 123.83201814058957,
+      "endSeconds": 125.5502947845805,
+      "label": "C#:min"
+    },
+    {
+      "index": 79,
+      "startSeconds": 125.5502947845805,
+      "endSeconds": 126.13079365079365,
+      "label": "A:maj"
+    },
+    {
+      "index": 80,
+      "startSeconds": 126.13079365079365,
+      "endSeconds": 127.29179138321996,
+      "label": "B:maj"
+    },
+    {
+      "index": 81,
+      "startSeconds": 127.29179138321996,
+      "endSeconds": 127.84907029478458,
+      "label": "C:dim"
+    },
+    {
+      "index": 82,
+      "startSeconds": 127.84907029478458,
+      "endSeconds": 128.98684807256237,
+      "label": "C#:min"
+    },
+    {
+      "index": 83,
+      "startSeconds": 128.98684807256237,
+      "endSeconds": 130.68190476190478,
+      "label": "A:maj"
+    },
+    {
+      "index": 84,
+      "startSeconds": 130.68190476190478,
+      "endSeconds": 132.19120181405896,
+      "label": "B:maj"
+    },
+    {
+      "index": 85,
+      "startSeconds": 132.19120181405896,
+      "endSeconds": 134.14167800453515,
+      "label": "C:maj"
+    },
+    {
+      "index": 86,
+      "startSeconds": 134.14167800453515,
+      "endSeconds": 135.76707482993197,
+      "label": "Bb:maj"
+    },
+    {
+      "index": 87,
+      "startSeconds": 135.76707482993197,
+      "endSeconds": 137.137052154195,
+      "label": "C:sus4"
+    },
+    {
+      "index": 88,
+      "startSeconds": 137.137052154195,
+      "endSeconds": 138.97142857142856,
+      "label": "F:maj"
+    },
+    {
+      "index": 89,
+      "startSeconds": 138.97142857142856,
+      "endSeconds": 140.99156462585034,
+      "label": "D:min"
+    },
+    {
+      "index": 90,
+      "startSeconds": 140.99156462585034,
+      "endSeconds": 141.5720634920635,
+      "label": "Bb:maj"
+    },
+    {
+      "index": 91,
+      "startSeconds": 141.5720634920635,
+      "endSeconds": 143.2671201814059,
+      "label": "C:maj"
+    },
+    {
+      "index": 92,
+      "startSeconds": 143.2671201814059,
+      "endSeconds": 144.45133786848072,
+      "label": "D:min"
+    },
+    {
+      "index": 93,
+      "startSeconds": 144.45133786848072,
+      "endSeconds": 146.0302947845805,
+      "label": "Bb:maj7"
+    },
+    {
+      "index": 94,
+      "startSeconds": 146.0302947845805,
+      "endSeconds": 147.84145124716554,
+      "label": "Bb:min"
+    },
+    {
+      "index": 95,
+      "startSeconds": 147.84145124716554,
+      "endSeconds": 151.25478458049886,
+      "label": "C:maj"
+    },
+    {
+      "index": 96,
+      "startSeconds": 151.25478458049886,
+      "endSeconds": 154.71455782312927,
+      "label": "Ab:maj"
+    },
+    {
+      "index": 97,
+      "startSeconds": 154.71455782312927,
+      "endSeconds": 156.4328344671202,
+      "label": "A:maj"
+    },
+    {
+      "index": 98,
+      "startSeconds": 156.4328344671202,
+      "endSeconds": 158.1511111111111,
+      "label": "B:maj"
+    },
+    {
+      "index": 99,
+      "startSeconds": 158.1511111111111,
+      "endSeconds": 160.21768707482994,
+      "label": "E:maj"
+    },
+    {
+      "index": 100,
+      "startSeconds": 160.21768707482994,
+      "endSeconds": 161.35546485260772,
+      "label": "N"
+    },
+    {
+      "index": 101,
+      "startSeconds": 161.35546485260772,
+      "endSeconds": 163.32916099773243,
+      "label": "A:maj"
+    },
+    {
+      "index": 102,
+      "startSeconds": 163.32916099773243,
+      "endSeconds": 164.7455782312925,
+      "label": "B:maj"
+    },
+    {
+      "index": 103,
+      "startSeconds": 164.7455782312925,
+      "endSeconds": 168.36789115646258,
+      "label": "E:maj"
+    },
+    {
+      "index": 104,
+      "startSeconds": 168.36789115646258,
+      "endSeconds": 170.20226757369616,
+      "label": "A:maj"
+    },
+    {
+      "index": 105,
+      "startSeconds": 170.20226757369616,
+      "endSeconds": 171.4793650793651,
+      "label": "B:maj"
+    },
+    {
+      "index": 106,
+      "startSeconds": 171.4793650793651,
+      "endSeconds": 173.6156009070295,
+      "label": "E:maj"
+    },
+    {
+      "index": 107,
+      "startSeconds": 173.6156009070295,
+      "endSeconds": 175.26421768707485,
+      "label": "C#:min"
+    },
+    {
+      "index": 108,
+      "startSeconds": 175.26421768707485,
+      "endSeconds": 176.23945578231292,
+      "label": "A:maj"
+    },
+    {
+      "index": 109,
+      "startSeconds": 176.23945578231292,
+      "endSeconds": 176.98249433106577,
+      "label": "B:maj"
+    },
+    {
+      "index": 110,
+      "startSeconds": 176.98249433106577,
+      "endSeconds": 177.88807256235827,
+      "label": "E:maj"
+    },
+    {
+      "index": 111,
+      "startSeconds": 177.88807256235827,
+      "endSeconds": 178.67755102040817,
+      "label": "C#:min"
+    },
+    {
+      "index": 112,
+      "startSeconds": 178.67755102040817,
+      "endSeconds": 179.60634920634922,
+      "label": "A:maj"
+    },
+    {
+      "index": 113,
+      "startSeconds": 179.60634920634922,
+      "endSeconds": 180.3958276643991,
+      "label": "B:sus4"
+    },
+    {
+      "index": 114,
+      "startSeconds": 180.3958276643991,
+      "endSeconds": 182.13732426303855,
+      "label": "E:maj"
+    },
+    {
+      "index": 115,
+      "startSeconds": 182.13732426303855,
+      "endSeconds": 183.0661224489796,
+      "label": "A:maj"
+    },
+    {
+      "index": 116,
+      "startSeconds": 183.0661224489796,
+      "endSeconds": 183.80916099773242,
+      "label": "B:sus4"
+    },
+    {
+      "index": 117,
+      "startSeconds": 183.80916099773242,
+      "endSeconds": 184.73795918367347,
+      "label": "E:maj"
+    },
+    {
+      "index": 118,
+      "startSeconds": 184.73795918367347,
+      "endSeconds": 185.57387755102042,
+      "label": "C#:min"
+    },
+    {
+      "index": 119,
+      "startSeconds": 185.57387755102042,
+      "endSeconds": 187.22249433106577,
+      "label": "A:maj"
+    },
+    {
+      "index": 120,
+      "startSeconds": 187.22249433106577,
+      "endSeconds": 189.5677097505669,
+      "label": "B:maj"
+    },
+    {
+      "index": 121,
+      "startSeconds": 189.5677097505669,
+      "endSeconds": 190.6358276643991,
+      "label": "E:maj"
+    },
+    {
+      "index": 122,
+      "startSeconds": 190.6358276643991,
+      "endSeconds": 192.91138321995464,
+      "label": "B:maj"
+    },
+    {
+      "index": 123,
+      "startSeconds": 192.91138321995464,
+      "endSeconds": 194.00272108843538,
+      "label": "E:maj"
+    },
+    {
+      "index": 124,
+      "startSeconds": 194.00272108843538,
+      "endSeconds": 194.88507936507938,
+      "label": "B:maj"
+    },
+    {
+      "index": 125,
+      "startSeconds": 194.88507936507938,
+      "endSeconds": 197.4857142857143,
+      "label": "E:maj"
+    },
+    {
+      "index": 126,
+      "startSeconds": 197.4857142857143,
+      "endSeconds": 198.2055328798186,
+      "label": "B:maj"
+    },
+    {
+      "index": 127,
+      "startSeconds": 198.2055328798186,
+      "endSeconds": 199.2736507936508,
+      "label": "C#:min"
+    },
+    {
+      "index": 128,
+      "startSeconds": 199.2736507936508,
+      "endSeconds": 205.49659863945578,
+      "label": "E:maj"
+    },
+    {
+      "index": 129,
+      "startSeconds": 205.49659863945578,
+      "endSeconds": 211.451066,
+      "label": "N"
+    }
+  ]
+}

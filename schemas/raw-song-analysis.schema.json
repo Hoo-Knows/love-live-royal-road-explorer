@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://royal-road.example/schemas/raw-song-analysis.schema.json",
+  "type": "object",
+  "required": ["schemaVersion", "songId", "durationSeconds", "segments"],
+  "properties": {
+    "schemaVersion": {"const": "2.0.0"},
+    "songId": {"type": "string"},
+    "durationSeconds": {"type": ["number", "null"], "minimum": 0},
+    "segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["index", "startSeconds", "endSeconds", "label"],
+        "properties": {
+          "index": {"type": "integer", "minimum": 0},
+          "startSeconds": {"type": "number", "minimum": 0},
+          "endSeconds": {"type": "number", "exclusiveMinimum": 0},
+          "label": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

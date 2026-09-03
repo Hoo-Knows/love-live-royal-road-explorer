@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="IV, V, iii, vi progression grid">
+  <rect width="64" height="64" rx="18" fill="#10121f"/>
+  <path d="M32 7v50M7 32h50" fill="none" stroke="#ff9e7a" stroke-width="1" opacity=".75"/>
+  <g fill="#d8ff58" font-family="Georgia, 'Times New Roman', serif" font-weight="50" text-anchor="middle">
+    <text x="18" y="23" font-size="20">IV</text>
+    <text x="46" y="23" font-size="20">V</text>
+    <text x="18" y="51" font-size="20">iii</text>
+    <text x="46" y="51" font-size="20">vi</text>
+  </g>
+</svg>

@@ -1,0 +1,48 @@
+[project]
+name = "royal-road-analysis"
+version = "0.1.0"
+description = "Maintainer-only analysis pipeline for the Love Live Royal Road Explorer"
+requires-python = ">=3.9,<3.10"
+dependencies = [
+    "certifi==2026.7.22",
+    "figures==0.3.16",
+    "h5py==3.11.0",
+    "jams==0.3.5",
+    "joblib==1.4.2",
+    "librosa==0.10.2.post1",
+    "matplotlib==3.8.4",
+    "mir-eval==0.8.2",
+    "numpy==1.26.4",
+    "pretty-midi==0.2.10",
+    "pumpp==0.6.0",
+    "pydub==0.25.1",
+    "scikit-learn==1.4.2",
+    "scipy==1.13.1",
+    "setuptools==67.2.0",
+    "soundfile==0.12.1",
+    "torch==2.3.1",
+]
+
+[tool.uv]
+package = false
+
+[dependency-groups]
+dev = [
+    "ruff==0.16.5",
+]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 120
+extend-exclude = ["chord_recognition_module", ".venv", ".uv-cache", ".uv-cache-lock", "data", "dist"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true

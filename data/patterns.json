@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "5.0.0",
+  "qualitySets": {
+    "major": [
+      "maj", "major", "", "maj6", "6", "maj7", "maj9", "maj11", "maj13",
+      "add9", "add11", "add13", "maj6/9"
+    ],
+    "dominantOrMajor": [
+      "maj", "major", "", "maj6", "6", "maj7", "maj9", "maj11", "maj13",
+      "add9", "add11", "add13", "maj6/9", "7", "9", "11", "13", "7b9", "7#9",
+      "7b5", "7#5"
+    ],
+    "minor": [
+      "min", "minor", "m", "min6", "m6", "min7", "m7", "min9", "m9",
+      "min11", "m11", "min13", "m13", "madd9", "minadd9"
+    ]
+  },
+  "patterns": [
+    {
+      "id": "iv-v-iii-vi",
+      "label": "IV–V–iii–vi",
+      "rootOffsets": [0, 2, 11, 4],
+      "qualities": ["major", "dominantOrMajor", "minor", "minor"],
+      "public": true
+    },
+    {
+      "id": "iv-v-iii-substitution-vi",
+      "label": "IV–V–III–vi",
+      "rootOffsets": [0, 2, 11, 4],
+      "qualities": ["major", "dominantOrMajor", "dominantOrMajor", "minor"],
+      "public": true
+    },
+    {
+      "id": "iv-v-iii-vi-minor",
+      "label": "iv–v–III–VI",
+      "rootOffsets": [0, 2, 10, 3],
+      "qualities": ["minor", "minor", "major", "major"],
+      "public": false
+    }
+  ],
+  "passingRule": {
+    "maxDurationSeconds": 2,
+    "maxAdjacentDurationRatio": 0.5
+  }
+}

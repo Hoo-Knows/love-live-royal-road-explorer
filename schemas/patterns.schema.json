@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://royal-road.example/schemas/patterns.schema.json",
+  "type": "object",
+  "required": ["schemaVersion", "qualitySets", "patterns", "passingRule"],
+  "properties": {
+    "schemaVersion": {"const": "5.0.0"},
+    "qualitySets": {
+      "type": "object",
+      "additionalProperties": {"type": "array", "items": {"type": "string"}}
+    },
+    "patterns": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "label", "rootOffsets", "qualities", "public"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "label": {"type": "string", "minLength": 1},
+          "rootOffsets": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "integer", "minimum": 0, "maximum": 11}},
+          "qualities": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "string", "minLength": 1}},
+          "public": {"type": "boolean"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "passingRule": {
+      "type": "object",
+      "required": ["maxDurationSeconds", "maxAdjacentDurationRatio"],
+      "properties": {
+        "maxDurationSeconds": {"type": "number", "minimum": 0},
+        "maxAdjacentDurationRatio": {"type": "number", "minimum": 0, "maximum": 1}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

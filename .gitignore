@@ -1,0 +1,50 @@
+# Frontend dependencies, build output, and test/tool caches
+node_modules/
+dist/
+.build/
+.vite/
+.vite-temp/
+.vitest/
+coverage/
+*.tsbuildinfo
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Python environments, bytecode, and tool caches
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.cache/
+analysis-cache/
+.uv-cache/
+
+# Maintainer-only source/audio caches and transient analysis files
+data/source/
+data/cache/
+data/audio/
+*.part
+*.ogg
+*.mp3
+*.wav
+*.flac
+
+# Local configuration, editor state, and operating-system files
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+Desktop.ini

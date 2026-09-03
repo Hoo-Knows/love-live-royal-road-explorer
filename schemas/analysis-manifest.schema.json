@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://royal-road.example/schemas/analysis-manifest.schema.json",
+  "type": "object",
+  "required": ["schemaVersion", "sourceCommit", "analysis", "songs"],
+  "properties": {
+    "schemaVersion": {"const": "2.0.0"},
+    "sourceCommit": {"type": "string", "minLength": 7},
+    "analysis": {
+      "type": "object",
+      "required": ["module", "revision", "configVersion"],
+      "properties": {
+        "module": {"const": "chord_recognition_module"},
+        "revision": {"type": "string", "minLength": 7},
+        "configVersion": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "songs": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["status", "audioUrl", "audioSha256", "analysisVersion", "error"],
+        "properties": {
+          "status": {"enum": ["analyzed", "unavailable", "failed"]},
+          "audioUrl": {"type": ["string", "null"]},
+          "audioSha256": {"type": ["string", "null"]},
+          "analysisVersion": {"type": ["string", "null"]},
+          "error": {"type": ["string", "null"]}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
