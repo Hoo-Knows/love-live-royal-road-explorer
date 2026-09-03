@@ -1,4 +1,4 @@
-import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import App from "../src/App";
 import { isPlaybackCue } from "../src/audio";
@@ -17,6 +17,8 @@ const targetOccurrence = targetSong.occurrences.find(
 if (!targetOccurrence) {
   throw new Error("The committed catalog must include the marked 3:16.4 occurrence.");
 }
+const targetSongFixture = targetSong;
+const targetOccurrenceFixture = targetOccurrence;
 
 const fixtureCatalog = {
   ...originalCatalog,
@@ -34,19 +36,20 @@ const fixtureCatalog = {
 };
 
 function songButton(): HTMLButtonElement {
-  const title = screen.getByText("Genyou Yakou", { exact: true });
-  const button = title.closest("button");
-  if (!(button instanceof HTMLButtonElement)) {
-    throw new Error("Expected Genyou Yakou to be inside a button.");
+  const button = document.querySelector<HTMLButtonElement>(
+    `button.song-summary[aria-controls="song-detail-${targetSongFixture.id}"]`,
+  );
+  if (!button) {
+    throw new Error("Expected the playback fixture song button.");
   }
   return button;
 }
 
 function momentButton(): HTMLButtonElement {
-  const time = screen.getByText(targetMomentLabel, { exact: true });
-  const button = time.closest("button");
-  if (!(button instanceof HTMLButtonElement)) {
-    throw new Error("Expected the marked moment to be inside a button.");
+  const occurrenceIndex = targetSongFixture.occurrences.indexOf(targetOccurrenceFixture);
+  const button = document.querySelectorAll<HTMLButtonElement>(".occurrence-button")[occurrenceIndex];
+  if (!button) {
+    throw new Error("Expected the marked occurrence button.");
   }
   return button;
 }

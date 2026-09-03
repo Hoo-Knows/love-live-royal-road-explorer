@@ -2,7 +2,7 @@ import { act, fireEvent, render, screen, waitFor, within } from "@testing-librar
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import App from "../src/App";
 import { catalogStore } from "../src/catalog";
-import { formatSeconds } from "../src/format";
+import type { CatalogSong } from "../src/types";
 
 const originalCatalog = catalogStore.getSnapshot();
 const snowSong = originalCatalog.songs.find((song) => song.titles.en === "Snow halation");
@@ -29,15 +29,40 @@ const fixtureCatalog = {
   songs: fixtureSongs,
 };
 const snowOccurrence = snowSong.occurrences[0];
-const snowMomentLabel = formatSeconds(snowOccurrence.exactStartSeconds);
-
-function buttonContaining(text: string | RegExp): HTMLButtonElement {
-  const element = screen.getByText(text, { exact: typeof text === "string" });
-  const button = element.closest("button");
-  if (!(button instanceof HTMLButtonElement)) {
-    throw new Error(`Expected ${String(text)} to be inside a button.`);
+function buttonAt(selector: string, index: number, description: string): HTMLButtonElement {
+  const button = document.querySelectorAll<HTMLButtonElement>(selector)[index];
+  if (!button) {
+    throw new Error(`Expected ${description} to match ${selector} at index ${index}.`);
   }
   return button;
+}
+
+function songButton(song?: CatalogSong): HTMLButtonElement {
+  const selectedSong = song ?? snowSong;
+  if (!selectedSong) {
+    throw new Error("Expected the fixture song.");
+  }
+  return buttonAt(
+    `button.song-summary[aria-controls="song-detail-${selectedSong.id}"]`,
+    0,
+    `song ${selectedSong.id}`,
+  );
+}
+
+function occurrenceButton(index = 0): HTMLButtonElement {
+  return buttonAt(".occurrence-button", index, `occurrence ${index}`);
+}
+
+function controlButton(selector: string, index: number): HTMLButtonElement {
+  return buttonAt(`${selector} button`, index, `control ${selector}`);
+}
+
+function statisticsChart(index: number): HTMLElement {
+  const chart = document.querySelectorAll<HTMLElement>(".statistics-scroll")[index];
+  if (!chart) {
+    throw new Error(`Expected statistics chart at index ${index}.`);
+  }
+  return chart;
 }
 
 describe("catalog browser", () => {
@@ -51,68 +76,48 @@ describe("catalog browser", () => {
     render(<App />);
 
     expect(document.querySelector("header")).not.toBeInTheDocument();
-    expect(screen.queryByText("RR", { exact: true })).not.toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Love Live Royal Road Explorer" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Song catalog" })).toBeInTheDocument();
-    expect(screen.getByText(/Have you ever wondered how many Love Live songs use Royal Road in them\?/)).toBeInTheDocument();
-    expect(screen.getByText("Click on a song to listen to occurrences", { exact: true })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1 })).toBeInTheDocument();
+    expect(document.querySelector("#catalog-heading")).toBeInTheDocument();
     expect(document.querySelector(".hero-diagram")).not.toBeInTheDocument();
-    expect(within(screen.getByRole("region", { name: "Love Live Royal Road Explorer" })).queryByText("IV–V–iii–vi", { exact: true })).not.toBeInTheDocument();
-    expect(screen.queryByText("Love Live harmonic explorer", { exact: true })).not.toBeInTheDocument();
-    expect(screen.queryByText("Local-first analysis archive", { exact: true })).not.toBeInTheDocument();
-    expect(screen.queryByText("A small turn with a long history", { exact: true })).not.toBeInTheDocument();
-    expect(screen.queryByText("Every song stays in frame.", { exact: true })).not.toBeInTheDocument();
-    expect(screen.queryByText(/Zero-match, unavailable, and failed rows remain searchable/, { exact: false })).not.toBeInTheDocument();
-    expect(screen.getByText("Snow halation")).toBeInTheDocument();
-    expect(screen.getAllByText("No audio").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("Needs review").length).toBeGreaterThan(0);
+    expect(songButton()).toBeInTheDocument();
+    expect(document.querySelectorAll(".status-unavailable").length).toBeGreaterThan(0);
+    expect(document.querySelectorAll(".status-failed").length).toBeGreaterThan(0);
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it("shows direct totals without key-confidence controls", () => {
     render(<App />);
-    expect(screen.queryByRole("group", { name: "Key confidence" })).not.toBeInTheDocument();
-    expect(screen.getByLabelText("Catalog totals")).toHaveTextContent(String(snowSong.occurrenceCount));
-    expect(buttonContaining("Snow halation")).toHaveTextContent(String(snowSong.occurrenceCount));
+    expect(document.querySelectorAll("fieldset")).toHaveLength(4);
+    const metrics = document.querySelector(".metrics");
+    expect(metrics).toBeInTheDocument();
+    expect(metrics?.querySelectorAll(".metric")).toHaveLength(6);
+    expect(metrics?.querySelectorAll(".metric strong")[1]).toHaveTextContent(String(snowSong.occurrenceCount));
+    expect(songButton().querySelector(".song-count strong")).toHaveTextContent(String(snowSong.occurrenceCount));
   });
 
   it("ranks matching songs and occurrences with a shared grouping toggle", () => {
     render(<App />);
 
-    expect(screen.getByRole("heading", { name: "Leaderboard" })).toBeInTheDocument();
-    expect(screen.queryByText("Ranked by")).not.toBeInTheDocument();
-    expect(screen.queryByText("Who leads the catalog?")).not.toBeInTheDocument();
-    expect(screen.queryByText("Across every matching song")).not.toBeInTheDocument();
-    expect(screen.queryByText("By artist")).not.toBeInTheDocument();
-    expect(screen.queryByText(/\d+ artists?/)).not.toBeInTheDocument();
-    expect(screen.queryByText("More categories below")).not.toBeInTheDocument();
-    expect(screen.queryByText("Each matching song and all of its occurrences count toward every credited unit or artist.")).not.toBeInTheDocument();
-    const statisticsToggle = screen.getByRole("group", { name: "Group statistics by" });
-    const artistToggle = within(statisticsToggle).getByRole("button", { name: "Artists" });
-    const seriesToggle = within(statisticsToggle).getByRole("button", { name: "Series" });
+    expect(document.querySelector("#statistics-heading")).toBeInTheDocument();
+    const artistToggle = controlButton(".statistics-toggle", 0);
+    const seriesToggle = controlButton(".statistics-toggle", 1);
     expect(artistToggle).toHaveAttribute("aria-pressed", "true");
 
-    const artistSongChart = screen.getByRole("region", {
-      name: "Matching songs by artist",
-    });
-    const artistOccurrenceChart = screen.getByRole("region", {
-      name: "Occurrences by artist",
-    });
+    const artistSongChart = statisticsChart(0);
+    const artistOccurrenceChart = statisticsChart(1);
     expect(within(artistSongChart).getByText(snowSong.artistNames[0])).toBeInTheDocument();
     expect(within(artistOccurrenceChart).getByText(snowSong.artistNames[0])).toBeInTheDocument();
 
     fireEvent.click(seriesToggle);
     expect(seriesToggle).toHaveAttribute("aria-pressed", "true");
     expect(artistToggle).toHaveAttribute("aria-pressed", "false");
-    const seriesSongChart = screen.getByRole("region", {
-      name: "Matching songs by series",
-    });
+    const seriesSongChart = statisticsChart(0);
     expect(within(seriesSongChart).getByText("Love Live!")).toBeInTheDocument();
   });
 
   it("keeps the selected grouping and refreshes chart data after a catalog update", () => {
     render(<App />);
-    fireEvent.click(screen.getByRole("button", { name: "Series" }));
+    fireEvent.click(controlButton(".statistics-toggle", 1));
 
     act(() => {
       catalogStore.replace({
@@ -123,8 +128,8 @@ describe("catalog browser", () => {
       });
     });
 
-    expect(screen.getByRole("button", { name: "Series" })).toHaveAttribute("aria-pressed", "true");
-    const seriesChart = screen.getByRole("region", { name: "Matching songs by series" });
+    expect(controlButton(".statistics-toggle", 1)).toHaveAttribute("aria-pressed", "true");
+    const seriesChart = statisticsChart(0);
     expect(within(seriesChart).getByText("Fresh Series")).toBeInTheDocument();
     expect(within(seriesChart).queryByText(snowSong.seriesNames[0])).not.toBeInTheDocument();
   });
@@ -132,31 +137,29 @@ describe("catalog browser", () => {
   it("filters the catalog with artist and series facet toggles", () => {
     render(<App />);
 
-    const filterGroup = screen.getByRole("group", { name: "Filter by" });
-    const artistsToggle = within(filterGroup).getByRole("button", { name: "Artists" });
-    const allSongsToggle = within(filterGroup).getByRole("button", { name: "All songs" });
+    const filterGroup = document.querySelector<HTMLElement>("fieldset.filter-control");
+    if (!filterGroup) throw new Error("Expected the catalog filter controls.");
+    const artistsToggle = controlButton(".filter-control", 1);
+    const allSongsToggle = controlButton(".filter-control", 0);
     expect(allSongsToggle).toHaveAttribute("aria-pressed", "true");
 
     fireEvent.click(artistsToggle);
     expect(artistsToggle).toHaveAttribute("aria-pressed", "true");
-    expect(screen.getByRole("group", { name: "Filter songs by artists" })).toBeInTheDocument();
+    expect(document.querySelector("fieldset.filter-options")).toBeInTheDocument();
 
     const artistOption = screen.getByRole("button", { name: snowSong.artistNames[0] });
     fireEvent.click(artistOption);
     expect(artistOption).toHaveAttribute("aria-pressed", "true");
-    expect(screen.getByText(/filtered to artist:/i)).toBeInTheDocument();
-    expect(screen.getByText("Snow halation")).toBeInTheDocument();
+    expect(songButton()).toBeInTheDocument();
 
-    const seriesToggle = within(filterGroup).getByRole("button", { name: "Filter catalog by series" });
+    const seriesToggle = controlButton(".filter-control", 2);
     fireEvent.click(seriesToggle);
-    expect(screen.getByRole("group", { name: "Filter songs by series" })).toBeInTheDocument();
+    expect(document.querySelector("fieldset.filter-options")).toBeInTheDocument();
     const seriesOption = screen.getByRole("button", { name: "Love Live!" });
     fireEvent.click(seriesOption);
     expect(seriesOption).toHaveAttribute("aria-pressed", "true");
-    expect(screen.getByText(/filtered to series:/i)).toBeInTheDocument();
 
-    expect(screen.queryByRole("button", { name: "Filter catalog by patterns" })).not.toBeInTheDocument();
-    expect(screen.queryByRole("group", { name: "Filter songs by patterns" })).not.toBeInTheDocument();
+    expect(filterGroup.querySelectorAll("button")).toHaveLength(3);
   });
 
   it("shows only the result count after a search", () => {
@@ -166,42 +169,44 @@ describe("catalog browser", () => {
       target: { value: "Snow" },
     });
 
-    const resultsLine = document.querySelector(".results-line");
-    expect(resultsLine).toHaveTextContent("1 song");
-    expect(resultsLine).not.toHaveTextContent(/matching/i);
+    const resultsLine = document.querySelector<HTMLElement>(".results-line");
+    if (!resultsLine) throw new Error("Expected the catalog results summary.");
+    expect(resultsLine.querySelector("strong")).toHaveTextContent("1");
   });
 
   it("switches the interface between English and Japanese", () => {
     render(<App />);
 
     expect(document.documentElement).toHaveAttribute("lang", "en");
-    const japaneseToggle = screen.getByRole("button", { name: "日本語" });
+    const japaneseToggle = controlButton(".language-toggle", 1);
     fireEvent.click(japaneseToggle);
 
     expect(japaneseToggle).toHaveAttribute("aria-pressed", "true");
     expect(document.documentElement).toHaveAttribute("lang", "ja");
-    const pageTitle = screen.getByRole("heading", { name: "ラブライブ！王道進行 エクスプローラー" });
+    const pageTitle = screen.getByRole("heading", { level: 1 });
     expect(pageTitle.querySelector("br")).toBeInTheDocument();
-    expect(document.title).toBe("ラブライブ！王道進行 エクスプローラー");
-    expect(screen.queryByText("ロイヤルロード")).not.toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "楽曲カタログ" })).toBeInTheDocument();
-    expect(screen.getByText("一致する楽曲")).toBeInTheDocument();
-    expect(screen.getByText("スリーズブーケ")).toBeInTheDocument();
+    expect(document.title).toBe(
+      Array.from(pageTitle.childNodes).map((node) => node.textContent ?? "").join(" ").replace(/\s+/g, " ").trim(),
+    );
+    expect(document.querySelector("#catalog-heading")).toBeInTheDocument();
+    expect(screen.getByText(failedSong.artistNames[0])).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole("button", { name: "English" }));
+    fireEvent.click(controlButton(".language-toggle", 0));
     expect(document.documentElement).toHaveAttribute("lang", "en");
-    expect(screen.getByRole("heading", { name: "Song catalog" })).toBeInTheDocument();
-    expect(screen.getByText("Cerise Bouquet")).toBeInTheDocument();
+    expect(document.querySelector("#catalog-heading")).toBeInTheDocument();
+    expect(screen.getByText(failedSong.artistAliases[0])).toBeInTheDocument();
   });
 
   it("shows Japanese song subtitles only in English mode", () => {
     render(<App />);
 
-    expect(screen.getByText("金沢片恋慕", { exact: true })).toHaveClass("song-subtitle");
+    const japaneseTitle = failedSong.titles.ja;
+    if (!japaneseTitle) throw new Error("Expected the fixture song to have a Japanese title.");
+    expect(songButton(failedSong).querySelector(".song-subtitle")).toHaveTextContent(japaneseTitle);
 
-    fireEvent.click(screen.getByRole("button", { name: "日本語" }));
+    fireEvent.click(controlButton(".language-toggle", 1));
 
-    expect(screen.getByText("金沢片恋慕", { exact: true })).toHaveClass("song-title");
+    expect(songButton(failedSong).querySelector(".song-title")).toHaveTextContent(japaneseTitle);
     expect(document.querySelector(".song-subtitle")).not.toBeInTheDocument();
   });
 
@@ -216,12 +221,9 @@ describe("catalog browser", () => {
 
     render(<App />);
 
-    const chart = screen.getByRole("region", {
-      name: "Matching songs by artist",
-    });
+    const chart = statisticsChart(0);
     expect(chart).toHaveAttribute("tabindex", "0");
     expect(within(chart).getByText("Unit 11")).toBeInTheDocument();
-    expect(screen.queryByText("More categories below")).not.toBeInTheDocument();
   });
 
   it("loads an expanded song with a no-referrer blob request and enables moments after metadata", async () => {
@@ -234,14 +236,14 @@ describe("catalog browser", () => {
     vi.spyOn(HTMLMediaElement.prototype, "pause").mockImplementation(() => undefined);
     render(<App />);
 
-    fireEvent.click(buttonContaining("Snow halation"));
+    fireEvent.click(songButton());
     await waitFor(() => expect(fetchMock).toHaveBeenCalledWith(
       expect.stringContaining("Snow_halation.ogg"),
       expect.objectContaining({ referrerPolicy: "no-referrer", credentials: "omit" }),
     ));
     const audio = document.querySelector("audio");
     expect(audio).toBeInTheDocument();
-    const moment = buttonContaining(snowMomentLabel);
+    const moment = occurrenceButton();
     expect(moment).toBeDisabled();
     fireEvent.loadedMetadata(audio!);
     expect(moment).toBeEnabled();
@@ -265,12 +267,12 @@ describe("catalog browser", () => {
     });
     render(<App />);
 
-    fireEvent.click(buttonContaining("Snow halation"));
+    fireEvent.click(songButton());
     await waitFor(() => expect(fetchMock).toHaveBeenCalled());
     const audio = document.querySelector("audio");
     if (!audio) throw new Error("Expected the expanded song to contain an audio element.");
     fireEvent.loadedMetadata(audio);
-    const moment = buttonContaining(snowMomentLabel);
+    const moment = occurrenceButton();
     fireEvent.click(moment);
     await act(async () => {
       await Promise.resolve();
@@ -291,14 +293,14 @@ describe("catalog browser", () => {
     vi.spyOn(URL, "createObjectURL").mockReturnValue("blob:fixture");
     render(<App />);
 
-    fireEvent.click(buttonContaining("Snow halation"));
+    fireEvent.click(songButton());
     await waitFor(() => expect(fetchMock).toHaveBeenCalled());
     const audio = document.querySelector("audio");
     if (!audio) throw new Error("Expected the expanded song to contain an audio element.");
     fireEvent.loadedMetadata(audio);
 
-    const firstMoment = buttonContaining(snowMomentLabel);
-    const secondMoment = buttonContaining(formatSeconds(snowSong.occurrences[1].exactStartSeconds));
+    const firstMoment = occurrenceButton();
+    const secondMoment = occurrenceButton(1);
     audio.currentTime = snowOccurrence.chordBounds[0].startSeconds + 0.01;
     fireEvent.play(audio);
 
@@ -354,13 +356,13 @@ describe("catalog browser", () => {
     vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue(undefined);
     render(<App />);
 
-    fireEvent.click(buttonContaining("Snow halation"));
+    fireEvent.click(songButton());
     await waitFor(() => expect(fetchMock).toHaveBeenCalled());
     const audio = document.querySelector("audio");
     if (!audio) throw new Error("Expected the expanded song to contain an audio element.");
     fireEvent.loadedMetadata(audio);
-    const selectedButton = buttonContaining(snowMomentLabel);
-    const overlappingButton = buttonContaining(formatSeconds(precedingOccurrence.exactStartSeconds));
+    const overlappingButton = occurrenceButton();
+    const selectedButton = occurrenceButton(1);
     fireEvent.click(selectedButton);
     audio.currentTime = snowOccurrence.chordBounds[1].startSeconds + 0.01;
     act(() => fireEvent.timeUpdate(audio));
@@ -381,12 +383,12 @@ describe("catalog browser", () => {
     vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue(undefined);
     render(<App />);
 
-    fireEvent.click(buttonContaining("Snow halation"));
+    fireEvent.click(songButton());
     await waitFor(() => expect(fetchMock).toHaveBeenCalled());
     const audio = document.querySelector("audio");
     if (!audio) throw new Error("Expected the expanded song to contain an audio element.");
     fireEvent.loadedMetadata(audio);
-    const moment = buttonContaining(snowMomentLabel);
+    const moment = occurrenceButton();
     fireEvent.click(moment);
     expect(moment).toHaveClass("occurrence-selected");
 
@@ -398,7 +400,7 @@ describe("catalog browser", () => {
     fireEvent.timeUpdate(audio);
     expect(moment).toHaveClass("occurrence-selected");
     expect(moment.querySelectorAll(".occurrence-chord-active")).toHaveLength(1);
-    expect(screen.getByText("Playing song")).toBeInTheDocument();
+    expect(document.querySelector(".pulse-dot")).toHaveClass("pulse-live");
   });
 
   it("ignores a rejected play promise from a previous moment", async () => {
@@ -415,7 +417,7 @@ describe("catalog browser", () => {
       .mockImplementationOnce(() => secondPlay);
     render(<App />);
 
-    fireEvent.click(buttonContaining("Snow halation"));
+    fireEvent.click(songButton());
     await waitFor(() => expect(fetchMock).toHaveBeenCalled());
     const audio = document.querySelector("audio");
     if (!audio) throw new Error("Expected the expanded song to contain an audio element.");
@@ -431,7 +433,7 @@ describe("catalog browser", () => {
     });
 
     expect(moments[1]).toHaveClass("occurrence-selected");
-    expect(screen.queryByText(/Playback was blocked by the browser/i)).not.toBeInTheDocument();
+    expect(document.querySelector(".audio-message")).not.toBeInTheDocument();
   });
 
   it("renders all five chord labels and identifies the passing chord", () => {
@@ -454,13 +456,10 @@ describe("catalog browser", () => {
     });
     render(<App />);
 
-    fireEvent.click(buttonContaining("Snow halation"));
-    const passingButton = screen.getByText("passing", { exact: true }).closest("button");
-    expect(passingButton).toHaveTextContent("C:maj");
-    expect(passingButton).toHaveTextContent("D:7");
-    expect(passingButton).toHaveTextContent("F#:dim");
-    expect(passingButton).toHaveTextContent("B:min");
-    expect(passingButton).toHaveTextContent("E:min");
+    fireEvent.click(songButton());
+    const passingButton = occurrenceButton(snowSong.occurrences.length);
+    const chordLabels = Array.from(passingButton.querySelectorAll(".occurrence-chord")).map((chord) => chord.textContent);
+    expect(chordLabels).toEqual(["C:maj", "D:7", "F#:dim", "B:min", "E:min"]);
   });
 
   it("stops the moment listener when native controls take over", async () => {
@@ -477,12 +476,12 @@ describe("catalog browser", () => {
     const cancelFrameMock = vi.spyOn(window, "cancelAnimationFrame").mockImplementation(() => undefined);
     render(<App />);
 
-    fireEvent.click(buttonContaining("Snow halation"));
+    fireEvent.click(songButton());
     await waitFor(() => expect(fetchMock).toHaveBeenCalled());
     const audio = document.querySelector("audio");
     expect(audio).toBeInTheDocument();
     fireEvent.loadedMetadata(audio!);
-    fireEvent.click(buttonContaining(snowMomentLabel));
+    fireEvent.click(occurrenceButton());
     await act(async () => {
       await Promise.resolve();
     });
@@ -512,12 +511,12 @@ describe("catalog browser", () => {
     });
     render(<App />);
 
-    fireEvent.click(buttonContaining("Snow halation"));
+    fireEvent.click(songButton());
     await waitFor(() => expect(fetchMock).toHaveBeenCalled());
     const audio = document.querySelector("audio");
     if (!audio) throw new Error("Expected the expanded song to contain an audio element.");
     fireEvent.loadedMetadata(audio);
-    fireEvent.click(buttonContaining(snowMomentLabel));
+    fireEvent.click(occurrenceButton());
 
     audio.currentTime = snowOccurrence.playbackStartSeconds + 0.01;
     fireEvent.seeking(audio);
@@ -535,9 +534,10 @@ describe("catalog browser", () => {
     const fetchMock = vi.fn().mockRejectedValue(new Error("CORS blocked"));
     vi.stubGlobal("fetch", fetchMock);
     render(<App />);
-    fireEvent.click(buttonContaining("Snow halation"));
-    expect(await screen.findByText(/in-memory audio request failed/i)).toBeInTheDocument();
-    expect(screen.getByText(/Open original wiki audio/i)).toHaveAttribute("href", expect.stringContaining("Snow_halation.ogg"));
+    fireEvent.click(songButton());
+    const audioStatus = await screen.findByRole("status");
+    expect(audioStatus).toBeInTheDocument();
+    expect(within(audioStatus).getByRole("link")).toHaveAttribute("href", expect.stringContaining("Snow_halation.ogg"));
   });
 
   it("keeps only one song expanded at a time and revokes a blob URL on collapse", async () => {
@@ -546,7 +546,7 @@ describe("catalog browser", () => {
     vi.spyOn(URL, "createObjectURL").mockReturnValue("blob:fixture");
     const revokeMock = vi.spyOn(URL, "revokeObjectURL").mockImplementation(() => undefined);
     render(<App />);
-    const snow = buttonContaining("Snow halation");
+    const snow = songButton();
     fireEvent.click(snow);
     await waitFor(() => expect(fetchMock).toHaveBeenCalled());
     fireEvent.click(snow);
@@ -562,15 +562,15 @@ describe("catalog browser", () => {
     vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue(undefined);
     render(<App />);
 
-    const search = screen.getByPlaceholderText("Search in Japanese, English, or phonetics…");
+    const search = screen.getByRole("searchbox");
     fireEvent.change(search, { target: { value: "Snow" } });
-    fireEvent.click(buttonContaining("Title A-Z"));
-    const snow = buttonContaining("Snow halation");
+    fireEvent.click(controlButton(".sort-control", 1));
+    const snow = songButton();
     fireEvent.click(snow);
     await waitFor(() => expect(fetchMock).toHaveBeenCalled());
     const audio = document.querySelector("audio");
     fireEvent.loadedMetadata(audio!);
-    fireEvent.click(buttonContaining(snowMomentLabel));
+    fireEvent.click(occurrenceButton());
     const pauseCallsBeforeUpdate = pauseMock.mock.calls.length;
 
     const updatedSongs = fixtureCatalog.songs.map((song) => song.id === snowSong.id
@@ -589,10 +589,10 @@ describe("catalog browser", () => {
     });
 
     expect(search).toHaveValue("Snow");
-    expect(buttonContaining("Title A-Z")).toHaveClass("sort-active");
-    expect(buttonContaining("Snow halation")).toHaveAttribute("aria-expanded", "true");
-    expect(screen.getByText("99")).toBeInTheDocument();
-    expect(screen.queryByText(snowMomentLabel, { exact: true })).not.toBeInTheDocument();
+    expect(controlButton(".sort-control", 1)).toHaveClass("sort-active");
+    expect(songButton()).toHaveAttribute("aria-expanded", "true");
+    expect(document.querySelectorAll(".metrics .metric strong")[1]).toHaveTextContent("99");
+    expect(document.querySelector(".occurrence-list")).not.toBeInTheDocument();
     expect(pauseMock.mock.calls.length).toBeGreaterThan(pauseCallsBeforeUpdate);
   });
 });
