@@ -19,6 +19,7 @@ const song = (overrides: Partial<CatalogSong>): CatalogSong => ({
   artistAliases: [],
   seriesNames: ["ラブライブ！"],
   seriesAliases: [],
+  creators: [],
   audioUrl: null,
   status: "analyzed",
   durationSeconds: 100,
@@ -50,6 +51,30 @@ describe("catalog search and sorting", () => {
     })];
 
     expect(filterSongs(songs, "cerise").map(({ id }) => id)).toEqual(["cerise"]);
+  });
+
+  it("searches creator aliases and filters by canonical staff IDs", () => {
+    const songs = [
+      song({
+        id: "first",
+        creators: [{ id: "10", name: "正規名", aliases: ["Creator Alias"] }],
+      }),
+      song({
+        id: "second",
+        creators: [{ id: "10", name: "正規名", aliases: ["Creator Alias"] },
+          { id: "11", name: "正規名", aliases: [] }],
+      }),
+    ];
+
+    expect(filterSongs(songs, "creator alias").map(({ id }) => id)).toEqual(["first", "second"]);
+    expect(filterSongsByFacet(songs, { dimension: "creators", value: "10" }).map(({ id }) => id))
+      .toEqual(["first", "second"]);
+    expect(filterSongsByFacet(songs, { dimension: "creators", value: "11" }).map(({ id }) => id))
+      .toEqual(["second"]);
+    expect(facetOptions(songs, "creators")).toEqual([
+      { value: "10", label: "正規名" },
+      { value: "11", label: "正規名" },
+    ]);
   });
 
   it("filters by artist or series names, including aliases", () => {

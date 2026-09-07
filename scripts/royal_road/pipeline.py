@@ -13,7 +13,7 @@ from .matching import (
 )
 
 
-SCHEMA_VERSION = "4.1.0"
+SCHEMA_VERSION = "4.2.0"
 
 
 def _catalog_metrics(songs: Sequence[Mapping[str, Any]]) -> dict[str, int]:
@@ -151,6 +151,14 @@ def compile_catalog(
                 "artistAliases": list(source.get("artistAliases", [])),
                 "seriesNames": list(source.get("seriesNames", [])),
                 "seriesAliases": list(source.get("seriesAliases", [])),
+                "creators": [
+                    {
+                        "id": str(creator["id"]),
+                        "name": creator["name"],
+                        "aliases": list(creator.get("aliases", [])),
+                    }
+                    for creator in source.get("creators", [])
+                ],
                 "audioUrl": audio_url,
                 "releaseDate": source.get("releaseDate"),
                 "status": status,

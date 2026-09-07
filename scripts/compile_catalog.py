@@ -60,6 +60,14 @@ def _source_songs_from_catalog(catalog: Mapping[str, Any]) -> list[dict[str, Any
                 "artistAliases": list(song.get("artistAliases", [])),
                 "seriesNames": list(song.get("seriesNames", [])),
                 "seriesAliases": list(song.get("seriesAliases", [])),
+                "creators": [
+                    {
+                        "id": str(creator["id"]),
+                        "name": creator["name"],
+                        "aliases": list(creator.get("aliases", [])),
+                    }
+                    for creator in song.get("creators", [])
+                ],
                 "audioUrl": song.get("audioUrl"),
                 "releaseDate": song.get("releaseDate"),
             }

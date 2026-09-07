@@ -7,6 +7,12 @@ export interface SongTitles {
   phonetic?: string;
 }
 
+export interface CatalogCreator {
+  id: string;
+  name: string;
+  aliases: string[];
+}
+
 export interface CatalogChordBound {
   startSeconds: number;
   endSeconds: number;
@@ -34,6 +40,7 @@ export interface CatalogSong {
   artistAliases: string[];
   seriesNames: string[];
   seriesAliases: string[];
+  creators: CatalogCreator[];
   audioUrl: string | null;
   releaseDate?: string | null;
   status: AnalysisStatus;

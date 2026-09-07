@@ -16,11 +16,12 @@ LL_FANS_API = "https://ll-fans.jp/api/graphql"
 WIKI_API = "https://love-live.fandom.com/api.php"
 SOURCE_FILES = ("song-info.json", "artists-info.json", "series-info.json")
 SOURCE_SNAPSHOT_MARKER = ".snapshot.json"
-SOURCE_SNAPSHOT_SCHEMA_VERSION = "2.0.0"
+SOURCE_SNAPSHOT_SCHEMA_VERSION = "2.1.0"
+LEGACY_SOURCE_SNAPSHOT_SCHEMA_VERSION = "2.0.0"
 PROVIDERS = {"metadata": LL_FANS_API, "enrichment": WIKI_API}
 
 
-def validate_payloads(songs, artists, series):
+def validate_payloads(songs, artists, series, *, require_creator_metadata=True):
     lookups = []
     for records, kind in ((songs, "songs"), (artists, "artists"), (series, "series")):
         if not isinstance(records, list) or not records:
@@ -30,7 +31,11 @@ def validate_payloads(songs, artists, series):
             required = {"id", "name", "englishName"}
             if kind == "songs":
                 required |= {"phoneticName", "artists", "seriesIds", "releasedOn", "wikiAudioUrl"}
+                if require_creator_metadata:
+                    required.add("creators")
             optional = {"wikiAudioUrls"} if kind == "songs" else set()
+            if kind == "songs" and not require_creator_metadata:
+                optional.add("creators")
             if (not isinstance(record, dict) or not required <= set(record)
                     or set(record) - required != (optional & set(record))):
                 raise ValueError(f"Invalid {kind} fields: {record!r}")
@@ -43,6 +48,26 @@ def validate_payloads(songs, artists, series):
             if kind == "songs":
                 if record["phoneticName"] is not None and not isinstance(record["phoneticName"], str):
                     raise ValueError("Invalid song reading")
+                creators = record.get("creators", [])
+                if not isinstance(creators, list):
+                    raise ValueError("Invalid song creators")
+                creator_ids = set()
+                for creator in creators:
+                    if not isinstance(creator, dict) or set(creator) != {"id", "name", "aliases"}:
+                        raise ValueError("Invalid song creator")
+                    creator_id = creator["id"]
+                    if (not isinstance(creator_id, str) or not creator_id.isascii()
+                            or not creator_id.isdigit() or creator_id in creator_ids):
+                        raise ValueError("Invalid or duplicate song creator ID")
+                    creator_ids.add(creator_id)
+                    if not isinstance(creator["name"], str) or not creator["name"].strip():
+                        raise ValueError("Missing song creator name")
+                    aliases = creator["aliases"]
+                    if not isinstance(aliases, list) or any(
+                            not isinstance(alias, str) or not alias.strip() for alias in aliases):
+                        raise ValueError("Invalid song creator aliases")
+                    if len(aliases) != len(set(aliases)):
+                        raise ValueError("Invalid song creator aliases")
                 if record["releasedOn"] is not None:
                     datetime.strptime(record["releasedOn"], "%Y-%m-%d")
                 url = record["wikiAudioUrl"]
@@ -94,13 +119,17 @@ def publish_snapshot(output_dir: Path, payloads, *, started: str, finished: str,
     return marker
 
 
-def validate_marker(marker, payloads):
+def validate_marker(marker, payloads, *, allow_legacy=False):
     if not isinstance(marker, dict) or set(marker) != {
         "schemaVersion", "providers", "collection", "files", "wiki", "snapshotId"
     }:
         raise ValueError("Invalid source snapshot marker fields")
-    if marker["schemaVersion"] != SOURCE_SNAPSHOT_SCHEMA_VERSION or marker["providers"] != PROVIDERS:
+    supported_versions = {SOURCE_SNAPSHOT_SCHEMA_VERSION}
+    if allow_legacy:
+        supported_versions.add(LEGACY_SOURCE_SNAPSHOT_SCHEMA_VERSION)
+    if marker["schemaVersion"] not in supported_versions or marker["providers"] != PROVIDERS:
         raise ValueError("Unsupported source snapshot schema or providers; run scripts/refresh_source.py")
+    validate_payloads(*payloads, require_creator_metadata=marker["schemaVersion"] != LEGACY_SOURCE_SNAPSHOT_SCHEMA_VERSION)
     interval = marker["collection"]
     start = datetime.fromisoformat(interval["startedAt"].replace("Z", "+00:00"))
     end = datetime.fromisoformat(interval["finishedAt"].replace("Z", "+00:00"))
@@ -144,7 +173,7 @@ def validate_marker(marker, payloads):
 
 
 
-def load_metadata_snapshot(source_dir: Path):
+def load_metadata_snapshot(source_dir: Path, *, allow_legacy=False):
     if snapshot_absent(source_dir):
         raise FileNotFoundError(f"Source snapshot absent: {source_dir}; run scripts/refresh_source.py")
     if not all((source_dir / name).is_file() for name in (*SOURCE_FILES, SOURCE_SNAPSHOT_MARKER)):
@@ -153,8 +182,7 @@ def load_metadata_snapshot(source_dir: Path):
         marker = read_json(source_dir / SOURCE_SNAPSHOT_MARKER)
         bodies = {name: (source_dir / name).read_bytes() for name in SOURCE_FILES}
         payloads = tuple(json.loads(bodies[name].decode("utf-8")) for name in SOURCE_FILES)
-        validate_payloads(*payloads)
-        validate_marker(marker, payloads)
+        validate_marker(marker, payloads, allow_legacy=allow_legacy)
         for filename in SOURCE_FILES:
             if hashlib.sha256(bodies[filename]).hexdigest() != marker["files"][filename]:
                 raise ValueError(f"Source file does not match snapshot marker: {filename}")

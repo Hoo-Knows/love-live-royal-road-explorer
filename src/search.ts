@@ -1,7 +1,7 @@
-import type { CatalogSong } from "./types";
+import type { CatalogCreator, CatalogSong } from "./types";
 import type { Language } from "./i18n";
 
-export type CatalogFilterDimension = "all" | "artists" | "series";
+export type CatalogFilterDimension = "all" | "artists" | "series" | "creators";
 
 export interface CatalogFacetFilter {
   dimension: CatalogFilterDimension;
@@ -9,7 +9,7 @@ export interface CatalogFacetFilter {
 }
 
 export interface CatalogFacetOption {
-  /** The canonical Japanese name, used as a stable filter value across language changes. */
+  /** A stable internal facet value; creator facets use the ll-fans staff ID. */
   value: string;
   /** The name shown in the current language. */
   label: string;
@@ -89,6 +89,7 @@ export function songSearchValues(song: CatalogSong): string[] {
     ...(song.artistAliases ?? []),
     ...song.seriesNames.flatMap((name) => [name, englishSeriesName(name)]),
     ...(song.seriesAliases ?? []),
+    ...song.creators.flatMap((creator) => [creator.name, ...creator.aliases]),
   ].filter((value): value is string => Boolean(value));
 }
 
@@ -106,11 +107,21 @@ export function filterSongs(songs: CatalogSong[], query: string): CatalogSong[] 
 }
 
 interface FacetEntry {
+  id?: string;
   ja: string | undefined;
   en: string | undefined;
+  aliases?: string[];
 }
 
 function facetEntries(song: CatalogSong, dimension: Exclude<CatalogFilterDimension, "all">): FacetEntry[] {
+  if (dimension === "creators") {
+    return song.creators.map((creator) => ({
+      id: creator.id,
+      ja: creator.name.trim() || undefined,
+      en: creator.name.trim() || undefined,
+      aliases: creator.aliases,
+    })).filter((entry) => Boolean(entry.ja || entry.en));
+  }
   const names = dimension === "artists" ? song.artistNames : song.seriesNames;
   const aliases = dimension === "artists" ? song.artistAliases : song.seriesAliases;
   const entryCount = Math.max(names.length, aliases?.length ?? 0);
@@ -170,13 +181,30 @@ export function localizedSeriesNames(
   return values;
 }
 
+export function localizedCreatorNames(creators: CatalogCreator[], _language: Language): string[] {
+  const values: string[] = [];
+  const seenIds = new Set<string>();
+  for (const creator of creators) {
+    if (seenIds.has(creator.id)) continue;
+    const value = creator.name.trim();
+    if (!value) continue;
+    seenIds.add(creator.id);
+    values.push(value);
+  }
+  return values;
+}
+
 function facetSearchValues(song: CatalogSong, dimension: Exclude<CatalogFilterDimension, "all">): string[] {
-  return facetEntries(song, dimension).flatMap((entry) => [entry.ja, entry.en])
+  return facetEntries(song, dimension).flatMap((entry) => [entry.ja, entry.en, ...(entry.aliases ?? [])])
     .filter((value): value is string => Boolean(value));
 }
 
 export function songMatchesFacet(song: CatalogSong, filter: CatalogFacetFilter): boolean {
   if (filter.dimension === "all" || !filter.value?.trim()) return true;
+
+  if (filter.dimension === "creators") {
+    return song.creators.some((creator) => creator.id === filter.value);
+  }
 
   const target = normalizeSearchText(filter.value.trim());
   return facetSearchValues(song, filter.dimension).some((value) => normalizeSearchText(value.trim()) === target);
@@ -201,6 +229,7 @@ interface FacetAccumulator {
   value: string;
   labels: { ja?: string; en?: string };
   songIds: Set<string>;
+  id?: string;
 }
 
 export function facetOptions(
@@ -213,6 +242,21 @@ export function facetOptions(
 
   for (const song of songs) {
     for (const entry of facetEntries(song, dimension)) {
+      if (dimension === "creators") {
+        if (!entry.id) continue;
+        const option = valueKeys.get(entry.id) ?? {
+          value: entry.id,
+          labels: {},
+          songIds: new Set<string>(),
+          id: entry.id,
+        };
+        if (!valueKeys.has(entry.id)) options.add(option);
+        option.labels.ja ??= entry.ja;
+        option.labels.en ??= entry.en;
+        option.songIds.add(song.id);
+        valueKeys.set(entry.id, option);
+        continue;
+      }
       const entryKeys = [entry.ja, entry.en]
         .filter((value): value is string => Boolean(value))
         .map(normalizeSearchText);
@@ -235,7 +279,7 @@ export function facetOptions(
 
   return [...options]
     .sort((left, right) => {
-      if (dimension === "artists") {
+      if (dimension === "artists" || dimension === "creators") {
         const songCountDifference = right.songIds.size - left.songIds.size;
         if (songCountDifference !== 0) return songCountDifference;
       }
@@ -250,7 +294,13 @@ export function facetOptions(
 
       const leftLabel = left.labels[language] ?? left.labels.ja ?? left.labels.en ?? left.value;
       const rightLabel = right.labels[language] ?? right.labels.ja ?? right.labels.en ?? right.value;
-      return titleCollator.compare(leftLabel, rightLabel);
+      const labelDifference = titleCollator.compare(
+        normalizeSearchText(leftLabel),
+        normalizeSearchText(rightLabel),
+      );
+      if (labelDifference !== 0) return labelDifference;
+      if (dimension === "creators") return left.value.localeCompare(right.value);
+      return 0;
     })
     .map((option) => ({
       value: option.value,

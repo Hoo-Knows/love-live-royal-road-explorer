@@ -22,6 +22,14 @@ def parse_source_catalog(songs_payload, artists_payload, series_payload):
             "artistAliases": [r.get("englishName", r["name"]) for r in artist_records],
             "seriesNames": [r["name"] for r in series_records],
             "seriesAliases": [r.get("englishName", r["name"]) for r in series_records],
+            "creators": [
+                {
+                    "id": str(creator["id"]),
+                    "name": creator["name"],
+                    "aliases": list(creator.get("aliases", [])),
+                }
+                for creator in song.get("creators", [])
+            ],
             "audioUrl": (song.get("wikiAudioUrls") or [song.get("wikiAudioUrl")])[0],
             "releaseDate": song.get("releasedOn"),
         })

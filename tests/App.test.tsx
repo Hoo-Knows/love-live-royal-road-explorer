@@ -89,6 +89,11 @@ describe("catalog browser", () => {
     expect(artistToggle).toHaveAttribute("aria-pressed", "false");
     const seriesSongChart = statisticsChart(0);
     expect(within(seriesSongChart).getByText("Love Live!")).toBeInTheDocument();
+
+    const creatorToggle = controlButton(".statistics-toggle", 2);
+    fireEvent.click(creatorToggle);
+    expect(creatorToggle).toHaveAttribute("aria-pressed", "true");
+    expect(within(statisticsChart(0)).getByText("Snow Creator")).toBeInTheDocument();
   });
 
   it("keeps the selected grouping and refreshes chart data after a catalog update", () => {
@@ -135,7 +140,14 @@ describe("catalog browser", () => {
     fireEvent.click(seriesOption);
     expect(seriesOption).toHaveAttribute("aria-pressed", "true");
 
-    expect(filterGroup.querySelectorAll("button")).toHaveLength(3);
+    const creatorsToggle = controlButton(".filter-control", 3);
+    fireEvent.click(creatorsToggle);
+    const creatorOption = screen.getByRole("button", { name: "Snow Creator" });
+    fireEvent.click(creatorOption);
+    expect(creatorOption).toHaveAttribute("aria-pressed", "true");
+    expect(songButton()).toBeInTheDocument();
+
+    expect(filterGroup.querySelectorAll("button")).toHaveLength(4);
   });
 
   it("shows only the result count after a search", () => {

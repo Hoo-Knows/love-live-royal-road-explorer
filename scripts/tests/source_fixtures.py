@@ -11,9 +11,10 @@ AUDIO = "https://static.wikia.nocookie.net/love-live/images/1/11/Song.ogg/revisi
 def payloads():
     return (
         [{"id": "1", "name": "曲", "englishName": "Song", "phoneticName": "きょく",
-          "artists": ["1"], "seriesIds": ["1"], "releasedOn": "2020-01-01", "wikiAudioUrl": AUDIO, "wikiAudioUrls": [AUDIO]},
+          "artists": ["1"], "seriesIds": ["1"], "creators": [{"id": "10", "name": "作曲者", "aliases": ["Composer"]}],
+          "releasedOn": "2020-01-01", "wikiAudioUrl": AUDIO, "wikiAudioUrls": [AUDIO]},
          {"id": "2", "name": "音源なし", "englishName": "音源なし", "phoneticName": None,
-          "artists": ["1"], "seriesIds": ["1"], "releasedOn": None, "wikiAudioUrl": None, "wikiAudioUrls": []}],
+          "artists": ["1"], "seriesIds": ["1"], "creators": [], "releasedOn": None, "wikiAudioUrl": None, "wikiAudioUrls": []}],
         [{"id": "1", "name": "μ's", "englishName": "μ's"}],
         [{"id": "1", "name": "ラブライブ！", "englishName": "Love Live!"}],
     )

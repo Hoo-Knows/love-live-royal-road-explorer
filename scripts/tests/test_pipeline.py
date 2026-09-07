@@ -103,7 +103,7 @@ class PipelineTests(unittest.TestCase):
             set(catalog),
             {"schemaVersion", "isFixture", "patterns", "metrics", "songs"},
         )
-        self.assertEqual(catalog["schemaVersion"], "4.1.0")
+        self.assertEqual(catalog["schemaVersion"], "4.2.0")
         self.assertEqual(catalog["songs"][0]["occurrenceCount"], 1)
         self.assertNotIn("profileIds", catalog["songs"][0]["occurrences"][0])
         self.assertNotIn("segmentIndices", catalog["songs"][0]["occurrences"][0])

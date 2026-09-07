@@ -1,4 +1,5 @@
 import copy
+import hashlib
 import json
 from pathlib import Path
 import sys
@@ -13,10 +14,11 @@ if str(SCRIPT_DIR) not in sys.path:
 import compile_catalog as compile_cli  # noqa: E402
 from royal_road.ll_fans import fetch_ll_fans, paginate  # noqa: E402
 from royal_road.metadata import parse_source_catalog  # noqa: E402
-from royal_road.sources import local_metadata_snapshot, publish_snapshot, validate_payloads  # noqa: E402
+from royal_road.io_utils import canonical_hash  # noqa: E402
+from royal_road.sources import load_metadata_snapshot, local_metadata_snapshot, publish_snapshot, validate_payloads  # noqa: E402
 from royal_road.wiki import (  # noqa: E402
-    PageHTML, Wiki, WikiUnavailable, credit_matches, enrich, recording_candidates, validate_corrections,
-    vocal_recording_candidates,
+    PageHTML, Wiki, WikiUnavailable, credit_matches, enrich, recording_candidates, source_identity,
+    validate_corrections, vocal_recording_candidates,
 )
 from source_fixtures import AUDIO, evidence, payloads, write_source  # noqa: E402
 
@@ -295,6 +297,54 @@ class SourceTests(unittest.TestCase):
         self.assertEqual(data[0][0]["releasedOn"], "2099-01-01")
         self.assertEqual(upstream["1"], song)
 
+    def test_creator_import_filters_roles_groups_dual_credits_and_preserves_aliases(self):
+        song = {
+            "id": "1", "name": "Future", "phoneticName": None, "releasedOn": "2099-01-01",
+            "seriesIds": [1], "artistVariants": [], "songCredits": [
+                {"staffType": {"id": "1", "name": "作詞"}},
+                {"staffType": {"id": "4", "name": "補作曲"}},
+                {"staffType": {"id": "2", "name": "作曲"}, "staffName": {
+                    "id": "501", "name": "別名", "staff": {"id": "10", "name": "正規名",
+                    "staffNames": [{"id": "10", "name": "正規名"}, {"id": "502", "name": "別名"},
+                                    {"id": "503", "name": "英語名"}]}}},
+                {"staffType": {"id": "3", "name": "編曲"}, "staffName": {
+                    "id": "10", "name": "正規名", "staff": {"id": "10", "name": "正規名",
+                    "staffNames": [{"id": "10", "name": "正規名"}, {"id": "503", "name": "英語名"}]}}},
+                {"staffType": {"id": "2", "name": "作曲"}, "staffName": {
+                    "id": "601", "name": "別の人", "staff": {"id": "11", "name": "同名",
+                    "staffNames": [{"id": "11", "name": "同名"}]}}},
+            ]}
+        artists = [{"id": "1", "name": "A"}]
+        song["artistVariants"] = [{"artistConfigurationCastSet": {
+            "artistConfiguration": {"artist": {"id": "1", "name": "A"}}}}]
+        with patch("royal_road.ll_fans.paginate", side_effect=[[song], artists]), patch(
+                "royal_road.ll_fans.graphql", return_value={"seriesList": [{"id": "1", "name": "Series"}]}):
+            data, _ = fetch_ll_fans(Mock())
+
+        self.assertEqual(data[0][0]["creators"], [
+            {"id": "10", "name": "正規名", "aliases": ["別名", "英語名"]},
+            {"id": "11", "name": "同名", "aliases": ["別の人"]},
+        ])
+
+    def test_creator_import_handles_missing_credits(self):
+        song = {"id": "1", "name": "Future", "phoneticName": None, "releasedOn": None,
+                "seriesIds": [1], "artistVariants": [{"artistConfigurationCastSet": {
+                    "artistConfiguration": {"artist": {"id": "1", "name": "A"}}}}], "songCredits": []}
+        with patch("royal_road.ll_fans.paginate", side_effect=[[song], [{"id": "1", "name": "A"}]]), patch(
+                "royal_road.ll_fans.graphql", return_value={"seriesList": [{"id": "1", "name": "Series"}]}):
+            data, _ = fetch_ll_fans(Mock())
+        self.assertEqual(data[0][0]["creators"], [])
+
+    def test_creator_metadata_does_not_change_wiki_source_identity(self):
+        data = payloads()
+        record = data[0][0]
+        artists = {artist["id"]: artist for artist in data[1]}
+        before = source_identity("songs", record, identities(), artists, {})
+        changed = copy.deepcopy(record)
+        changed["creators"] = [{"id": "999", "name": "別の作曲者", "aliases": ["Other"]}]
+        after = source_identity("songs", changed, identities(), artists, {})
+        self.assertEqual(before, after)
+
     def test_validation_rejects_duplicates_and_dangling_references(self):
         for change in ("duplicate", "reference", "field"):
             data = payloads()
@@ -319,6 +369,31 @@ class SourceTests(unittest.TestCase):
             path.write_bytes(path.read_bytes() + b" ")
             with self.assertRaisesRegex(ValueError, "does not match"):
                 local_metadata_snapshot(target)
+
+    def test_legacy_snapshot_is_only_accepted_for_refresh_reuse(self):
+        with tempfile.TemporaryDirectory() as temp:
+            target = Path(temp)
+            marker = write_source(target)
+            song_path = target / "song-info.json"
+            songs = json.loads(song_path.read_text(encoding="utf-8"))
+            for song in songs:
+                song.pop("creators", None)
+            body = (json.dumps(songs, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
+            song_path.write_bytes(body)
+            marker["schemaVersion"] = "2.0.0"
+            marker["files"]["song-info.json"] = hashlib.sha256(body).hexdigest()
+            marker["snapshotId"] = canonical_hash({
+                key: marker[key] for key in ("schemaVersion", "providers", "files", "wiki")
+            })
+            (target / ".snapshot.json").write_text(
+                json.dumps(marker, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+            )
+
+            with self.assertRaises(ValueError):
+                load_metadata_snapshot(target)
+            loaded_marker, loaded_payloads = load_metadata_snapshot(target, allow_legacy=True)
+            self.assertEqual(loaded_marker["schemaVersion"], "2.0.0")
+            self.assertNotIn("creators", loaded_payloads[0][0])
 
     def test_interrupted_publication_keeps_marker_and_rejects_mixed_files(self):
         from royal_road.io_utils import atomic_write_bytes

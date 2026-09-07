@@ -4,7 +4,7 @@
   "type": "object",
   "required": ["schemaVersion", "isFixture", "patterns", "metrics", "songs"],
   "properties": {
-    "schemaVersion": {"const": "4.1.0"},
+    "schemaVersion": {"const": "4.2.0"},
     "isFixture": {"type": "boolean"},
     "patterns": {
       "type": "array",
@@ -44,6 +44,16 @@
       },
       "additionalProperties": false
     },
+    "creator": {
+      "type": "object",
+      "required": ["id", "name", "aliases"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "name": {"type": "string", "minLength": 1},
+        "aliases": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+      },
+      "additionalProperties": false
+    },
     "occurrence": {
       "type": "object",
       "required": ["id", "exactStartSeconds", "exactEndSeconds", "playbackStartSeconds", "playbackEndSeconds", "chordLabels", "chordBounds", "patternIds", "romanNumeralAnalyses", "passingChordIndex", "provenance"],
@@ -77,7 +87,7 @@
     },
     "song": {
       "type": "object",
-      "required": ["id", "titles", "artistNames", "artistAliases", "seriesNames", "seriesAliases", "audioUrl", "releaseDate", "status", "durationSeconds", "error", "occurrenceCount", "occurrences"],
+      "required": ["id", "titles", "artistNames", "artistAliases", "seriesNames", "seriesAliases", "creators", "audioUrl", "releaseDate", "status", "durationSeconds", "error", "occurrenceCount", "occurrences"],
       "properties": {
         "id": {"type": "string"},
         "titles": {"$ref": "#/$defs/titles"},
@@ -85,6 +95,7 @@
         "artistAliases": {"type": "array", "items": {"type": "string"}},
         "seriesNames": {"type": "array", "items": {"type": "string"}},
         "seriesAliases": {"type": "array", "items": {"type": "string"}},
+        "creators": {"type": "array", "items": {"$ref": "#/$defs/creator"}},
         "audioUrl": {"type": ["string", "null"]},
         "releaseDate": {"type": ["string", "null"]},
         "status": {"enum": ["analyzed", "unavailable", "failed"]},

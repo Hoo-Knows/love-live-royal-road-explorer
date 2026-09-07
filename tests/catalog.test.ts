@@ -3,7 +3,7 @@ import { createCatalogStore } from "../src/catalog";
 import type { Catalog } from "../src/types";
 
 const catalog: Catalog = {
-  schemaVersion: "4.1.0",
+  schemaVersion: "4.2.0",
   isFixture: true,
   patterns: [{ id: "fixture-pattern", label: "Fixture pattern" }],
   metrics: {

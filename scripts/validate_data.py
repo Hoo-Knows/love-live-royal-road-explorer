@@ -43,6 +43,30 @@ def _validate_catalog_counts(catalog: Mapping[str, Any]) -> list[str]:
         if not isinstance(song, Mapping):
             continue
         song_id = str(song.get("id"))
+        creators = song.get("creators")
+        if not isinstance(creators, list):
+            errors.append(f"catalog song {song_id} creators must be an array")
+        else:
+            creator_ids = set()
+            for creator in creators:
+                if not isinstance(creator, Mapping) or set(creator) != {"id", "name", "aliases"}:
+                    errors.append(f"catalog song {song_id} has an invalid creator")
+                    continue
+                creator_id = creator.get("id")
+                if not isinstance(creator_id, str) or not creator_id:
+                    errors.append(f"catalog song {song_id} has an invalid or duplicate creator ID")
+                elif creator_id in creator_ids:
+                    errors.append(f"catalog song {song_id} has an invalid or duplicate creator ID")
+                else:
+                    creator_ids.add(creator_id)
+                if not isinstance(creator.get("name"), str) or not creator["name"].strip():
+                    errors.append(f"catalog song {song_id} has an invalid creator name")
+                aliases = creator.get("aliases")
+                if not isinstance(aliases, list) or any(
+                        not isinstance(alias, str) or not alias.strip() for alias in aliases):
+                    errors.append(f"catalog song {song_id} has invalid creator aliases")
+                elif len(aliases) != len(set(aliases)):
+                    errors.append(f"catalog song {song_id} has invalid creator aliases")
         count = song.get("occurrenceCount")
         occurrences = song.get("occurrences")
         if not isinstance(occurrences, list):
@@ -181,6 +205,14 @@ def _catalog_source_songs(catalog: Mapping[str, Any]) -> list[dict[str, Any]]:
             "artistAliases": list(song.get("artistAliases", [])),
             "seriesNames": list(song.get("seriesNames", [])),
             "seriesAliases": list(song.get("seriesAliases", [])),
+            "creators": [
+                {
+                    "id": str(creator["id"]),
+                    "name": creator["name"],
+                    "aliases": list(creator.get("aliases", [])),
+                }
+                for creator in song.get("creators", [])
+            ],
             "audioUrl": song.get("audioUrl"),
             "releaseDate": song.get("releaseDate"),
         }
@@ -199,8 +231,8 @@ def validate_dataset(
     errors: list[str] = []
     if set(catalog) != CATALOG_FIELDS:
         errors.append(f"catalog fields are {sorted(catalog)}, expected {sorted(CATALOG_FIELDS)}")
-    if catalog.get("schemaVersion") != "4.1.0":
-        errors.append("catalog schemaVersion must be 4.1.0")
+    if catalog.get("schemaVersion") != "4.2.0":
+        errors.append("catalog schemaVersion must be 4.2.0")
     errors.extend(_validate_catalog_counts(catalog))
     if set(manifest) != {"schemaVersion", "sourceSnapshot", "analysis", "songs"}:
         errors.append("manifest has unexpected or missing top-level fields")

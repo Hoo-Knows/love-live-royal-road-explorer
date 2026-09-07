@@ -35,6 +35,7 @@ const targetSong: CatalogSong = {
   artistAliases: ["Cerise Bouquet"],
   seriesNames: ["蓮ノ空女学院スクールアイドルクラブ"],
   seriesAliases: ["Hasunosora"],
+  creators: [],
   audioUrl: "https://example.invalid/fixture.ogg",
   status: "analyzed",
   durationSeconds: 240,
@@ -46,7 +47,7 @@ const targetSongFixture = targetSong;
 const targetOccurrenceFixture = targetOccurrence;
 
 const fixtureCatalog: Catalog = {
-  schemaVersion: "4.1.0",
+  schemaVersion: "4.2.0",
   isFixture: true,
   patterns: [fixturePattern],
   metrics: {

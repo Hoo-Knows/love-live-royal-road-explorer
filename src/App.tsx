@@ -6,6 +6,7 @@ import {
   facetOptions,
   filterSongs,
   filterSongsByFacet,
+  localizedCreatorNames,
   localizedNames,
   localizedSeriesNames,
   sortSongs,
@@ -56,7 +57,11 @@ const StatisticsChart = memo(function StatisticsChart({
   const maximum = rankedStatistics[0]?.[metric] ?? 0;
   const isSongChart = metric === "matchingSongCount";
   const title = isSongChart ? text.matchingSongs : text.occurrences;
-  const categoryLabel = dimension === "artists" ? text.artist : text.series;
+  const categoryLabel = dimension === "artists"
+    ? text.artist
+    : dimension === "series"
+      ? text.series
+      : text.creator;
   const hasOverflow = rankedStatistics.length > 10;
   const chartId = `${dimension}-${metric}-chart`;
 
@@ -77,7 +82,7 @@ const StatisticsChart = memo(function StatisticsChart({
           {rankedStatistics.map((statistic, index) => {
             const value = statistic[metric];
             return (
-              <li className="statistics-row" key={statistic.name}>
+              <li className="statistics-row" key={statistic.id ?? statistic.name}>
                 <span className="statistics-rank" aria-hidden="true">
                   {String(index + 1).padStart(2, "0")}
                 </span>
@@ -140,6 +145,14 @@ const CatalogStatisticsSection = memo(function CatalogStatisticsSection({
             onClick={() => setDimension("series")}
           >
             {text.seriesButton}
+          </button>
+          <button
+            type="button"
+            className={dimension === "creators" ? "statistics-toggle-active" : ""}
+            aria-pressed={dimension === "creators"}
+            onClick={() => setDimension("creators")}
+          >
+            {text.creatorsButton}
           </button>
         </fieldset>
       </div>
@@ -460,6 +473,7 @@ const SongRow = memo(function SongRow({
   const metadata = [
     { key: "artists", value: localizedNames(song.artistNames, song.artistAliases, language).join(", ") },
     { key: "series", value: localizedSeriesNames(song.seriesNames, song.seriesAliases, language).join(", ") },
+    { key: "creators", value: localizedCreatorNames(song.creators, language).join(", ") },
   ].filter(({ value }) => Boolean(value));
 
   return (
@@ -519,7 +533,11 @@ const CatalogFacetControls = memo(function CatalogFacetControls({
     () => filter.dimension === "all" ? [] : facetOptions(songs, filter.dimension, language),
     [songs, filter.dimension, language],
   );
-  const facetLabel = filter.dimension === "artists" ? text.artists : text.series;
+  const facetLabel = filter.dimension === "artists"
+    ? text.artists
+    : filter.dimension === "series"
+      ? text.series
+      : text.creators;
 
   const selectDimension = (dimension: CatalogFilterDimension) => {
     onChange({ dimension, value: null });
@@ -556,6 +574,15 @@ const CatalogFacetControls = memo(function CatalogFacetControls({
           >
             {text.seriesButton}
           </button>
+          <button
+            type="button"
+            className={filter.dimension === "creators" ? "filter-active" : ""}
+            aria-label={text.filterCatalogByCreators}
+            aria-pressed={filter.dimension === "creators"}
+            onClick={() => selectDimension("creators")}
+          >
+            {text.creatorsButton}
+          </button>
         </fieldset>
 
         <fieldset className="toggle-control sort-control">
@@ -589,7 +616,11 @@ const CatalogFacetControls = memo(function CatalogFacetControls({
             aria-pressed={filter.value === null}
             onClick={() => onChange({ ...filter, value: null })}
           >
-            {filter.dimension === "artists" ? text.allArtists : text.allSeries}
+            {filter.dimension === "artists"
+              ? text.allArtists
+              : filter.dimension === "series"
+                ? text.allSeries
+                : text.allCreators}
           </button>
           {options.map((option) => (
             <button
@@ -669,7 +700,11 @@ export default function App() {
     || sortMode !== deferredSortMode
     || catalogFilter !== deferredCatalogFilter;
   const selectedFilter = catalogFilter.value && catalogFilter.dimension !== "all"
-    ? `${catalogFilter.dimension === "artists" ? text.artist : text.series}: ${facetOptions(
+    ? `${catalogFilter.dimension === "artists"
+      ? text.artist
+      : catalogFilter.dimension === "series"
+        ? text.series
+        : text.creator}: ${facetOptions(
       catalog.songs,
       catalogFilter.dimension,
       language,

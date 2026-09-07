@@ -26,7 +26,7 @@ def refresh(output_dir, overrides_path, client, log, retry_failed_songs=False):
     previous = None
     if not snapshot_absent(output_dir):
         try:
-            previous = load_metadata_snapshot(output_dir)
+            previous = load_metadata_snapshot(output_dir, allow_legacy=True)
         except (OSError, ValueError) as error:
             log(f"Previous snapshot is unusable; collecting independently: {error}")
     if retry_failed_songs and previous is None:

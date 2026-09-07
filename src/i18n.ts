@@ -21,6 +21,8 @@ export interface UiText {
   seriesButton: string;
   creatorsButton: string;
   allCreators: string;
+  creator: string;
+  creators: string;
   series: string;
   matchingSongs: string;
   occurrences: string;
@@ -65,6 +67,7 @@ export interface UiText {
   allSongs: string;
   filterCatalogBySeries: string;
   filterCatalogByArtists: string;
+  filterCatalogByCreators: string;
   allArtists: string;
   allSeries: string;
   song: string;
@@ -103,6 +106,8 @@ export const translations: Record<Language, UiText> = {
     seriesButton: "Series",
     creatorsButton: "Composer/Arranger",
     allCreators: "All composers/arrangers",
+    creator: "composer/arranger",
+    creators: "composers/arrangers",
     series: "series",
     matchingSongs: "Matching songs",
     occurrences: "Occurrences",
@@ -136,8 +141,8 @@ export const translations: Record<Language, UiText> = {
     noMatch: "The full chord timeline was analyzed, but no match was found.",
     songCatalog: "Song catalog",
     catalogInstruction: "Click on a song to listen to occurrences",
-    searchLabel: "Search songs, artists, and series",
-    searchPlaceholder: "Search in Japanese, English, or phonetics…",
+    searchLabel: "Search songs, artists, series, and composers/arrangers",
+    searchPlaceholder: "Search in Japanese, English, phonetics, artists, series, or composers/arrangers…",
     clearSearch: "Clear search",
     sortSongs: "Sort songs",
     sort: "Sort",
@@ -147,6 +152,7 @@ export const translations: Record<Language, UiText> = {
     allSongs: "All songs",
     filterCatalogBySeries: "Filter catalog by series",
     filterCatalogByArtists: "Filter catalog by artists",
+    filterCatalogByCreators: "Filter catalog by composers and arrangers",
     allArtists: "All artists",
     allSeries: "All series",
     song: "song",
@@ -156,7 +162,7 @@ export const translations: Record<Language, UiText> = {
     filteredTo: "filtered to",
     fixtureNotice: "This build includes a small offline development slice. The maintainer pipeline can replace it with the complete pinned source snapshot.",
     noSongsFound: "No songs found.",
-    tryDifferentSearch: "Try a different title, artist, or series name.",
+    tryDifferentSearch: "Try a different title, artist, series, or composer/arranger name.",
     showFullCatalog: "Show the full catalog",
     footerDisclaimer: "Results are automated chord analysis and may be wrong. Audio hosted by the Love Live wiki; this site does not mirror recordings.",
     sourceMetadata: "Source metadata ↗",
@@ -183,6 +189,8 @@ export const translations: Record<Language, UiText> = {
     seriesButton: "シリーズ",
     creatorsButton: "作曲・編曲",
     allCreators: "すべての作曲・編曲者",
+    creator: "作曲・編曲者",
+    creators: "作曲・編曲者",
     series: "シリーズ",
     matchingSongs: "一致楽曲",
     occurrences: "出現節",
@@ -216,8 +224,8 @@ export const translations: Record<Language, UiText> = {
     noMatch: "コードタイムライン全体を解析しましたが、一致は見つかりませんでした。",
     songCatalog: "楽曲カタログ",
     catalogInstruction: "楽曲をクリックして一致節を聴く",
-    searchLabel: "楽曲、アーティスト、シリーズを検索",
-    searchPlaceholder: "日本語、英語、読み方で検索…",
+    searchLabel: "楽曲、アーティスト、シリーズ、作曲・編曲者を検索",
+    searchPlaceholder: "日本語、英語、読み方、アーティスト、シリーズ、作曲・編曲者で検索…",
     clearSearch: "検索をクリア",
     sortSongs: "楽曲を並べ替え",
     sort: "並べ替え",
@@ -227,6 +235,7 @@ export const translations: Record<Language, UiText> = {
     allSongs: "すべての楽曲",
     filterCatalogBySeries: "シリーズでカタログを絞り込む",
     filterCatalogByArtists: "アーティストでカタログを絞り込む",
+    filterCatalogByCreators: "作曲・編曲者でカタログを絞り込む",
     allArtists: "すべてのアーティスト",
     allSeries: "すべてのシリーズ",
     song: "曲",
@@ -236,7 +245,7 @@ export const translations: Record<Language, UiText> = {
     filteredTo: "絞り込み：",
     fixtureNotice: "このビルドにはオフライン開発用の小さなデータが含まれています。メンテナーパイプラインで固定ソーススナップショット全体に置き換えられます。",
     noSongsFound: "楽曲が見つかりません。",
-    tryDifferentSearch: "別のタイトル、アーティスト名、またはシリーズ名を試してください。",
+    tryDifferentSearch: "別のタイトル、アーティスト名、シリーズ名、または作曲・編曲者名を試してください。",
     showFullCatalog: "カタログ全体を表示",
     footerDisclaimer: "結果は自動コード解析であり、誤りを含む場合があります。音源は Love Live wiki にホストされており、このサイトは録音をミラーリングしません。",
     sourceMetadata: "ソースメタデータ ↗",

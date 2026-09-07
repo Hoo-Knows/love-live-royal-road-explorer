@@ -28,6 +28,7 @@ export const snowSong: CatalogSong = {
   artistAliases: ["Muse English"],
   seriesNames: ["Love Live! JP"],
   seriesAliases: ["Love Live!"],
+  creators: [{ id: "creator-snow", name: "Snow Creator", aliases: ["Snow Creator Alias"] }],
   audioUrl: "https://static.wikia.nocookie.net/love-live/images/3/35/Snow_halation.ogg",
   status: "analyzed",
   durationSeconds: 240,
@@ -43,6 +44,7 @@ export const unavailableSong: CatalogSong = {
   artistAliases: ["Fixture Unit"],
   seriesNames: ["Fixture Series"],
   seriesAliases: ["Fixture Series"],
+  creators: [],
   audioUrl: null,
   status: "unavailable",
   durationSeconds: null,
@@ -58,6 +60,7 @@ export const failedSong: CatalogSong = {
   artistAliases: ["Failed Unit"],
   seriesNames: ["Failed Series"],
   seriesAliases: ["Failed Series"],
+  creators: [],
   audioUrl: "https://example.invalid/failed-fixture.ogg",
   status: "failed",
   durationSeconds: null,
@@ -67,7 +70,7 @@ export const failedSong: CatalogSong = {
 };
 
 export const fixtureCatalog: Catalog = {
-  schemaVersion: "4.1.0",
+  schemaVersion: "4.2.0",
   isFixture: true,
   patterns: [
     { id: progressionPatternId, label: "IV -> V -> iii -> vi" },

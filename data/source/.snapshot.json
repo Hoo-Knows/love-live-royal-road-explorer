@@ -1,15 +1,15 @@
 {
-  "schemaVersion": "2.0.0",
+  "schemaVersion": "2.1.0",
   "providers": {
     "metadata": "https://ll-fans.jp/api/graphql",
     "enrichment": "https://love-live.fandom.com/api.php"
   },
   "collection": {
-    "startedAt": "2026-09-07T07:47:06.226150Z",
-    "finishedAt": "2026-09-07T07:53:07.519706Z"
+    "startedAt": "2026-09-07T10:32:59.623263Z",
+    "finishedAt": "2026-09-07T10:34:19.163293Z"
   },
   "files": {
-    "song-info.json": "c5543340a0da23d61ccd27fe94b43ef3530ca0723f8f393bfb7ed1640aa8dedd",
+    "song-info.json": "e081370305c23d9fccd953917c1cc07b262f570e8e7841694fd8b1ebc60d3937",
     "artists-info.json": "112e9a71db87154b88068113bc0a25afff3c50f0d6499e8dbafcf42af2f43c0f",
     "series-info.json": "4b86da1c6116059a0d6704dbeace385e833feae746570766777f01ecb8d7afd9"
   },
@@ -41428,5 +41428,5 @@
       }
     }
   },
-  "snapshotId": "b565c73f2b3b5a91c52c66823bc19984083fea506e31d6a39c141f7e9cd8f697"
+  "snapshotId": "066ab9609994d44dc074a2daa4e8608b8bf1ce3acbfb1325360a75388b9a5569"
 }
