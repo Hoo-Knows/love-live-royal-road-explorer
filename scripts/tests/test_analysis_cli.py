@@ -1,4 +1,3 @@
-import hashlib
 import json
 from pathlib import Path
 import sys
@@ -14,38 +13,19 @@ if str(SCRIPT_DIR) not in sys.path:
 import analyze  # noqa: E402
 from royal_road.detector import DetectorError  # noqa: E402
 from royal_road.downloader import DownloadError  # noqa: E402
-from royal_road.sources import SOURCE_FILES, SOURCE_SNAPSHOT_MARKER, SOURCE_SNAPSHOT_SCHEMA_VERSION  # noqa: E402
+from royal_road.sources import SOURCE_SNAPSHOT_MARKER, local_metadata_snapshot  # noqa: E402
+from source_fixtures import write_source  # noqa: E402
 from scripts.analyze import _bound_segments_to_duration  # noqa: E402
 
 
 class AnalysisCliTests(unittest.TestCase):
     def _write_source(self, directory: Path) -> None:
-        (directory / "song-info.json").write_text(json.dumps([
-            {"id": "one", "name": "曲", "englishName": "Song", "phoneticName": "きょく", "artists": [{"id": "a"}], "seriesIds": ["s"], "wikiAudioUrl": "https://wiki/one.ogg"},
-            {"id": "two", "name": "音源なし", "artists": [], "seriesIds": ["s"]},
-        ], ensure_ascii=False), encoding="utf-8")
-        (directory / "artists-info.json").write_text(json.dumps([{"id": "a", "name": "μ's"}], ensure_ascii=False), encoding="utf-8")
-        (directory / "series-info.json").write_text(json.dumps([{"id": "s", "name": "ラブライブ！"}], ensure_ascii=False), encoding="utf-8")
-
-        (directory / SOURCE_SNAPSHOT_MARKER).write_text(
-            json.dumps(
-                {
-                    "schemaVersion": SOURCE_SNAPSHOT_SCHEMA_VERSION,
-                    "commit": "deadbeef" * 5,
-                    "files": {
-                        filename: hashlib.sha256((directory / filename).read_bytes()).hexdigest()
-                        for filename in SOURCE_FILES
-                    },
-                }
-            ),
-            encoding="utf-8",
-        )
+        self.snapshot = write_source(directory)
 
     def _args(self, directory: Path, mode: str):
         return [
             "--mode", mode,
             "--source-dir", str(directory / "source"),
-            "--source-commit", "deadbeef" * 5,
             "--raw-dir", str(directory / "raw"),
             "--audio-cache", str(directory / "audio"),
             "--manifest", str(directory / "manifest.json"),
@@ -60,44 +40,17 @@ class AnalysisCliTests(unittest.TestCase):
         option_strings = {option for action in parser._actions for option in action.option_strings}
         self.assertNotIn("--detector-command", option_strings)
 
-    def test_source_files_without_marker_are_not_treated_as_reusable(self):
-        with tempfile.TemporaryDirectory() as temp:
-            source = Path(temp)
-            self._write_source(source)
-            (source / SOURCE_SNAPSHOT_MARKER).unlink()
-            self.assertFalse(analyze._has_source_files(source))
-
-    def test_missing_snapshot_marker_is_refreshed_by_analysis_preparation(self):
+    def test_partial_source_fails_without_network_or_recognition(self):
         with tempfile.TemporaryDirectory() as temp:
             directory = Path(temp)
             source = directory / "source"
-            source.mkdir()
             self._write_source(source)
             (source / SOURCE_SNAPSHOT_MARKER).unlink()
-            (directory / "manifest.json").write_text(
-                json.dumps({"sourceCommit": "manifest-commit"}), encoding="utf-8"
-            )
-            snapshot = {"commit": "fresh"}
-            with patch.object(analyze, "fetch_metadata_snapshot", return_value=snapshot) as fetch:
-                self.assertEqual(
-                    analyze._prepare_source_snapshot(source, directory / "manifest.json", None, False),
-                    snapshot,
-                )
-            fetch.assert_called_once_with(source, "manifest-commit", log=analyze._log)
-
-    def test_invalid_snapshot_marker_is_refreshed_by_analysis_preparation(self):
-        with tempfile.TemporaryDirectory() as temp:
-            directory = Path(temp)
-            source = directory / "source"
-            source.mkdir()
-            self._write_source(source)
-            snapshot = {"commit": "fresh"}
-            with patch.object(analyze, "fetch_metadata_snapshot", return_value=snapshot) as fetch:
-                self.assertEqual(
-                    analyze._prepare_source_snapshot(source, directory / "manifest.json", "requested", False),
-                    snapshot,
-                )
-            fetch.assert_called_once_with(source, "requested", log=analyze._log)
+            with patch.object(analyze, "download_audio") as download:
+                self.assertEqual(analyze.main(self._args(directory, "resume")), 2)
+                download.assert_not_called()
+            with self.assertRaisesRegex(ValueError, "Partial"):
+                local_metadata_snapshot(source)
 
     def test_detector_endpoint_is_bounded_to_recording_duration(self):
         segments = [
@@ -149,18 +102,18 @@ class AnalysisCliTests(unittest.TestCase):
             )
             for index in range(0, len(publications), 2):
                 manifest = publications[index + 1][1]
-                self.assertEqual(manifest["sourceCommit"], "deadbeef" * 5)
+                self.assertEqual(manifest["sourceSnapshot"], self.snapshot["snapshotId"])
                 self.assertEqual(manifest["analysis"]["module"], "chord_recognition_module")
             self.assertEqual(publications[0][1]["metrics"]["analyzedSongCount"], 1)
-            self.assertEqual({song["id"] for song in publications[0][1]["songs"]}, {"one", "two"})
+            self.assertEqual({song["id"] for song in publications[0][1]["songs"]}, {"1", "2"})
             final_manifest = json.loads((directory / "manifest.json").read_text(encoding="utf-8"))
             self.assertEqual(
-                set(final_manifest["songs"]["one"]),
+                set(final_manifest["songs"]["1"]),
                 {"status", "audioUrl", "audioSha256", "analysisVersion", "error"},
             )
-            self.assertNotIn("etag", final_manifest["songs"]["one"])
+            self.assertNotIn("etag", final_manifest["songs"]["1"])
             cache_index = json.loads((directory / "audio" / "index.json").read_text(encoding="utf-8"))
-            self.assertEqual(cache_index["songs"]["one"]["etag"], "e")
+            self.assertEqual(cache_index["songs"]["1"]["etag"], "e")
 
     def test_resume_reuses_existing_record_without_downloading_or_reanalyzing(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -180,7 +133,10 @@ class AnalysisCliTests(unittest.TestCase):
                 self.assertEqual(analyze.main(self._args(directory, "full")), 0)
                 self.assertEqual(detector.call_count, 1)
                 self.assertEqual(download.call_count, 1)
-                self.assertEqual(analyze.main(self._args(directory, "resume")), 0)
+                with patch.object(analyze, "atomic_write_json", wraps=analyze.atomic_write_json) as write_json:
+                    self.assertEqual(analyze.main(self._args(directory, "resume")), 0)
+                written_paths = {Path(call.args[0]) for call in write_json.call_args_list}
+                self.assertNotIn(directory / "raw" / "1.json", written_paths)
                 self.assertEqual(detector.call_count, 1)
                 self.assertEqual(download.call_count, 1)
                 download.return_value = {"audioSha256": "changed", "etag": "e2", "lastModified": None}
@@ -215,14 +171,14 @@ class AnalysisCliTests(unittest.TestCase):
                 self.assertEqual(analyze.main(self._args(directory, "full")), 0)
             retained = json.loads((directory / "catalog.json").read_text(encoding="utf-8"))
             self.assertEqual(retained["songs"][0]["status"], "analyzed")
-            self.assertTrue((directory / "raw" / "one.json").exists())
+            self.assertTrue((directory / "raw" / "1.json").exists())
 
             permanent = Mock(side_effect=DownloadError("permanent 404", transient=False))
             with patch.object(analyze, "download_audio", permanent):
                 self.assertEqual(analyze.main(self._args(directory, "full")), 0)
             failed = json.loads((directory / "catalog.json").read_text(encoding="utf-8"))
             self.assertEqual(failed["songs"][0]["status"], "failed")
-            self.assertFalse((directory / "raw" / "one.json").exists())
+            self.assertFalse((directory / "raw" / "1.json").exists())
 
     def test_changed_analysis_version_reanalyzes_unchanged_audio(self):
         with tempfile.TemporaryDirectory() as temp:

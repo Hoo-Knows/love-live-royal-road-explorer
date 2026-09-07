@@ -16,7 +16,7 @@ if str(SCRIPT_DIR) not in sys.path:
 from royal_road.io_utils import atomic_write_json, read_json  # noqa: E402
 from royal_road.metadata import parse_source_catalog  # noqa: E402
 from royal_road.pipeline import compile_catalog  # noqa: E402
-from royal_road.sources import local_metadata_snapshot, read_metadata_payloads  # noqa: E402
+from royal_road.sources import load_metadata_snapshot, snapshot_absent  # noqa: E402
 from royal_road.state import analysis_state, build_manifest  # noqa: E402
 
 
@@ -67,18 +67,9 @@ def _source_songs_from_catalog(catalog: Mapping[str, Any]) -> list[dict[str, Any
     return result
 
 
-def _source_commit(manifest_path: Path) -> Optional[str]:
-    if not manifest_path.exists():
-        return None
-    value = read_json(manifest_path)
-    commit = value.get("sourceCommit") if isinstance(value, Mapping) else None
-    return str(commit) if commit else None
-
-
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Compile the static catalog from raw timelines.")
     parser.add_argument("--source-dir", type=Path, default=Path("data/source"))
-    parser.add_argument("--source-commit")
     parser.add_argument("--raw-dir", type=Path, default=Path("data/raw"))
     parser.add_argument("--manifest", type=Path, default=Path("data/analysis-manifest.json"))
     parser.add_argument("--catalog", type=Path, default=Path("data/catalog.json"))
@@ -89,21 +80,21 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: Optional[list[str]] = None) -> int:
     args = build_parser().parse_args(argv)
-    source_commit = args.source_commit or _source_commit(args.manifest)
-    if not source_commit:
-        print("A source commit is required; pass --source-commit or provide the v2 manifest.", file=sys.stderr)
-        return 2
-
     try:
         previous_catalog = read_json(args.catalog) if args.catalog.exists() else {}
-        try:
-            local_metadata_snapshot(args.source_dir, source_commit)
-            source_songs = parse_source_catalog(*read_metadata_payloads(args.source_dir))
-            is_fixture = False
-        except FileNotFoundError:
-            _log("source cache absent; using metadata from the existing catalog")
+        previous_manifest = read_json(args.manifest) if args.manifest.exists() else {}
+        if snapshot_absent(args.source_dir):
+            _log("source files entirely absent; using metadata from the committed catalog")
             source_songs = _source_songs_from_catalog(previous_catalog)
             is_fixture = bool(previous_catalog.get("isFixture", False))
+            snapshot_id = previous_manifest.get("sourceSnapshot")
+            if not isinstance(snapshot_id, str) or not re.fullmatch(r"[a-f0-9]{64}", snapshot_id):
+                raise ValueError("Catalog fallback requires a valid sourceSnapshot in the manifest")
+        else:
+            snapshot, source_payloads = load_metadata_snapshot(args.source_dir)
+            snapshot_id = snapshot["snapshotId"]
+            source_songs = parse_source_catalog(*source_payloads)
+            is_fixture = False
         raw_analyses = _read_raw(args.raw_dir)
         patterns = read_json(args.patterns)
         overrides = read_json(args.overrides)
@@ -136,21 +127,23 @@ def main(argv: Optional[list[str]] = None) -> int:
                 status="failed", audio_url=audio_url, error="The analyzed timeline is missing."
             )
 
-    for song_id, raw in list(raw_analyses.items()):
-        if song_id not in source_ids or states.get(song_id, {}).get("status") != "analyzed":
-            _raw_path(args.raw_dir, song_id).unlink(missing_ok=True)
-            raw_analyses.pop(song_id, None)
+    obsolete = [song_id for song_id in raw_analyses
+                if song_id not in source_ids or states.get(song_id, {}).get("status") != "analyzed"]
+    active_raw = {song_id: raw for song_id, raw in raw_analyses.items() if song_id not in obsolete}
 
     catalog = compile_catalog(
         source_songs,
-        raw_analyses,
+        active_raw,
         states,
         patterns,
         overrides,
         is_fixture=is_fixture,
     )
+    # Matching/configuration errors must not remove existing timelines.
+    for song_id in obsolete:
+        _raw_path(args.raw_dir, song_id).unlink(missing_ok=True)
     atomic_write_json(args.catalog, catalog)
-    atomic_write_json(args.manifest, build_manifest(source_commit, states))
+    atomic_write_json(args.manifest, build_manifest(snapshot_id, states))
     _log(
         f"complete: songs={catalog['metrics']['catalogSongCount']}, "
         f"analyzed={catalog['metrics']['analyzedSongCount']}, "

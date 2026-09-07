@@ -105,8 +105,8 @@ describe("catalog browser", () => {
 
     const artistSongChart = statisticsChart(0);
     const artistOccurrenceChart = statisticsChart(1);
-    expect(within(artistSongChart).getByText(snowSong.artistNames[0])).toBeInTheDocument();
-    expect(within(artistOccurrenceChart).getByText(snowSong.artistNames[0])).toBeInTheDocument();
+    expect(within(artistSongChart).getByText(snowSong.artistAliases[0] || snowSong.artistNames[0])).toBeInTheDocument();
+    expect(within(artistOccurrenceChart).getByText(snowSong.artistAliases[0] || snowSong.artistNames[0])).toBeInTheDocument();
 
     fireEvent.click(seriesToggle);
     expect(seriesToggle).toHaveAttribute("aria-pressed", "true");
@@ -123,7 +123,7 @@ describe("catalog browser", () => {
       catalogStore.replace({
         ...fixtureCatalog,
         songs: fixtureCatalog.songs.map((song) => song.id === snowSong.id
-          ? { ...song, seriesNames: ["Fresh Series"] }
+          ? { ...song, seriesNames: ["Fresh Series"], seriesAliases: ["Fresh Series"] }
           : song),
       });
     });
@@ -147,7 +147,7 @@ describe("catalog browser", () => {
     expect(artistsToggle).toHaveAttribute("aria-pressed", "true");
     expect(document.querySelector("fieldset.filter-options")).toBeInTheDocument();
 
-    const artistOption = screen.getByRole("button", { name: snowSong.artistNames[0] });
+    const artistOption = screen.getByRole("button", { name: snowSong.artistAliases[0] || snowSong.artistNames[0] });
     fireEvent.click(artistOption);
     expect(artistOption).toHaveAttribute("aria-pressed", "true");
     expect(songButton()).toBeInTheDocument();
@@ -189,12 +189,12 @@ describe("catalog browser", () => {
       Array.from(pageTitle.childNodes).map((node) => node.textContent ?? "").join(" ").replace(/\s+/g, " ").trim(),
     );
     expect(document.querySelector("#catalog-heading")).toBeInTheDocument();
-    expect(screen.getByText(failedSong.artistNames[0])).toBeInTheDocument();
+    expect(within(songButton(failedSong)).getAllByText(failedSong.artistNames[0])[0]).toBeInTheDocument();
 
     fireEvent.click(controlButton(".language-toggle", 0));
     expect(document.documentElement).toHaveAttribute("lang", "en");
     expect(document.querySelector("#catalog-heading")).toBeInTheDocument();
-    expect(screen.getByText(failedSong.artistAliases[0])).toBeInTheDocument();
+    expect(within(songButton(failedSong)).getAllByText(failedSong.artistAliases[0])[0]).toBeInTheDocument();
   });
 
   it("shows Japanese song subtitles only in English mode", () => {
@@ -216,6 +216,7 @@ describe("catalog browser", () => {
       id: `ranked-${index}`,
       titles: { en: `Ranked song ${index + 1}` },
       artistNames: [`Unit ${index + 1}`],
+      artistAliases: [`Unit ${index + 1}`],
     }));
     catalogStore.replace({ ...fixtureCatalog, songs: rankedSongs });
 

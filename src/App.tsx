@@ -803,7 +803,8 @@ export default function App() {
             <p className="footer-disclaimer">{text.footerDisclaimer}</p>
           </div>
           <div className="footer-links">
-            <a href="https://github.com/hamproductions/the-sorter/tree/main/data" target="_blank" rel="noreferrer">{text.sourceMetadata}</a>
+            <a href="https://ll-fans.jp/" target="_blank" rel="noreferrer" aria-label={text.sourceMetadata}>ll-fans ↗</a>
+            <a href="https://love-live.fandom.com/wiki/Love_Live!_Wiki" target="_blank" rel="noreferrer">Love Live! Wiki</a>
             <a href="https://github.com/Hoo-Knows/large-vocabulary-chord-recognition" target="_blank" rel="noreferrer">{text.detectorMit}</a>
           </div>
         </div>

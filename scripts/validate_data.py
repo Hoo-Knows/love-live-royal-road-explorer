@@ -202,10 +202,12 @@ def validate_dataset(
     if catalog.get("schemaVersion") != "4.1.0":
         errors.append("catalog schemaVersion must be 4.1.0")
     errors.extend(_validate_catalog_counts(catalog))
-    if set(manifest) != {"schemaVersion", "sourceCommit", "analysis", "songs"}:
+    if set(manifest) != {"schemaVersion", "sourceSnapshot", "analysis", "songs"}:
         errors.append("manifest has unexpected or missing top-level fields")
-    if manifest.get("schemaVersion") != "2.0.0":
-        errors.append("manifest schemaVersion must be 2.0.0")
+    if manifest.get("schemaVersion") != "3.0.0":
+        errors.append("manifest schemaVersion must be 3.0.0")
+    if not isinstance(manifest.get("sourceSnapshot"), str) or not re.fullmatch(r"[a-f0-9]{64}", manifest["sourceSnapshot"]):
+        errors.append("manifest sourceSnapshot must be a SHA-256 snapshot ID")
     if manifest.get("analysis") != analysis_descriptor():
         errors.append("manifest analysis descriptor does not match the pinned module")
 
@@ -325,6 +327,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--manifest", type=Path, default=Path("data/analysis-manifest.json"))
     parser.add_argument("--patterns", type=Path, default=Path("data/patterns.json"))
     parser.add_argument("--overrides", type=Path, default=Path("data/overrides.json"))
+    parser.add_argument("--source-dir", type=Path, default=Path("data/source"))
     args = parser.parse_args(argv)
     try:
         catalog = read_json(args.catalog)
@@ -338,6 +341,17 @@ def main(argv: list[str] | None = None) -> int:
             read_json(args.patterns),
             read_json(args.overrides),
         )
+        from royal_road.sources import load_metadata_snapshot, snapshot_absent
+        from royal_road.metadata import parse_source_catalog
+        if not snapshot_absent(args.source_dir):
+            snapshot, source_payloads = load_metadata_snapshot(args.source_dir)
+            if snapshot["snapshotId"] != manifest.get("sourceSnapshot"):
+                errors.append("Manifest sourceSnapshot differs from committed source snapshot")
+            source = parse_source_catalog(*source_payloads)
+            expected = compile_catalog(source, raw, manifest["songs"], read_json(args.patterns),
+                                       read_json(args.overrides), is_fixture=bool(catalog.get("isFixture", False)))
+            if expected != catalog:
+                errors.append("Catalog metadata differs from the committed source snapshot")
         errors = raw_diagnostics + errors
     except (OSError, ValueError) as error:
         print(f"Unable to read data: {error}", file=sys.stderr)

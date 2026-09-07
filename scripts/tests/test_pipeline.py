@@ -58,15 +58,16 @@ class PipelineTests(unittest.TestCase):
                     validate_detector_checkout(directory)
 
     def test_source_join_resolves_artist_and_series_names_without_dropping_songs(self):
-        songs = [{"id": "1", "name": "曲", "phoneticName": "きょく", "englishName": "Song", "artists": [{"id": "7"}], "seriesIds": ["2"], "wikiAudioUrl": "https://wiki/audio.ogg"}]
+        songs = [{"id": "1", "name": "曲", "phoneticName": "きょく", "englishName": "Song", "artists": ["7"], "seriesIds": ["2"], "wikiAudioUrl": "https://wiki/audio.ogg", "wikiAudioUrls": ["https://wiki/audio.ogg", "https://wiki/alternate.ogg"]}]
         artists = [{"id": "7", "name": "μ's", "englishName": "Muse"}]
         series = [{"id": "2", "name": "ラブライブ！"}]
         result = parse_source_catalog(songs, artists, series)
         self.assertEqual(result[0]["artistNames"], ["μ's"])
         self.assertEqual(result[0]["artistAliases"], ["Muse"])
         self.assertEqual(result[0]["seriesNames"], ["ラブライブ！"])
-        self.assertEqual(result[0]["seriesAliases"], [])
+        self.assertEqual(result[0]["seriesAliases"], ["ラブライブ！"])
         self.assertEqual(result[0]["titles"]["phonetic"], "きょく")
+        self.assertEqual(result[0]["audioUrl"], "https://wiki/audio.ogg")
 
     def test_compiler_keeps_unavailable_and_failed_rows_and_recomputes_metrics(self):
         pattern_payload = json.loads((ROOT_DIR / "data" / "patterns.json").read_text(encoding="utf-8"))
@@ -144,7 +145,6 @@ class PipelineTests(unittest.TestCase):
     def test_compile_cli_can_use_committed_catalog_when_source_cache_is_missing(self):
         fixture_catalog = json.loads((ROOT_DIR / "data" / "catalog.json").read_text(encoding="utf-8"))
         fixture_manifest = json.loads((ROOT_DIR / "data" / "analysis-manifest.json").read_text(encoding="utf-8"))
-        commit = fixture_manifest["sourceCommit"]
         with tempfile.TemporaryDirectory() as temp:
             directory = Path(temp)
             raw_dir = directory / "raw"
@@ -156,8 +156,7 @@ class PipelineTests(unittest.TestCase):
             manifest_path = directory / "manifest.json"
             manifest_path.write_text(json.dumps(fixture_manifest, ensure_ascii=False), encoding="utf-8")
             self.assertEqual(compile_cli.main([
-                "--source-dir", str(directory / "source-cache-that-is-not-committed"),
-                "--source-commit", commit,
+                "--source-dir", str(directory / "entirely-absent-source"),
                 "--raw-dir", str(raw_dir),
                 "--manifest", str(manifest_path),
                 "--catalog", str(catalog_path),
@@ -166,7 +165,7 @@ class PipelineTests(unittest.TestCase):
             ]), 0)
             rebuilt = json.loads(catalog_path.read_text(encoding="utf-8"))
             self.assertEqual(rebuilt["metrics"], fixture_catalog["metrics"])
-            self.assertEqual(set(json.loads(manifest_path.read_text(encoding="utf-8"))), {"schemaVersion", "sourceCommit", "analysis", "songs"})
+            self.assertEqual(set(json.loads(manifest_path.read_text(encoding="utf-8"))), {"schemaVersion", "sourceSnapshot", "analysis", "songs"})
 
 
 if __name__ == "__main__":

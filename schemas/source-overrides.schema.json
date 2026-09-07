@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://royal-road.example/schemas/source-overrides.schema.json",
+  "type": "object",
+  "required": ["schemaVersion", "songs", "artists", "series"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {"const": "1.0.0"},
+    "songs": {"type": "object", "propertyNames": {"pattern": "^[0-9]+$"}, "additionalProperties": {"$ref": "#/$defs/song"}},
+    "artists": {"type": "object", "propertyNames": {"pattern": "^[0-9]+$"}, "additionalProperties": {"$ref": "#/$defs/name"}},
+    "series": {"type": "object", "propertyNames": {"pattern": "^[0-9]+$"}, "additionalProperties": {"$ref": "#/$defs/name"}}
+  },
+  "$defs": {
+    "text": {"type": "string", "minLength": 1},
+    "name": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "name": {"$ref": "#/$defs/text"}, "englishName": {"$ref": "#/$defs/text"},
+        "wikiPage": {"$ref": "#/$defs/text"}, "note": {"$ref": "#/$defs/text"}
+      }
+    },
+    "song": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "name": {"$ref": "#/$defs/text"}, "englishName": {"$ref": "#/$defs/text"},
+        "wikiPage": {"$ref": "#/$defs/text"}, "wikiFile": {"type": "string", "pattern": "^File:.+"},
+        "audio": {"type": "null"}, "note": {"$ref": "#/$defs/text"}
+      },
+      "dependentRequired": {"wikiFile": ["wikiPage"]},
+      "not": {"required": ["wikiFile", "audio"]}
+    }
+  }
+}

@@ -18,14 +18,14 @@ Read the Maintainer Analysis, Stored Data Contracts, Matching Rules, and Verific
 - To analyze one source record while rebuilding the complete catalog, use:
   `uv run --no-cache analyze.py --song <source-id>`
 - Use `uv run --no-cache analyze.py --full` only when the user's request requires re-downloading and reanalyzing every recording. Do not infer permission for this expensive external workflow from an unrelated code or pattern change.
-- Use `--refresh-source` or `--source-commit <sha>` only when the task requires refreshing or changing the pinned Sorter snapshot.
+- Refresh metadata only when requested, using `uv run --no-cache python scripts/refresh_source.py`. Commit the generated `data/source/` files and marker. Analysis and compilation read local snapshots without implicit fetching.
 
 The analysis CLI owns source consistency checks, download retry/throttling, detector-checkout validation, resumability, atomic publication, and song status preservation. Fix those mechanisms at their source when they fail; do not bypass them by manually editing generated JSON.
 
 ## Data Ownership and Safety
 
-- Human-edited inputs are `data/patterns.json` and `data/overrides.json`.
-- Generated committed outputs are `data/raw/<song-id>.json`, `data/analysis-manifest.json`, and `data/catalog.json`.
+- Human-edited inputs are `data/patterns.json`, `data/overrides.json` and `data/source-overrides.json`.
+- Generated committed outputs are `data/source/` (including its marker), `data/raw/<song-id>.json`, `data/analysis-manifest.json`, and `data/catalog.json`.
 - Keep downloaded audio and HTTP metadata under ignored caches. Never stage audio, credentials, cookies, cache contents, or detector temporary artifacts.
 - Keep raw detector timelines immutable. Apply reviewed exclusions and manual corrections through overrides.
 - Every source song must remain represented as analyzed, unavailable, or failed. Failed and unavailable songs must not have empty raw timeline files.
@@ -44,4 +44,4 @@ Before handing off:
 
 - Confirm generated outputs are internally consistent and no ignored artifacts were staged.
 - Report unavailable or failed records rather than omitting them.
-- If counts changed, report the source commit, detector submodule revision, detector configuration version, and matching configuration that produced them.
+- If counts changed, report the source snapshot ID, detector submodule revision, detector configuration version, and matching configuration that produced them.

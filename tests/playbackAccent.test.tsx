@@ -3,20 +3,44 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import App from "../src/App";
 import { isPlaybackCue } from "../src/audio";
 import { catalogStore } from "../src/catalog";
-import { formatSeconds } from "../src/format";
+import type { CatalogOccurrence, CatalogSong } from "../src/types";
 
 const originalCatalog = catalogStore.getSnapshot();
-const targetMomentLabel = "3:16.4";
-const targetSong = originalCatalog.songs.find((song) => song.titles.en === "Genyou Yakou");
-if (!targetSong) {
-  throw new Error("The committed catalog must include the playback fixture.");
+// Playback behavior must remain testable when a refreshed source snapshot
+// cannot independently verify this recording.
+function cueOccurrence(start: number, id: string): CatalogOccurrence {
+  return {
+    id,
+    exactStartSeconds: start,
+    exactEndSeconds: start + 4,
+    playbackStartSeconds: start - 0.5,
+    playbackEndSeconds: start + 4.5,
+    chordLabels: ["F:maj", "G:maj", "E:min", "A:min"],
+    chordBounds: Array.from({ length: 4 }, (_, index) => ({
+      startSeconds: start + index,
+      endSeconds: start + index + 1,
+    })),
+    patternIds: [originalCatalog.patterns[0].id],
+    romanNumeralAnalyses: ["IV → V → iii → vi"],
+    passingChordIndex: null,
+    provenance: "automatic",
+  };
 }
-const targetOccurrence = targetSong.occurrences.find(
-  (occurrence) => formatSeconds(occurrence.exactStartSeconds) === targetMomentLabel,
-);
-if (!targetOccurrence) {
-  throw new Error("The committed catalog must include the marked 3:16.4 occurrence.");
-}
+const targetOccurrence = cueOccurrence(196.4, "fixture-marked-moment");
+const targetSong: CatalogSong = {
+  id: "579",
+  titles: { ja: "眩耀夜行", en: "Genyou Yakou" },
+  artistNames: ["スリーズブーケ"],
+  artistAliases: ["Cerise Bouquet"],
+  seriesNames: ["蓮ノ空女学院スクールアイドルクラブ"],
+  seriesAliases: ["Hasunosora"],
+  audioUrl: "https://example.invalid/fixture.ogg",
+  status: "analyzed",
+  durationSeconds: 240,
+  error: null,
+  occurrenceCount: 2,
+  occurrences: [cueOccurrence(10, "fixture-earlier-moment"), targetOccurrence],
+};
 const targetSongFixture = targetSong;
 const targetOccurrenceFixture = targetOccurrence;
 

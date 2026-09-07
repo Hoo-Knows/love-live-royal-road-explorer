@@ -24,13 +24,7 @@ from royal_road.downloader import DownloadError, download_audio, probe_duration 
 from royal_road.io_utils import atomic_write_json, read_json  # noqa: E402
 from royal_road.metadata import parse_source_catalog  # noqa: E402
 from royal_road.pipeline import compile_catalog, replace_catalog_song  # noqa: E402
-from royal_road.sources import (  # noqa: E402
-    SOURCE_FILES,
-    SOURCE_SNAPSHOT_MARKER,
-    fetch_metadata_snapshot,
-    local_metadata_snapshot,
-    read_metadata_payloads,
-)
+from royal_road.sources import load_metadata_snapshot  # noqa: E402
 from royal_road.state import analysis_state, build_manifest  # noqa: E402
 
 
@@ -52,44 +46,6 @@ def _safe_filename(value: str) -> str:
 
 def _load_optional(path: Path, default: Any) -> Any:
     return read_json(path) if path.exists() else default
-
-
-def _manifest_commit(manifest_path: Path) -> Optional[str]:
-    if not manifest_path.exists():
-        return None
-    value = read_json(manifest_path)
-    commit = value.get("sourceCommit") if isinstance(value, Mapping) else None
-    return str(commit) if commit else None
-
-
-def _has_source_files(source_dir: Path) -> bool:
-    # The marker is part of the cache contract. Without it, the three JSON
-    # files may be a partial/mixed snapshot and must be refreshed atomically.
-    return all((source_dir / filename).is_file() for filename in SOURCE_FILES) and (
-        source_dir / SOURCE_SNAPSHOT_MARKER
-    ).is_file()
-
-
-def _prepare_source_snapshot(
-    source_dir: Path,
-    manifest_path: Path,
-    requested_commit: Optional[str],
-    refresh: bool,
-) -> Dict[str, Any]:
-    """Return a verified source snapshot, refreshing an unusable cache."""
-    commit = requested_commit or _manifest_commit(manifest_path)
-    if refresh or not _has_source_files(source_dir):
-        return fetch_metadata_snapshot(source_dir, commit, log=_log)
-
-    if not commit:
-        raise ValueError("--source-commit is required when the manifest has no source commit")
-    try:
-        return local_metadata_snapshot(source_dir, commit)
-    except (OSError, ValueError) as error:
-        # A marker can exist while being stale, malformed, or inconsistent with
-        # one of the three files. Refresh the complete snapshot in that case.
-        _log(f"cached source snapshot is not reusable ({error}); refreshing")
-        return fetch_metadata_snapshot(source_dir, commit, log=_log)
 
 
 def _raw_path(raw_dir: Path, song_id: str) -> Path:
@@ -161,11 +117,11 @@ def _publish_checkpoint(
     catalog_path: Path,
     manifest_path: Path,
     catalog: Mapping[str, Any],
-    source_commit: str,
+    snapshot_id: str,
     states: Mapping[str, Mapping[str, Any]],
 ) -> Mapping[str, Any]:
     atomic_write_json(catalog_path, catalog)
-    atomic_write_json(manifest_path, build_manifest(source_commit, states))
+    atomic_write_json(manifest_path, build_manifest(snapshot_id, states))
     return catalog
 
 
@@ -217,9 +173,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--retry-failed", action="store_true", help="Retry only failed or missing analyses.")
     parser.add_argument("--song", help="Analyze one source song ID and still compile the complete catalog.")
-    parser.add_argument("--source-commit", help="Source metadata commit; omit to resolve current main when fetching.")
     parser.add_argument("--source-dir", type=Path, default=Path("data/source"))
-    parser.add_argument("--refresh-source", action="store_true")
     parser.add_argument("--raw-dir", type=Path, default=Path("data/raw"))
     parser.add_argument("--audio-cache", type=Path, default=Path(".cache/audio"))
     parser.add_argument("--manifest", type=Path, default=Path("data/analysis-manifest.json"))
@@ -244,21 +198,16 @@ def main(argv: Optional[list[str]] = None) -> int:
     _log(f"raw output: {args.raw_dir}; audio cache: {args.audio_cache}")
 
     try:
-        source_snapshot = _prepare_source_snapshot(
-            args.source_dir,
-            args.manifest,
-            args.source_commit,
-            args.refresh_source,
-        )
-        source_songs = parse_source_catalog(*read_metadata_payloads(args.source_dir))
+        source_snapshot, source_payloads = load_metadata_snapshot(args.source_dir)
+        source_songs = parse_source_catalog(*source_payloads)
     except Exception as error:
         _log(f"source preparation failed: {error}")
         print(f"Could not prepare source snapshot: {error}", file=sys.stderr)
         return 2
 
-    source_commit = str(source_snapshot["commit"])
+    snapshot_id = str(source_snapshot["snapshotId"])
     is_fixture = bool(source_snapshot.get("fixture", False))
-    _log(f"source ready: commit={source_commit}, songs={len(source_songs)}")
+    _log(f"source ready: snapshot={snapshot_id}, songs={len(source_songs)}")
 
     patterns = read_json(args.patterns)
     overrides = read_json(args.overrides)
@@ -344,7 +293,7 @@ def main(argv: Optional[list[str]] = None) -> int:
             live_catalog = _compile_live_song(
                 live_catalog, source_song, None, state, patterns, overrides, is_fixture=is_fixture
             )
-            _publish_checkpoint(args.catalog, args.manifest, live_catalog, source_commit, states)
+            _publish_checkpoint(args.catalog, args.manifest, live_catalog, snapshot_id, states)
             continue
 
         if (
@@ -381,7 +330,8 @@ def main(argv: Optional[list[str]] = None) -> int:
                 previous_raw.get("durationSeconds") if previous_raw else None,
                 reusable_segments,
             )
-            atomic_write_json(_raw_path(args.raw_dir, song_id), raw)
+            if raw != previous_raw:
+                atomic_write_json(_raw_path(args.raw_dir, song_id), raw)
             raw_analyses[song_id] = raw
             state = analysis_state(
                 status="analyzed",
@@ -395,7 +345,7 @@ def main(argv: Optional[list[str]] = None) -> int:
             live_catalog = _compile_live_song(
                 live_catalog, source_song, raw, state, patterns, overrides, is_fixture=is_fixture
             )
-            _publish_checkpoint(args.catalog, args.manifest, live_catalog, source_commit, states)
+            _publish_checkpoint(args.catalog, args.manifest, live_catalog, snapshot_id, states)
             continue
 
         try:
@@ -512,7 +462,7 @@ def main(argv: Optional[list[str]] = None) -> int:
             overrides,
             is_fixture=is_fixture,
         )
-        _publish_checkpoint(args.catalog, args.manifest, live_catalog, source_commit, states)
+        _publish_checkpoint(args.catalog, args.manifest, live_catalog, snapshot_id, states)
 
     # Give every source song one current state, even after a single-song run.
     for source_song in source_songs:
@@ -556,7 +506,7 @@ def main(argv: Optional[list[str]] = None) -> int:
         overrides,
         is_fixture=is_fixture,
     )
-    _publish_checkpoint(args.catalog, args.manifest, catalog, source_commit, states)
+    _publish_checkpoint(args.catalog, args.manifest, catalog, snapshot_id, states)
     _log(
         f"complete: analyzed={catalog['metrics']['analyzedSongCount']}, "
         f"matching={catalog['metrics']['matchingSongCount']}, "

@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://royal-road.example/schemas/source-snapshot.schema.json",
+  "type": "object",
+  "required": ["schemaVersion", "providers", "collection", "files", "wiki", "snapshotId"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {"const": "2.0.0"},
+    "snapshotId": {"$ref": "#/$defs/hash"},
+    "providers": {
+      "type": "object", "required": ["metadata", "enrichment"], "additionalProperties": false,
+      "properties": {
+        "metadata": {"const": "https://ll-fans.jp/api/graphql"},
+        "enrichment": {"const": "https://love-live.fandom.com/api.php"}
+      }
+    },
+    "collection": {
+      "type": "object", "required": ["startedAt", "finishedAt"], "additionalProperties": false,
+      "properties": {"startedAt": {"type": "string", "format": "date-time"}, "finishedAt": {"type": "string", "format": "date-time"}}
+    },
+    "files": {
+      "type": "object", "required": ["song-info.json", "artists-info.json", "series-info.json"], "additionalProperties": false,
+      "properties": {
+        "song-info.json": {"$ref": "#/$defs/hash"},
+        "artists-info.json": {"$ref": "#/$defs/hash"},
+        "series-info.json": {"$ref": "#/$defs/hash"}
+      }
+    },
+    "wiki": {
+      "type": "object", "required": ["songs", "artists", "series"], "additionalProperties": false,
+      "properties": {"songs": {"$ref": "#/$defs/records"}, "artists": {"$ref": "#/$defs/records"}, "series": {"$ref": "#/$defs/records"}}
+    }
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "records": {
+      "type": "object", "propertyNames": {"pattern": "^[0-9]+$"},
+      "additionalProperties": {
+        "type": "object", "required": ["identity", "status"],
+        "properties": {
+          "identity": {"$ref": "#/$defs/hash"},
+          "status": {"enum": ["verified", "stale", "missing", "ambiguous", "unresolved", "unavailable"]},
+          "page": {
+            "type": "object", "required": ["id", "title", "revision"],
+            "properties": {"id": {"type": "integer"}, "title": {"type": "string"}, "revision": {"type": "integer"}}
+          },
+          "performerMatch": {"type": "boolean"},
+          "file": {
+            "type": "object", "required": ["id", "title", "timestamp", "sha1", "url"],
+            "properties": {
+              "id": {"type": "integer"}, "title": {"type": "string", "pattern": "^File:"},
+              "timestamp": {"type": "string", "format": "date-time"},
+              "sha1": {"type": "string", "pattern": "^[a-f0-9]{40}$"}, "url": {"type": "string", "format": "uri"}
+            }
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "object", "required": ["id", "title", "timestamp", "sha1", "url"],
+              "properties": {
+                "id": {"type": "integer"}, "title": {"type": "string", "pattern": "^File:"},
+                "timestamp": {"type": "string", "format": "date-time"},
+                "sha1": {"type": "string", "pattern": "^[a-f0-9]{40}$"}, "url": {"type": "string", "format": "uri"}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

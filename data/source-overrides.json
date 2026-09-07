@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "1.0.0",
+  "songs": {
+    "69": {
+      "wikiPage": "Yume no Tobira",
+      "note": "Select the song page rather than the similarly titled anime episode."
+    },
+    "565": {
+      "wikiPage": "DEEPNESS",
+      "wikiFile": "File:01 DEEPNESS.ogg",
+      "note": "ll-fans credits Hasunosora as a group; the wiki names the four original performers. Select the original full vocal row, not the ReC version."
+    }
+  },
+  "artists": {
+    "12": {
+      "wikiPage": "Nozomi Tojo",
+      "note": "The performer page verifies the Japanese name; full-text search ranks several song pages above it."
+    },
+    "7": {
+      "wikiPage": "Eli Ayase",
+      "note": "Select the performer or group page rather than songs or episodes that also mention this name; verify through the MediaWiki API."
+    },
+    "11": {
+      "wikiPage": "Maki Nishikino",
+      "note": "Select the performer or group page rather than songs or episodes that also mention this name; verify through the MediaWiki API."
+    },
+    "69": {
+      "wikiPage": "Kanata Konoe",
+      "note": "Select the performer or group page rather than songs or episodes that also mention this name; verify through the MediaWiki API."
+    },
+    "93": {
+      "wikiPage": "Keke Tang",
+      "note": "Select the performer or group page rather than songs or episodes that also mention this name; verify through the MediaWiki API."
+    },
+    "97": {
+      "wikiPage": "Lanzhu Zhong",
+      "note": "Select the performer or group page rather than songs or episodes that also mention this name; verify through the MediaWiki API."
+    },
+    "113": {
+      "wikiPage": "Kinako Sakurakoji",
+      "note": "Select the performer or group page rather than songs or episodes that also mention this name; verify through the MediaWiki API."
+    },
+    "194": {
+      "wikiPage": "AiScReam",
+      "note": "Select the performer or group page rather than songs or episodes that also mention this name; verify through the MediaWiki API."
+    },
+    "133": {
+      "wikiPage": "Hasunosora Girls' High School Idol Club",
+      "note": "Select the performer or group page rather than songs or episodes that also mention this name; verify through the MediaWiki API."
+    },
+    "134": {
+      "wikiPage": "Cerise Bouquet",
+      "note": "Select the performer or group page rather than songs or episodes that also mention this name; verify through the MediaWiki API."
+    },
+    "127": {
+      "wikiPage": "Love Live! School Idol Musical",
+      "englishName": "School Idol Musical",
+      "note": "The theatrical production page identifies this ensemble; the similarly named CD album is not the artist."
+    },
+    "155": {
+      "wikiPage": "BANZAI! digital trippers",
+      "englishName": "Aqours, Hatsune Miku",
+      "note": "The collaboration song introduction and Single by field explicitly identify both performers; the combined ll-fans credit has no separate artist page."
+    }
+  },
+  "series": {
+    "5": {
+      "wikiPage": "Love Live! School Idol Musical",
+      "note": "Explicit franchise page for the ll-fans series name."
+    },
+    "6": {
+      "wikiPage": "Hasunosora Girls' High School Idol Club",
+      "note": "Explicit franchise page for the ll-fans series name."
+    },
+    "8": {
+      "wikiPage": "Ikizu Live! LOVE LIVE! BLUEBIRD",
+      "note": "Explicit franchise page for the ll-fans series name."
+    }
+  }
+}

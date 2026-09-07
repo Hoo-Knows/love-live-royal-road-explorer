@@ -2,10 +2,10 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://royal-road.example/schemas/analysis-manifest.schema.json",
   "type": "object",
-  "required": ["schemaVersion", "sourceCommit", "analysis", "songs"],
+  "required": ["schemaVersion", "sourceSnapshot", "analysis", "songs"],
   "properties": {
-    "schemaVersion": {"const": "2.0.0"},
-    "sourceCommit": {"type": "string", "minLength": 7},
+    "schemaVersion": {"const": "3.0.0"},
+    "sourceSnapshot": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
     "analysis": {
       "type": "object",
       "required": ["module", "revision", "configVersion"],

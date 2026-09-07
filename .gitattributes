@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Source snapshot hashes must survive checkouts with core.autocrlf=true.
+data/source/*.json text eol=lf

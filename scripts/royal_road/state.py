@@ -7,7 +7,7 @@ from typing import Any, Mapping
 from .detector import analysis_descriptor
 
 
-MANIFEST_SCHEMA_VERSION = "2.0.0"
+MANIFEST_SCHEMA_VERSION = "3.0.0"
 
 
 def analysis_state(
@@ -30,12 +30,12 @@ def analysis_state(
 
 
 def build_manifest(
-    source_commit: str,
+    source_snapshot: str,
     songs: Mapping[str, Mapping[str, Any]],
 ) -> dict[str, Any]:
     return {
         "schemaVersion": MANIFEST_SCHEMA_VERSION,
-        "sourceCommit": str(source_commit),
+        "sourceSnapshot": str(source_snapshot),
         "analysis": analysis_descriptor(),
         "songs": dict(songs),
     }

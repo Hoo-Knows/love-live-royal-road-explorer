@@ -14,8 +14,8 @@
 
 ## Files and Safety
 
-- Keep frontend code in `src/`, maintainer tooling in `scripts/`, and editable matching inputs in `data/patterns.json` and `data/overrides.json`.
-- Treat `data/raw/`, `data/analysis-manifest.json`, and `data/catalog.json` as generated output. Change their generators or inputs and regenerate them; never hand-edit compiled output.
+- Keep frontend code in `src/`, maintainer tooling in `scripts/`, and editable matching inputs in `data/patterns.json` and `data/overrides.json`, and metadata corrections in `data/source-overrides.json`.
+- Treat `data/source/`, `data/raw/`, `data/analysis-manifest.json`, and `data/catalog.json` as generated output. Change their generators or inputs and regenerate them; never hand-edit compiled output.
 - Preserve UTF-8 text, including Japanese names and interface copy.
 - Never commit downloaded audio, credentials, cookies, caches, or detector temporary artifacts.
 - Preserve unrelated user changes. Avoid destructive resets and broad deletes.
@@ -23,6 +23,11 @@
 ## Workflow
 
 - Use the repository-local `royal-road-analysis` skill for analysis, source refreshes, detector changes, pattern/override compilation, and generated catalog validation.
+- Treat full catalog analysis, detector-wide reanalysis, and multi-song resume or retry runs as long-running analysis workflows. This policy does not apply to single-song analysis, pattern/override compilation, tests, data validation, type-checking, or builds.
+- Do not start a long-running analysis workflow by default, either synchronously or as a detached/background process. Complete any safe preparation, then hand off the exact command and working directory, the expected generated outputs and provenance, and the follow-up validation commands.
+- Start a long-running analysis workflow only when the user explicitly approves the exact command and states whether the agent may wait for it or must run it detached. A broad request to work on the analysis pipeline is not approval to start such a run.
+- For an explicitly approved detached run, write output to a dedicated log, provide a status-check command, and confirm before starting that no other analysis process is writing generated data.
+- Do not report work that depends on a long-running analysis as complete until its generated outputs have subsequently been inspected and validated.
 - Do not run a full catalog analysis unless the requested work requires it. Pattern- or override-only changes use the compile workflow without downloading audio or invoking the detector.
 - When generated counts change, report the source snapshot and detector/config revisions responsible.
 

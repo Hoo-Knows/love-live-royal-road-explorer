@@ -27,8 +27,7 @@ htmlcov/
 analysis-cache/
 .uv-cache/
 
-# Maintainer-only source/audio caches and transient analysis files
-data/source/
+# Maintainer-only HTTP/audio caches and transient analysis files
 data/cache/
 data/audio/
 *.part
@@ -48,3 +47,6 @@ data/audio/
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Interrupted source publication and scraping scratch files
+data/source/*.tmp
