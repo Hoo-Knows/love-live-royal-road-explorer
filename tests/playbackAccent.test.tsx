@@ -3,9 +3,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import App from "../src/App";
 import { isPlaybackCue } from "../src/audio";
 import { catalogStore } from "../src/catalog";
-import type { CatalogOccurrence, CatalogSong } from "../src/types";
+import type { Catalog, CatalogOccurrence, CatalogSong } from "../src/types";
 
-const originalCatalog = catalogStore.getSnapshot();
+const initialCatalog = catalogStore.getSnapshot();
+const fixturePattern = { id: "iv-v-iii-vi", label: "IV -> V -> iii -> vi" };
 // Playback behavior must remain testable when a refreshed source snapshot
 // cannot independently verify this recording.
 function cueOccurrence(start: number, id: string): CatalogOccurrence {
@@ -20,7 +21,7 @@ function cueOccurrence(start: number, id: string): CatalogOccurrence {
       startSeconds: start + index,
       endSeconds: start + index + 1,
     })),
-    patternIds: [originalCatalog.patterns[0].id],
+    patternIds: [fixturePattern.id],
     romanNumeralAnalyses: ["IV → V → iii → vi"],
     passingChordIndex: null,
     provenance: "automatic",
@@ -44,11 +45,11 @@ const targetSong: CatalogSong = {
 const targetSongFixture = targetSong;
 const targetOccurrenceFixture = targetOccurrence;
 
-const fixtureCatalog = {
-  ...originalCatalog,
+const fixtureCatalog: Catalog = {
+  schemaVersion: "4.1.0",
   isFixture: true,
+  patterns: [fixturePattern],
   metrics: {
-    ...originalCatalog.metrics,
     matchingSongCount: 1,
     totalOccurrenceCount: targetSong.occurrenceCount,
     analyzedSongCount: 1,
@@ -85,7 +86,7 @@ describe("playback accent", () => {
 
   afterEach(() => {
     cleanup();
-    catalogStore.replace(originalCatalog);
+    catalogStore.replace(initialCatalog);
   });
 
   it("recognizes only the marked song's 3:16.4 moment", () => {

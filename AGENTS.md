@@ -41,5 +41,6 @@
 - `uv run --no-cache python -m unittest discover -s scripts/tests -p "test_*.py"` runs the Python tests.
 - `uv run --no-cache python scripts/validate_data.py` validates generated analysis data and catalog aggregates.
 - `npm.cmd exec -- vite build --configLoader runner --outDir .build/verify` creates a production bundle in an ignored workspace directory.
+- Run `npm test` and confirm it passes before handoff.
 
 Run the checks applicable to the changed area before handing off. For behavior or data-contract changes, run lint, both test suites, data validation, type-checking, and the production build.

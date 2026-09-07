@@ -3,32 +3,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import App from "../src/App";
 import { catalogStore } from "../src/catalog";
 import type { CatalogSong } from "../src/types";
+import { failedSong, fixtureCatalog, snowOccurrence, snowSong, unavailableSong } from "./app-fixtures";
 
-const originalCatalog = catalogStore.getSnapshot();
-const snowSong = originalCatalog.songs.find((song) => song.titles.en === "Snow halation");
-if (!snowSong || !snowSong.occurrences.length) {
-  throw new Error("The committed catalog must include an analyzed Snow halation fixture.");
-}
-const unavailableSong = originalCatalog.songs.find((song) => song.status === "unavailable");
-const failedSong = originalCatalog.songs.find((song) => song.status === "failed");
-if (!unavailableSong || !failedSong) {
-  throw new Error("The committed catalog must include unavailable and failed fixtures.");
-}
-const fixtureSongs = [snowSong, unavailableSong, failedSong];
-const fixtureCatalog = {
-  ...originalCatalog,
-  isFixture: true,
-  metrics: {
-    matchingSongCount: 1,
-    totalOccurrenceCount: snowSong.occurrenceCount,
-    analyzedSongCount: 1,
-    catalogSongCount: fixtureSongs.length,
-    unavailableSongCount: 1,
-    failedSongCount: 1,
-  },
-  songs: fixtureSongs,
-};
-const snowOccurrence = snowSong.occurrences[0];
 function buttonAt(selector: string, index: number, description: string): HTMLButtonElement {
   const button = document.querySelectorAll<HTMLButtonElement>(selector)[index];
   if (!button) {

@@ -1,9 +1,21 @@
 import { describe, expect, it, vi } from "vitest";
-import catalogJson from "../data/catalog.json";
 import { createCatalogStore } from "../src/catalog";
 import type { Catalog } from "../src/types";
 
-const catalog = catalogJson as unknown as Catalog;
+const catalog: Catalog = {
+  schemaVersion: "4.1.0",
+  isFixture: true,
+  patterns: [{ id: "fixture-pattern", label: "Fixture pattern" }],
+  metrics: {
+    matchingSongCount: 0,
+    totalOccurrenceCount: 0,
+    analyzedSongCount: 0,
+    catalogSongCount: 0,
+    unavailableSongCount: 0,
+    failedSongCount: 0,
+  },
+  songs: [],
+};
 
 describe("catalog store", () => {
   it("notifies subscribers and refreshes pattern labels when a catalog is replaced", () => {
