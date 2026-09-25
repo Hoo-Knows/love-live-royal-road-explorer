@@ -28,6 +28,51 @@ For the initial repository setup, open **Settings â†’ Pages** on GitHub and
 
 ## Maintainer analysis
 
+### Weekly catalog updates
+
+The **Update song catalog** workflow runs each Monday at 00:00 UTC and can also
+be started from **Actions → Update song catalog → Run workflow**. After the
+workflow is merged into the default branch, enable **Settings → Actions →
+General → Workflow permissions → Allow GitHub Actions to create and approve
+pull requests**. It uses the built-in `GITHUB_TOKEN`; no personal token is needed.
+
+Each run checks out `main` with the pinned detector and runs these commands from
+the repository root in a locked Python 3.9 environment:
+
+```sh
+uv run --locked --no-cache python scripts/refresh_source.py --retry-failed
+uv run --locked --no-cache analyze.py --resume
+```
+
+This fetches current metadata, retries unresolved wiki records, and analyzes new,
+changed, missing, failed, or outdated recordings while reusing current timelines.
+It opens or updates one PR from `automation/weekly-catalog` to `main` with
+`data/source/` (including `.snapshot.json`), `data/raw/*.json`,
+`data/analysis-manifest.json`, `data/catalog.json`, and `data/source-review.md`.
+The PR and run summary include count changes, new songs, failed/unavailable
+recordings, and source/detector/matching provenance. Collection-time-only changes
+do not create a PR. Merge the reviewed PR to publish the catalog through Pages.
+
+Before publication, the workflow runs:
+
+```sh
+npm run lint
+uv run --locked --no-cache python -m unittest discover -s scripts/tests -p 'test_*.py'
+npm test
+uv run --locked --no-cache python scripts/validate_data.py
+npm run typecheck
+npm exec -- vite build --configLoader runner --outDir .build/verify
+```
+
+Runs are serialized and have a six-hour timeout. A failed command or check prevents
+publication; inspect its Actions logs, resolve the cause, then manually rerun the
+workflow. Individual failed or unavailable songs are retained in the validated
+results for review. Runs start from committed `main` data, so unmerged PR analyses
+and interrupted runner progress may be repeated. Audio and analysis caches are
+not committed or uploaded. The schedule is approximate and may be delayed by GitHub.
+
+### Local analysis
+
 Clone recursively so the pinned detector and its bundled model checkpoints are available:
 
 ```sh

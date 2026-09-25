@@ -1,0 +1,100 @@
+name: Update song catalog
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: weekly-catalog
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    env:
+      UV_LOCKED: 'true'
+      PYTHONUTF8: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Check out main and pinned detector
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: main
+          submodules: recursive
+
+      - name: Set up uv and Python
+        uses: astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9 # v7
+        with:
+          version: '0.11.7'
+          python-version: '3.9'
+          enable-cache: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes ffmpeg libsndfile1
+          uv sync --locked
+          npm ci
+
+      - name: Capture baseline
+        run: uv run --locked --no-cache python scripts/catalog_update_report.py capture --baseline "$RUNNER_TEMP/catalog-baseline.json"
+
+      - name: Refresh source metadata
+        run: uv run --locked --no-cache python scripts/refresh_source.py --retry-failed
+
+      - name: Analyze new and outdated recordings
+        run: uv run --locked --no-cache analyze.py --resume
+
+      - name: Validate changes
+        run: |
+          npm run lint
+          uv run --locked --no-cache python -m unittest discover -s scripts/tests -p 'test_*.py'
+          npm test
+          uv run --locked --no-cache python scripts/validate_data.py
+          npm run typecheck
+          npm exec -- vite build --configLoader runner --outDir .build/verify
+
+      - name: Prepare report
+        id: report
+        env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          uv run --locked --no-cache python scripts/catalog_update_report.py report \
+            --baseline "$RUNNER_TEMP/catalog-baseline.json" \
+            --body "$RUNNER_TEMP/catalog-update.md" --run-url "$RUN_URL"
+
+      - name: Open or update catalog pull request
+        if: steps.report.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
+        with:
+          branch: automation/weekly-catalog
+          base: main
+          title: 'chore: refresh song catalog'
+          commit-message: 'chore: refresh song catalog'
+          body-path: ${{ runner.temp }}/catalog-update.md
+          add-paths: |
+            data/source/song-info.json
+            data/source/artists-info.json
+            data/source/series-info.json
+            data/source/.snapshot.json
+            data/raw/*.json
+            data/analysis-manifest.json
+            data/catalog.json
+            data/source-review.md
+
+      - name: Report unsuccessful run
+        if: failure() || cancelled()
+        run: |
+          echo 'Catalog update did not complete. Inspect the failed step logs and any existing catalog PR before rerunning the workflow.' >> "$GITHUB_STEP_SUMMARY"
