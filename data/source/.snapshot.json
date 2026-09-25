@@ -5,12 +5,12 @@
     "enrichment": "https://love-live.fandom.com/api.php"
   },
   "collection": {
-    "startedAt": "2026-09-07T10:32:59.623263Z",
-    "finishedAt": "2026-09-07T10:34:19.163293Z"
+    "startedAt": "2026-09-25T17:37:14.824622Z",
+    "finishedAt": "2026-09-25T17:38:36.333004Z"
   },
   "files": {
-    "song-info.json": "e081370305c23d9fccd953917c1cc07b262f570e8e7841694fd8b1ebc60d3937",
-    "artists-info.json": "112e9a71db87154b88068113bc0a25afff3c50f0d6499e8dbafcf42af2f43c0f",
+    "song-info.json": "1c264e60d2f7b623f7bc5df7af00c1fcf3be1989773ea2c4f460e8b12bba021d",
+    "artists-info.json": "e2a825d0f558656d069e512df8cb1e4cb17e39574778a5d50484ec377c3822a1",
     "series-info.json": "4b86da1c6116059a0d6704dbeace385e833feae746570766777f01ecb8d7afd9"
   },
   "wiki": {
@@ -37482,16 +37482,32 @@
       },
       "890": {
         "identity": "6ea3eccce499817a87b615ce405a08c7f1ba86423365a92752c0b738253ce61a",
-        "status": "missing",
+        "status": "verified",
         "page": {
           "id": 118473,
           "title": "Perennial",
-          "revision": 284256
+          "revision": 284802
         },
         "performerMatch": true,
-        "candidates": [],
-        "reason": "no_audio",
-        "recordings": []
+        "candidates": [
+          "File:06. Perennial.ogg"
+        ],
+        "files": [
+          {
+            "id": 120785,
+            "title": "File:06. Perennial.ogg",
+            "timestamp": "2026-09-21T07:43:30Z",
+            "sha1": "07fdb15d8ae73c756a715f3594f71d6ce1e965be",
+            "url": "https://static.wikia.nocookie.net/love-live/images/e/ec/06._Perennial.ogg/revision/latest?cb=20260921074330"
+          }
+        ],
+        "file": {
+          "id": 120785,
+          "title": "File:06. Perennial.ogg",
+          "timestamp": "2026-09-21T07:43:30Z",
+          "sha1": "07fdb15d8ae73c756a715f3594f71d6ce1e965be",
+          "url": "https://static.wikia.nocookie.net/love-live/images/e/ec/06._Perennial.ogg/revision/latest?cb=20260921074330"
+        }
       },
       "891": {
         "identity": "ae5fe2c3efa4b18a686a09bd1483e1e334c3ed32749bb8234f6e132f1aeddfd6",
@@ -37872,8 +37888,32 @@
       },
       "904": {
         "identity": "c4bcb71c45869635f921e3b50832935704d2c374f05eaf739f72b65dfe7ebcf2",
-        "status": "missing",
-        "reason": "no_matching_title"
+        "status": "verified",
+        "page": {
+          "id": 119963,
+          "title": "Tap tap tappin'!!",
+          "revision": 284832
+        },
+        "performerMatch": false,
+        "candidates": [
+          "File:01. tap tap tappin!!.ogg"
+        ],
+        "files": [
+          {
+            "id": 120352,
+            "title": "File:01. tap tap tappin!!.ogg",
+            "timestamp": "2026-08-01T09:49:22Z",
+            "sha1": "e4aaff5e7d8f640ff69d07ff9efc329148866e56",
+            "url": "https://static.wikia.nocookie.net/love-live/images/8/85/01._tap_tap_tappin%21%21.ogg/revision/latest?cb=20260801094922"
+          }
+        ],
+        "file": {
+          "id": 120352,
+          "title": "File:01. tap tap tappin!!.ogg",
+          "timestamp": "2026-08-01T09:49:22Z",
+          "sha1": "e4aaff5e7d8f640ff69d07ff9efc329148866e56",
+          "url": "https://static.wikia.nocookie.net/love-live/images/8/85/01._tap_tap_tappin%21%21.ogg/revision/latest?cb=20260801094922"
+        }
       },
       "905": {
         "identity": "95aeb963c6cdb93b331a46ca59e0c01e4332acccef104cf5f6eef6813808af9d",
@@ -37906,68 +37946,148 @@
       },
       "906": {
         "identity": "41b97fccec592ef86dc5c7b226191ebe840aa0b128de2aff0fa65aaf7388f276",
-        "status": "missing",
+        "status": "verified",
         "page": {
           "id": 120220,
           "title": "Darling Wanted!",
-          "revision": 283845
+          "revision": 284775
         },
         "performerMatch": true,
-        "candidates": [],
-        "reason": "no_audio",
-        "recordings": []
+        "candidates": [
+          "File:01. Darling Wanted!.ogg"
+        ],
+        "files": [
+          {
+            "id": 120743,
+            "title": "File:01. Darling Wanted!.ogg",
+            "timestamp": "2026-09-17T00:50:11Z",
+            "sha1": "11e6f14d477c16e0ae62aa1275e55cf0b350746d",
+            "url": "https://static.wikia.nocookie.net/love-live/images/6/6d/01._Darling_Wanted%21.ogg/revision/latest?cb=20260917005011"
+          }
+        ],
+        "file": {
+          "id": 120743,
+          "title": "File:01. Darling Wanted!.ogg",
+          "timestamp": "2026-09-17T00:50:11Z",
+          "sha1": "11e6f14d477c16e0ae62aa1275e55cf0b350746d",
+          "url": "https://static.wikia.nocookie.net/love-live/images/6/6d/01._Darling_Wanted%21.ogg/revision/latest?cb=20260917005011"
+        }
       },
       "907": {
         "identity": "90ab732bb9c580f43f18e2ac933e854da6a10d14c818b5bafd955e95b4b2a18a",
-        "status": "missing",
+        "status": "verified",
         "page": {
           "id": 120221,
           "title": "Seishun Soda",
-          "revision": 283846
+          "revision": 284776
         },
         "performerMatch": true,
-        "candidates": [],
-        "reason": "no_audio",
-        "recordings": []
+        "candidates": [
+          "File:01. Seishun Soda.ogg"
+        ],
+        "files": [
+          {
+            "id": 120746,
+            "title": "File:01. Seishun Soda.ogg",
+            "timestamp": "2026-09-17T00:50:36Z",
+            "sha1": "b09657f666ddf3886194955471834ef7a6ad80ec",
+            "url": "https://static.wikia.nocookie.net/love-live/images/5/52/01._Seishun_Soda.ogg/revision/latest?cb=20260917005036"
+          }
+        ],
+        "file": {
+          "id": 120746,
+          "title": "File:01. Seishun Soda.ogg",
+          "timestamp": "2026-09-17T00:50:36Z",
+          "sha1": "b09657f666ddf3886194955471834ef7a6ad80ec",
+          "url": "https://static.wikia.nocookie.net/love-live/images/5/52/01._Seishun_Soda.ogg/revision/latest?cb=20260917005036"
+        }
       },
       "908": {
         "identity": "d5c6e5e9b9146be7a66e58be51be91f0c9fecd046476256b1125758ce830c29c",
-        "status": "missing",
+        "status": "verified",
         "page": {
           "id": 120222,
           "title": "POP LOVE",
-          "revision": 283847
+          "revision": 284777
         },
         "performerMatch": true,
-        "candidates": [],
-        "reason": "no_audio",
-        "recordings": []
+        "candidates": [
+          "File:01. POP LOVE.ogg"
+        ],
+        "files": [
+          {
+            "id": 120711,
+            "title": "File:01. POP LOVE.ogg",
+            "timestamp": "2026-09-12T12:47:04Z",
+            "sha1": "63fdfc141cdfba7c8d8b8ee71cafbf3803077795",
+            "url": "https://static.wikia.nocookie.net/love-live/images/8/8c/01._POP_LOVE.ogg/revision/latest?cb=20260912124704"
+          }
+        ],
+        "file": {
+          "id": 120711,
+          "title": "File:01. POP LOVE.ogg",
+          "timestamp": "2026-09-12T12:47:04Z",
+          "sha1": "63fdfc141cdfba7c8d8b8ee71cafbf3803077795",
+          "url": "https://static.wikia.nocookie.net/love-live/images/8/8c/01._POP_LOVE.ogg/revision/latest?cb=20260912124704"
+        }
       },
       "909": {
         "identity": "887d8a38a945a05930346246ac820f722aa71a205ca3a2f1bff9e494e76a5098",
-        "status": "missing",
+        "status": "verified",
         "page": {
           "id": 120223,
           "title": "Spinning Parade",
-          "revision": 283848
+          "revision": 284778
         },
         "performerMatch": true,
-        "candidates": [],
-        "reason": "no_audio",
-        "recordings": []
+        "candidates": [
+          "File:01. Spinning Parade.ogg"
+        ],
+        "files": [
+          {
+            "id": 120713,
+            "title": "File:01. Spinning Parade.ogg",
+            "timestamp": "2026-09-12T12:47:23Z",
+            "sha1": "355744969d318e2025b6d46b3b27f2b3b84edaa1",
+            "url": "https://static.wikia.nocookie.net/love-live/images/6/61/01._Spinning_Parade.ogg/revision/latest?cb=20260912124723"
+          }
+        ],
+        "file": {
+          "id": 120713,
+          "title": "File:01. Spinning Parade.ogg",
+          "timestamp": "2026-09-12T12:47:23Z",
+          "sha1": "355744969d318e2025b6d46b3b27f2b3b84edaa1",
+          "url": "https://static.wikia.nocookie.net/love-live/images/6/61/01._Spinning_Parade.ogg/revision/latest?cb=20260912124723"
+        }
       },
       "910": {
         "identity": "ddcf2fdddd6960304d526f6650c44d494e92fc7c9b0071b7299d5b63c257f5fe",
-        "status": "missing",
+        "status": "verified",
         "page": {
           "id": 120224,
           "title": "Churi♡CHU Chu Kirari♪",
-          "revision": 283849
+          "revision": 284779
         },
         "performerMatch": true,
-        "candidates": [],
-        "reason": "no_audio",
-        "recordings": []
+        "candidates": [
+          "File:01. Churi♡CHU Chu Kirari♪.ogg"
+        ],
+        "files": [
+          {
+            "id": 120715,
+            "title": "File:01. Churi♡CHU Chu Kirari♪.ogg",
+            "timestamp": "2026-09-12T12:47:41Z",
+            "sha1": "d9450cf49e50ed00837ea0995cbc8dd8239433ab",
+            "url": "https://static.wikia.nocookie.net/love-live/images/0/03/01._Churi%E2%99%A1CHU_Chu_Kirari%E2%99%AA.ogg/revision/latest?cb=20260912124741"
+          }
+        ],
+        "file": {
+          "id": 120715,
+          "title": "File:01. Churi♡CHU Chu Kirari♪.ogg",
+          "timestamp": "2026-09-12T12:47:41Z",
+          "sha1": "d9450cf49e50ed00837ea0995cbc8dd8239433ab",
+          "url": "https://static.wikia.nocookie.net/love-live/images/0/03/01._Churi%E2%99%A1CHU_Chu_Kirari%E2%99%AA.ogg/revision/latest?cb=20260912124741"
+        }
       },
       "911": {
         "identity": "92ec5155f8b66aba32cc0772fe5406f2c0abb0afa303a554fe8c23732a3e6899",
@@ -38029,120 +38149,264 @@
       },
       "913": {
         "identity": "0ff59e63139e958a01fddf806bcfc1d6c74947e0854e8af34180a11ba56eb0ff",
-        "status": "missing",
+        "status": "verified",
         "page": {
           "id": 120170,
           "title": "Oide yo! Ishikawa Daikankou II",
-          "revision": 284251
+          "revision": 284796
         },
         "performerMatch": true,
-        "candidates": [],
-        "reason": "no_audio",
-        "recordings": []
+        "candidates": [
+          "File:01. Oide yo! Ishikawa Daikankou II.ogg"
+        ],
+        "files": [
+          {
+            "id": 120781,
+            "title": "File:01. Oide yo! Ishikawa Daikankou II.ogg",
+            "timestamp": "2026-09-21T07:42:54Z",
+            "sha1": "63501f96b7ee7e78da2d723985dfd3581d43ee88",
+            "url": "https://static.wikia.nocookie.net/love-live/images/b/bd/01._Oide_yo%21_Ishikawa_Daikankou_II.ogg/revision/latest?cb=20260921074254"
+          }
+        ],
+        "file": {
+          "id": 120781,
+          "title": "File:01. Oide yo! Ishikawa Daikankou II.ogg",
+          "timestamp": "2026-09-21T07:42:54Z",
+          "sha1": "63501f96b7ee7e78da2d723985dfd3581d43ee88",
+          "url": "https://static.wikia.nocookie.net/love-live/images/b/bd/01._Oide_yo%21_Ishikawa_Daikankou_II.ogg/revision/latest?cb=20260921074254"
+        }
       },
       "914": {
         "identity": "e9f3fb1dd69e02e15a89009766d51c99f1a57cd3bb36cee4f6ea725d476dbfb6",
-        "status": "missing",
+        "status": "verified",
         "page": {
           "id": 120381,
           "title": "Payappa♪ Rhythmic Heart",
-          "revision": 284252
+          "revision": 284811
         },
         "performerMatch": true,
-        "candidates": [],
-        "reason": "no_audio",
-        "recordings": []
+        "candidates": [
+          "File:02. Payappa♪ Rhythmic Heart.ogg"
+        ],
+        "files": [
+          {
+            "id": 120782,
+            "title": "File:02. Payappa♪ Rhythmic Heart.ogg",
+            "timestamp": "2026-09-21T07:43:04Z",
+            "sha1": "d205110cc182342d23dc2148c48e131190deb222",
+            "url": "https://static.wikia.nocookie.net/love-live/images/b/b6/02._Payappa%E2%99%AA_Rhythmic_Heart.ogg/revision/latest?cb=20260921074304"
+          }
+        ],
+        "file": {
+          "id": 120782,
+          "title": "File:02. Payappa♪ Rhythmic Heart.ogg",
+          "timestamp": "2026-09-21T07:43:04Z",
+          "sha1": "d205110cc182342d23dc2148c48e131190deb222",
+          "url": "https://static.wikia.nocookie.net/love-live/images/b/b6/02._Payappa%E2%99%AA_Rhythmic_Heart.ogg/revision/latest?cb=20260921074304"
+        }
       },
       "915": {
         "identity": "2c7c565793403a676dea5871a3af065d2831bbcbda0926af26be5a907caf0a1e",
-        "status": "missing",
+        "status": "verified",
         "page": {
           "id": 120380,
           "title": "Joou no Isu",
-          "revision": 284253
+          "revision": 284812
         },
         "performerMatch": true,
-        "candidates": [],
-        "reason": "no_audio",
-        "recordings": []
+        "candidates": [
+          "File:03. Joou no Isu.ogg"
+        ],
+        "files": [
+          {
+            "id": 120786,
+            "title": "File:03. Joou no Isu.ogg",
+            "timestamp": "2026-09-21T07:57:30Z",
+            "sha1": "8eb20a3a1a05c45f7fe755b2db451d8c8001f247",
+            "url": "https://static.wikia.nocookie.net/love-live/images/4/45/03._Joou_no_Isu.ogg/revision/latest?cb=20260921075730"
+          }
+        ],
+        "file": {
+          "id": 120786,
+          "title": "File:03. Joou no Isu.ogg",
+          "timestamp": "2026-09-21T07:57:30Z",
+          "sha1": "8eb20a3a1a05c45f7fe755b2db451d8c8001f247",
+          "url": "https://static.wikia.nocookie.net/love-live/images/4/45/03._Joou_no_Isu.ogg/revision/latest?cb=20260921075730"
+        }
       },
       "916": {
         "identity": "47765e66aeb71e022f3d1f878d4ab31ac6da5ec6f6522bcb9130ec8b5b70fba2",
-        "status": "missing",
+        "status": "verified",
         "page": {
           "id": 120378,
           "title": "Zenbu, Harukaze ni Natta",
-          "revision": 284254
+          "revision": 284820
         },
         "performerMatch": true,
-        "candidates": [],
-        "reason": "no_audio",
-        "recordings": []
+        "candidates": [
+          "File:04. Zenbu, Harukaze ni Natta.ogg"
+        ],
+        "files": [
+          {
+            "id": 120783,
+            "title": "File:04. Zenbu, Harukaze ni Natta.ogg",
+            "timestamp": "2026-09-21T07:43:13Z",
+            "sha1": "fa9a0866056e22219d6b6bb9d6840ea7c4d7e663",
+            "url": "https://static.wikia.nocookie.net/love-live/images/f/fc/04._Zenbu%2C_Harukaze_ni_Natta.ogg/revision/latest?cb=20260921074313"
+          }
+        ],
+        "file": {
+          "id": 120783,
+          "title": "File:04. Zenbu, Harukaze ni Natta.ogg",
+          "timestamp": "2026-09-21T07:43:13Z",
+          "sha1": "fa9a0866056e22219d6b6bb9d6840ea7c4d7e663",
+          "url": "https://static.wikia.nocookie.net/love-live/images/f/fc/04._Zenbu%2C_Harukaze_ni_Natta.ogg/revision/latest?cb=20260921074313"
+        }
       },
       "917": {
         "identity": "08158f167ffaf0a6d9fd756f71a74de301e693d70541bb99a8dbf5f923fbc460",
-        "status": "missing",
+        "status": "verified",
         "page": {
           "id": 120377,
           "title": "Tsunaida Kyou no Bokutachi Yori",
-          "revision": 284255
+          "revision": 284821
         },
         "performerMatch": true,
-        "candidates": [],
-        "reason": "no_audio",
-        "recordings": []
+        "candidates": [
+          "File:05. Tsunaida Kyou no Bokutachi Yori.ogg"
+        ],
+        "files": [
+          {
+            "id": 120784,
+            "title": "File:05. Tsunaida Kyou no Bokutachi Yori.ogg",
+            "timestamp": "2026-09-21T07:43:21Z",
+            "sha1": "2dcb0651de48626002b72657af51738843b1ebb7",
+            "url": "https://static.wikia.nocookie.net/love-live/images/b/b7/05._Tsunaida_Kyou_no_Bokutachi_Yori.ogg/revision/latest?cb=20260921074321"
+          }
+        ],
+        "file": {
+          "id": 120784,
+          "title": "File:05. Tsunaida Kyou no Bokutachi Yori.ogg",
+          "timestamp": "2026-09-21T07:43:21Z",
+          "sha1": "2dcb0651de48626002b72657af51738843b1ebb7",
+          "url": "https://static.wikia.nocookie.net/love-live/images/b/b7/05._Tsunaida_Kyou_no_Bokutachi_Yori.ogg/revision/latest?cb=20260921074321"
+        }
       },
       "918": {
         "identity": "0995cc113ada42853fc4dc808e988c36bc5ce829d581b531f7d54891a8a02e30",
-        "status": "missing",
+        "status": "verified",
         "page": {
           "id": 120422,
           "title": "CROWNed SOUL",
-          "revision": 283640
+          "revision": 284568
         },
         "performerMatch": true,
-        "candidates": [],
-        "reason": "no_audio",
-        "recordings": []
+        "candidates": [
+          "File:01. CROWNed SOUL.ogg"
+        ],
+        "files": [
+          {
+            "id": 120685,
+            "title": "File:01. CROWNed SOUL.ogg",
+            "timestamp": "2026-09-10T00:23:14Z",
+            "sha1": "f3122d5f254861104f9cf72a0b9976d7ed11898f",
+            "url": "https://static.wikia.nocookie.net/love-live/images/5/52/01._CROWNed_SOUL.ogg/revision/latest?cb=20260910002314"
+          }
+        ],
+        "file": {
+          "id": 120685,
+          "title": "File:01. CROWNed SOUL.ogg",
+          "timestamp": "2026-09-10T00:23:14Z",
+          "sha1": "f3122d5f254861104f9cf72a0b9976d7ed11898f",
+          "url": "https://static.wikia.nocookie.net/love-live/images/5/52/01._CROWNed_SOUL.ogg/revision/latest?cb=20260910002314"
+        }
       },
       "919": {
         "identity": "f6c3bb7d4f6ed4afac0b65535659a005e9f53c06e6578d44cf0dd8a64b92b31b",
-        "status": "missing",
+        "status": "verified",
         "page": {
           "id": 120423,
           "title": "Bitter Blue",
-          "revision": 283643
+          "revision": 284569
         },
         "performerMatch": true,
-        "candidates": [],
-        "reason": "no_audio",
-        "recordings": []
+        "candidates": [
+          "File:02. Bitter Blue.ogg"
+        ],
+        "files": [
+          {
+            "id": 120686,
+            "title": "File:02. Bitter Blue.ogg",
+            "timestamp": "2026-09-10T00:23:23Z",
+            "sha1": "677fdde24ef8371337e1dcec6d822e371fa39c93",
+            "url": "https://static.wikia.nocookie.net/love-live/images/7/70/02._Bitter_Blue.ogg/revision/latest?cb=20260910002323"
+          }
+        ],
+        "file": {
+          "id": 120686,
+          "title": "File:02. Bitter Blue.ogg",
+          "timestamp": "2026-09-10T00:23:23Z",
+          "sha1": "677fdde24ef8371337e1dcec6d822e371fa39c93",
+          "url": "https://static.wikia.nocookie.net/love-live/images/7/70/02._Bitter_Blue.ogg/revision/latest?cb=20260910002323"
+        }
       },
       "920": {
         "identity": "26e65d11d3ead21ce34cf568b08882342123c2c1fc36e6d89c0cbc18cbde4562",
-        "status": "missing",
+        "status": "verified",
         "page": {
           "id": 120493,
           "title": "Shiokaze Cycling",
-          "revision": 283873
+          "revision": 284838
         },
         "performerMatch": true,
-        "candidates": [],
-        "reason": "no_audio",
-        "recordings": []
+        "candidates": [
+          "File:01. Shiokaze Cycling.ogg"
+        ],
+        "files": [
+          {
+            "id": 120795,
+            "title": "File:01. Shiokaze Cycling.ogg",
+            "timestamp": "2026-09-23T04:38:26Z",
+            "sha1": "72cfadd6ee9bdcc4a41dd28e685cbe15fb3b488f",
+            "url": "https://static.wikia.nocookie.net/love-live/images/0/01/01._Shiokaze_Cycling.ogg/revision/latest?cb=20260923043826"
+          }
+        ],
+        "file": {
+          "id": 120795,
+          "title": "File:01. Shiokaze Cycling.ogg",
+          "timestamp": "2026-09-23T04:38:26Z",
+          "sha1": "72cfadd6ee9bdcc4a41dd28e685cbe15fb3b488f",
+          "url": "https://static.wikia.nocookie.net/love-live/images/0/01/01._Shiokaze_Cycling.ogg/revision/latest?cb=20260923043826"
+        }
       },
       "921": {
         "identity": "7881d56311b00493b9d365cf5dd025223f356f7d01b0bba6ed59eb708ff69380",
-        "status": "missing",
+        "status": "verified",
         "page": {
           "id": 120494,
           "title": "Sequel",
-          "revision": 283872
+          "revision": 284839
         },
         "performerMatch": true,
-        "candidates": [],
-        "reason": "no_audio",
-        "recordings": []
+        "candidates": [
+          "File:02. Sequel.ogg"
+        ],
+        "files": [
+          {
+            "id": 120796,
+            "title": "File:02. Sequel.ogg",
+            "timestamp": "2026-09-23T04:38:33Z",
+            "sha1": "59d540eaaa5c7d5608d3411b7b192595177203db",
+            "url": "https://static.wikia.nocookie.net/love-live/images/2/2c/02._Sequel.ogg/revision/latest?cb=20260923043833"
+          }
+        ],
+        "file": {
+          "id": 120796,
+          "title": "File:02. Sequel.ogg",
+          "timestamp": "2026-09-23T04:38:33Z",
+          "sha1": "59d540eaaa5c7d5608d3411b7b192595177203db",
+          "url": "https://static.wikia.nocookie.net/love-live/images/2/2c/02._Sequel.ogg/revision/latest?cb=20260923043833"
+        }
       },
       "922": {
         "identity": "3d94a421bb3cc89cea53168e80433af0ea6fb6cf92ad4b2db44dffd5519119fc",
@@ -38169,6 +38433,45 @@
         "candidates": [],
         "reason": "no_audio",
         "recordings": []
+      },
+      "924": {
+        "identity": "234b8c129e2e25b057a12506c9003e60b60ac48c0d2a11a7ee58382e8250290f",
+        "status": "verified",
+        "page": {
+          "id": 120760,
+          "title": "Tale of Primavera",
+          "revision": 284830
+        },
+        "performerMatch": true,
+        "candidates": [
+          "File:01. Tale of Primavera.ogg"
+        ],
+        "files": [
+          {
+            "id": 120779,
+            "title": "File:01. Tale of Primavera.ogg",
+            "timestamp": "2026-09-21T07:35:41Z",
+            "sha1": "09b3bf6ecc05340341cf1e43f6a7f15dc2bcea24",
+            "url": "https://static.wikia.nocookie.net/love-live/images/3/33/01._Tale_of_Primavera.ogg/revision/latest?cb=20260921073541"
+          }
+        ],
+        "file": {
+          "id": 120779,
+          "title": "File:01. Tale of Primavera.ogg",
+          "timestamp": "2026-09-21T07:35:41Z",
+          "sha1": "09b3bf6ecc05340341cf1e43f6a7f15dc2bcea24",
+          "url": "https://static.wikia.nocookie.net/love-live/images/3/33/01._Tale_of_Primavera.ogg/revision/latest?cb=20260921073541"
+        }
+      },
+      "925": {
+        "identity": "574148fa742a85587a0c6390ec10577191cb0e636b97a4ed5bca55cf0ec9090f",
+        "status": "missing",
+        "reason": "no_matching_title"
+      },
+      "926": {
+        "identity": "38f1c7a973a956c72a7055508c8c628036098e4c5f6794035c9a35c150b6f559",
+        "status": "missing",
+        "reason": "no_matching_title"
       }
     },
     "artists": {
@@ -40808,6 +41111,93 @@
           }
         ]
       },
+      "259": {
+        "identity": "fbd458d4121886bdedf17c819f9e1c1a381292d245b523fa018224af83044dde",
+        "status": "verified",
+        "components": [
+          {
+            "name": "椿 ルリカ",
+            "page": {
+              "id": 103111,
+              "title": "Rurika Tsubaki",
+              "revision": 284102
+            }
+          },
+          {
+            "name": "北条ユキノ",
+            "page": {
+              "id": 103125,
+              "title": "Yukino Hojo",
+              "revision": 284104
+            }
+          },
+          {
+            "name": "三笠マーヤ",
+            "page": {
+              "id": 103140,
+              "title": "Maya Mikasa",
+              "revision": 284106
+            }
+          },
+          {
+            "name": "若槻ミスズ",
+            "page": {
+              "id": 103114,
+              "title": "Misuzu Wakatsuki",
+              "revision": 284108
+            }
+          },
+          {
+            "name": "晴風サヤカ",
+            "page": {
+              "id": 103141,
+              "title": "Sayaka Harukaze",
+              "revision": 284111
+            }
+          }
+        ]
+      },
+      "260": {
+        "identity": "39391377053af23c26254f1995a28305ab462450205fe6a9335d9955d500f4ca",
+        "status": "verified",
+        "components": [
+          {
+            "name": "皇 ユズハ",
+            "page": {
+              "id": 103113,
+              "title": "Yuzuha Sumeragi",
+              "revision": 284103
+            }
+          },
+          {
+            "name": "天草ヒカル",
+            "page": {
+              "id": 103127,
+              "title": "Hikaru Amakusa",
+              "revision": 284105
+            }
+          },
+          {
+            "artistId": "205"
+          },
+          {
+            "name": "来栖トア",
+            "page": {
+              "id": 103126,
+              "title": "Toa Kurusu",
+              "revision": 284109
+            }
+          },
+          {
+            "name": "鈴賀レナ",
+            "page": {
+              "id": 103137,
+              "title": "Rena Suzuka",
+              "revision": 284110
+            }
+          }
+        ]
+      },
       "24": {
         "identity": "87298afefb2c24b34d3c78745275c327d79926d342d726816754f10e69cfbfe7",
         "status": "verified",
@@ -41428,5 +41818,5 @@
       }
     }
   },
-  "snapshotId": "066ab9609994d44dc074a2daa4e8608b8bf1ce3acbfb1325360a75388b9a5569"
+  "snapshotId": "78dea0329c6799b053e4c67e4e8650fab07d793ea4dd58b3f6e9fffc554162d8"
 }
