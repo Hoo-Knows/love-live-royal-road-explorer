@@ -207,7 +207,7 @@ class MatchingTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "record.json"
             permission_error = PermissionError(5, "access denied")
-            with patch("royal_road.io_utils.os.name", "nt"), patch(
+            with patch("royal_road.io_utils.IS_WINDOWS", True), patch(
                 "royal_road.io_utils.os.replace", side_effect=[permission_error, None]
             ) as replace:
                 atomic_write_json(path, {"status": "ok"})

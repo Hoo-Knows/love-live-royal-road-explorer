@@ -11,6 +11,9 @@ import time
 from typing import Any, Optional
 
 
+IS_WINDOWS = os.name == "nt"
+
+
 def read_json(path: Path) -> Any:
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
@@ -35,7 +38,7 @@ def atomic_write_bytes(path: Path, content: bytes) -> None:
                 break
             except PermissionError as error:
                 last_error = error
-                if os.name != "nt" or attempt == 4:
+                if not IS_WINDOWS or attempt == 4:
                     raise
                 time.sleep(0.1 * (2**attempt))
         else:
