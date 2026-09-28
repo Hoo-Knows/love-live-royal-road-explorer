@@ -15,8 +15,8 @@
     "matchingSongCount": 401,
     "totalOccurrenceCount": 1611,
     "analyzedSongCount": 899,
-    "catalogSongCount": 915,
-    "unavailableSongCount": 16,
+    "catalogSongCount": 917,
+    "unavailableSongCount": 18,
     "failedSongCount": 0
   },
   "songs": [
@@ -24621,8 +24621,11 @@
       "creators": [
         {
           "id": "49",
-          "name": "YASUSHI WATANABE",
-          "aliases": []
+          "name": "渡辺泰司 / YASUSHI WATANABE",
+          "aliases": [
+            "YASUSHI WATANABE",
+            "渡辺泰司"
+          ]
         }
       ],
       "audioUrl": "https://static.wikia.nocookie.net/love-live/images/1/17/Guilty%21%3F_Farewell_party.ogg/revision/latest?cb=20180621143447",
@@ -42319,9 +42322,12 @@
       ],
       "creators": [
         {
-          "id": "196",
-          "name": "渡辺泰司",
-          "aliases": []
+          "id": "49",
+          "name": "渡辺泰司 / YASUSHI WATANABE",
+          "aliases": [
+            "渡辺泰司",
+            "YASUSHI WATANABE"
+          ]
         }
       ],
       "audioUrl": "https://static.wikia.nocookie.net/love-live/images/1/1e/Totsuzen_GIRL.ogg/revision/latest?cb=20210416200327",
@@ -97566,6 +97572,86 @@
       "creators": [],
       "audioUrl": null,
       "releaseDate": null,
+      "status": "unavailable",
+      "durationSeconds": null,
+      "error": "No wiki audio URL was present in the source snapshot.",
+      "occurrenceCount": 0,
+      "occurrences": []
+    },
+    {
+      "id": "927",
+      "titles": {
+        "ja": "ソレイユスマイル",
+        "en": "Soleil Smile",
+        "phonetic": "それいゆすまいる"
+      },
+      "artistNames": [
+        "蓮ノ空女学院スクールアイドルクラブ"
+      ],
+      "artistAliases": [
+        "Hasunosora Girls' High School Idol Club"
+      ],
+      "seriesNames": [
+        "蓮ノ空女学院スクールアイドルクラブ"
+      ],
+      "seriesAliases": [
+        "Hasunosora Girls' High School Idol Club"
+      ],
+      "creators": [
+        {
+          "id": "403",
+          "name": "綺羅クリア",
+          "aliases": []
+        },
+        {
+          "id": "140",
+          "name": "渡辺拓也",
+          "aliases": []
+        }
+      ],
+      "audioUrl": null,
+      "releaseDate": "2026-10-14",
+      "status": "unavailable",
+      "durationSeconds": null,
+      "error": "No wiki audio URL was present in the source snapshot.",
+      "occurrenceCount": 0,
+      "occurrences": []
+    },
+    {
+      "id": "928",
+      "titles": {
+        "ja": "百億年分のしあわせ",
+        "en": "Hyaku Okunen Bun no Shiawase",
+        "phonetic": "ひゃくおくねんぶんのしあわせ"
+      },
+      "artistNames": [
+        "蓮ノ空女学院スクールアイドルクラブ"
+      ],
+      "artistAliases": [
+        "Hasunosora Girls' High School Idol Club"
+      ],
+      "seriesNames": [
+        "蓮ノ空女学院スクールアイドルクラブ"
+      ],
+      "seriesAliases": [
+        "Hasunosora Girls' High School Idol Club"
+      ],
+      "creators": [
+        {
+          "id": "403",
+          "name": "綺羅クリア",
+          "aliases": []
+        },
+        {
+          "id": "331",
+          "name": "佐藤厚仁",
+          "aliases": [
+            "佐藤厚仁（Dream Monster）"
+          ]
+        }
+      ],
+      "audioUrl": null,
+      "releaseDate": "2026-10-14",
       "status": "unavailable",
       "durationSeconds": null,
       "error": "No wiki audio URL was present in the source snapshot.",
