@@ -31,10 +31,11 @@ For the initial repository setup, open **Settings â†’ Pages** on GitHub and
 ### Weekly catalog updates
 
 The **Update song catalog** workflow runs each Monday at 00:00 UTC and can also
-be started from **Actions → Update song catalog → Run workflow**. After the
-workflow is merged into the default branch, enable **Settings → Actions →
-General → Workflow permissions → Allow GitHub Actions to create and approve
-pull requests**. It uses the built-in `GITHUB_TOKEN`; no personal token is needed.
+be started from **Actions → Update song catalog → Run workflow**. It commits
+validated changes directly to `main`, without a PR or manual approval, using the
+built-in `GITHUB_TOKEN`; no personal token is needed. Repository rules must allow
+the workflow to push to `main`. The workflow requests contents and Actions write
+permissions to publish the commit and start deployment.
 
 Each run checks out `main` with the pinned detector and runs these commands from
 the repository root in a locked Python 3.9 environment:
@@ -46,12 +47,15 @@ uv run --locked --no-cache analyze.py --resume
 
 This fetches current metadata, retries unresolved wiki records, and analyzes new,
 changed, missing, failed, or outdated recordings while reusing current timelines.
-It opens or updates one PR from `automation/weekly-catalog` to `main` with
+It commits only
 `data/source/` (including `.snapshot.json`), `data/raw/*.json`,
 `data/analysis-manifest.json`, `data/catalog.json`, and `data/source-review.md`.
-The PR and run summary include count changes, new songs, failed/unavailable
-recordings, and source/detector/matching provenance. Collection-time-only changes
-do not create a PR. Merge the reviewed PR to publish the catalog through Pages.
+The commit subject is `Refresh song catalog`; its body lists added, updated, and
+removed songs and every still-missing recording with its failure/unavailability
+reason. Count changes and source/detector/matching provenance stay in the Actions
+run summary. Collection-time-only changes do not create a commit. After pushing,
+the workflow explicitly starts **Deploy to GitHub Pages** on `main`, because a push
+made with `GITHUB_TOKEN` does not trigger another workflow automatically.
 
 Before publication, the workflow runs:
 
@@ -66,9 +70,13 @@ npm exec -- vite build --configLoader runner --outDir .build/verify
 
 Runs are serialized and have a six-hour timeout. A failed command or check prevents
 publication; inspect its Actions logs, resolve the cause, then manually rerun the
-workflow. Individual failed or unavailable songs are retained in the validated
-results for review. Runs start from committed `main` data, so unmerged PR analyses
-and interrupted runner progress may be repeated. Audio and analysis caches are
+workflow. If `main` advances during analysis, the normal push is rejected; rerun
+the update against current `main`. The workflow never force-pushes. If publication
+succeeds but deployment dispatch fails, manually run **Deploy to GitHub Pages**
+on `main`; rerunning an unchanged catalog update will not dispatch deployment.
+Individual failed or unavailable songs are retained in the validated results.
+Runs start from committed `main` data, so interrupted runner progress may be
+repeated. Audio and analysis caches are
 not committed or uploaded. The schedule is approximate and may be delayed by GitHub.
 
 ### Local analysis

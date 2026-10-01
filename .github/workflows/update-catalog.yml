@@ -7,7 +7,7 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
+  actions: write
 
 concurrency:
   group: weekly-catalog
@@ -73,28 +73,33 @@ jobs:
         run: |
           uv run --locked --no-cache python scripts/catalog_update_report.py report \
             --baseline "$RUNNER_TEMP/catalog-baseline.json" \
-            --body "$RUNNER_TEMP/catalog-update.md" --run-url "$RUN_URL"
+            --commit-message "$RUNNER_TEMP/catalog-commit.txt" --run-url "$RUN_URL"
 
-      - name: Open or update catalog pull request
+      - name: Commit and publish catalog
         if: steps.report.outputs.changed == 'true'
-        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
-        with:
-          branch: automation/weekly-catalog
-          base: main
-          title: 'chore: refresh song catalog'
-          commit-message: 'chore: refresh song catalog'
-          body-path: ${{ runner.temp }}/catalog-update.md
-          add-paths: |
-            data/source/song-info.json
-            data/source/artists-info.json
-            data/source/series-info.json
-            data/source/.snapshot.json
-            data/raw/*.json
-            data/analysis-manifest.json
-            data/catalog.json
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- \
+            data/source/song-info.json \
+            data/source/artists-info.json \
+            data/source/series-info.json \
+            data/source/.snapshot.json \
+            'data/raw/*.json' \
+            data/analysis-manifest.json \
+            data/catalog.json \
             data/source-review.md
+          git commit --cleanup=verbatim --file "$RUNNER_TEMP/catalog-commit.txt"
+          git push origin HEAD:refs/heads/main
+          echo 'Catalog committed to main.' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Deploy updated catalog
+        if: steps.report.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy-pages.yml --ref main
 
       - name: Report unsuccessful run
         if: failure() || cancelled()
         run: |
-          echo 'Catalog update did not complete. Inspect the failed step logs and any existing catalog PR before rerunning the workflow.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Catalog update did not complete. Inspect the failed step logs. If the push was rejected because main advanced, rerun this workflow. If the push succeeded but deployment dispatch failed, run Deploy to GitHub Pages on main.' >> "$GITHUB_STEP_SUMMARY"

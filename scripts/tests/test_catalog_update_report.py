@@ -10,7 +10,7 @@ SCRIPT_DIR = Path(__file__).resolve().parents[1]
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
-from catalog_update_report import GENERATED_FILES, capture, main, render_report  # noqa: E402
+from catalog_update_report import GENERATED_FILES, capture, main, render_commit_message, render_report  # noqa: E402
 
 
 class CatalogUpdateReportTests(unittest.TestCase):
@@ -90,10 +90,62 @@ class CatalogUpdateReportTests(unittest.TestCase):
                 self.manifest['songs']['1']['status'] = 'failed'
                 self.write('data/analysis-manifest.json', self.manifest)
             with patch.dict(os.environ, {'GITHUB_OUTPUT': str(output), 'GITHUB_STEP_SUMMARY': str(summary)}):
-                self.assertEqual(main(['report', *args, '--body', str(body),
+                self.assertEqual(main(['report', *args, '--commit-message', str(body),
                                        '--run-url', 'https://example.com/run']), 0)
             self.assertIn(f'changed={str(changed).lower()}', output.read_text(encoding='utf-8'))
-            self.assertIn(body.read_text(encoding='utf-8'), summary.read_text(encoding='utf-8'))
+            self.assertTrue(body.read_text(encoding='utf-8').startswith('Refresh song catalog\n\n'))
+            self.assertNotIn('Provenance', body.read_text(encoding='utf-8'))
+            self.assertIn('## Provenance', summary.read_text(encoding='utf-8'))
+
+    def test_commit_additions_removals_and_gaps(self):
+        self.catalog['songs'] = [{'id': '2', 'titles': {'en': 'New | song', 'ja': '新曲'}},
+                                 {'id': '3', 'titles': {}}]
+        self.manifest['songs'] = {'2': {'status': 'failed', 'error': 'HTTP\nfailure'},
+                                  '3': {'status': 'unavailable'}}
+        self.write('data/catalog.json', self.catalog)
+        self.write('data/analysis-manifest.json', self.manifest)
+        message = render_commit_message(self.before, capture(self.root))
+        self.assertEqual(message, 'Refresh song catalog\n\n'
+                         '- Added New | song (2): failed\n'
+                         '- Added 3 (3): unavailable\n'
+                         '- Removed 曲 (1)\n\nStill missing:\n'
+                         '- New | song (2): failed — HTTP failure\n'
+                         '- 3 (3): unavailable — No verified recording\n')
+
+    def test_metadata_and_raw_updates(self):
+        self.catalog['songs'][0]['titles']['en'] = 'Updated title'
+        self.write('data/catalog.json', self.catalog)
+        self.write('data/raw/1.json', {'segments': [1]})
+        message = render_commit_message(self.before, capture(self.root))
+        self.assertIn('- Updated Updated title (1): metadata updated, analysis updated', message)
+        self.assertTrue(message.endswith('Still missing:\nNone.\n'))
+
+    def test_recovered_recording(self):
+        self.manifest['songs']['1'] = {'status': 'failed', 'error': 'HTTP failure'}
+        self.write('data/analysis-manifest.json', self.manifest)
+        failed = capture(self.root)
+        message = render_commit_message(failed, self.before)
+        self.assertIn('Updated 曲 (1): failed → analyzed', message)
+        self.assertTrue(message.endswith('Still missing:\nNone.\n'))
+
+    def test_analysis_fields_are_not_metadata(self):
+        self.catalog['songs'][0].update(durationSeconds=120, error=None, occurrenceCount=1,
+                                        occurrences=[{'id': 'occurrence'}])
+        self.write('data/catalog.json', self.catalog)
+        message = render_commit_message(self.before, capture(self.root))
+        self.assertIn('Updated 曲 (1): analysis updated', message)
+        self.assertNotIn('metadata updated', message)
+
+    def test_provenance_only_and_unchanged_gaps(self):
+        self.manifest['songs']['1'] = {'status': 'unavailable'}
+        self.write('data/analysis-manifest.json', self.manifest)
+        before = capture(self.root)
+        self.manifest['sourceSnapshot'] = 'new-source'
+        self.write('data/analysis-manifest.json', self.manifest)
+        message = render_commit_message(before, capture(self.root))
+        self.assertIn('No song changes.', message)
+        self.assertIn('曲 (1): unavailable — No verified recording', message)
+        self.assertNotIn('new-source', message)
 
 
 if __name__ == '__main__':
