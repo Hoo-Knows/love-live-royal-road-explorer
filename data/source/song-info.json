@@ -5860,8 +5860,11 @@
     "creators": [
       {
         "id": "49",
-        "name": "YASUSHI WATANABE",
-        "aliases": []
+        "name": "渡辺泰司 / YASUSHI WATANABE",
+        "aliases": [
+          "YASUSHI WATANABE",
+          "渡辺泰司"
+        ]
       }
     ],
     "seriesIds": [
@@ -9560,9 +9563,12 @@
     ],
     "creators": [
       {
-        "id": "196",
-        "name": "渡辺泰司",
-        "aliases": []
+        "id": "49",
+        "name": "渡辺泰司 / YASUSHI WATANABE",
+        "aliases": [
+          "渡辺泰司",
+          "YASUSHI WATANABE"
+        ]
       }
     ],
     "seriesIds": [
@@ -26586,6 +26592,62 @@
       "5"
     ],
     "releasedOn": null,
+    "wikiAudioUrl": null,
+    "wikiAudioUrls": []
+  },
+  {
+    "id": "927",
+    "name": "ソレイユスマイル",
+    "phoneticName": "それいゆすまいる",
+    "englishName": "Soleil Smile",
+    "artists": [
+      "133"
+    ],
+    "creators": [
+      {
+        "id": "403",
+        "name": "綺羅クリア",
+        "aliases": []
+      },
+      {
+        "id": "140",
+        "name": "渡辺拓也",
+        "aliases": []
+      }
+    ],
+    "seriesIds": [
+      "6"
+    ],
+    "releasedOn": "2026-10-14",
+    "wikiAudioUrl": null,
+    "wikiAudioUrls": []
+  },
+  {
+    "id": "928",
+    "name": "百億年分のしあわせ",
+    "phoneticName": "ひゃくおくねんぶんのしあわせ",
+    "englishName": "Hyaku Okunen Bun no Shiawase",
+    "artists": [
+      "133"
+    ],
+    "creators": [
+      {
+        "id": "403",
+        "name": "綺羅クリア",
+        "aliases": []
+      },
+      {
+        "id": "331",
+        "name": "佐藤厚仁",
+        "aliases": [
+          "佐藤厚仁（Dream Monster）"
+        ]
+      }
+    ],
+    "seriesIds": [
+      "6"
+    ],
+    "releasedOn": "2026-10-14",
     "wikiAudioUrl": null,
     "wikiAudioUrls": []
   }

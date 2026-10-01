@@ -5,11 +5,11 @@
     "enrichment": "https://love-live.fandom.com/api.php"
   },
   "collection": {
-    "startedAt": "2026-09-25T17:37:14.824622Z",
-    "finishedAt": "2026-09-25T17:38:36.333004Z"
+    "startedAt": "2026-09-28T04:47:22.476674Z",
+    "finishedAt": "2026-09-28T04:48:19.979461Z"
   },
   "files": {
-    "song-info.json": "1c264e60d2f7b623f7bc5df7af00c1fcf3be1989773ea2c4f460e8b12bba021d",
+    "song-info.json": "4295b4c6b9c79fe90cf3723c8e569b16283d81f6681cd8911e91996829007502",
     "artists-info.json": "e2a825d0f558656d069e512df8cb1e4cb17e39574778a5d50484ec377c3822a1",
     "series-info.json": "4b86da1c6116059a0d6704dbeace385e833feae746570766777f01ecb8d7afd9"
   },
@@ -38472,6 +38472,32 @@
         "identity": "38f1c7a973a956c72a7055508c8c628036098e4c5f6794035c9a35c150b6f559",
         "status": "missing",
         "reason": "no_matching_title"
+      },
+      "927": {
+        "identity": "b304b08f3393295abf71333f6ef3ed2c24de8ac2b9b3d2ab9a8d2757aeaaa50c",
+        "status": "missing",
+        "page": {
+          "id": 120804,
+          "title": "Soleil Smile",
+          "revision": 284868
+        },
+        "performerMatch": true,
+        "candidates": [],
+        "reason": "no_audio",
+        "recordings": []
+      },
+      "928": {
+        "identity": "2fbeebdc0c8ac1fe66d4b46c8a366be05d04ae2ad67e1797429870cee395a36e",
+        "status": "missing",
+        "page": {
+          "id": 120805,
+          "title": "Hyaku Okunen Bun no Shiawase",
+          "revision": 284869
+        },
+        "performerMatch": true,
+        "candidates": [],
+        "reason": "no_audio",
+        "recordings": []
       }
     },
     "artists": {
@@ -41818,5 +41844,5 @@
       }
     }
   },
-  "snapshotId": "78dea0329c6799b053e4c67e4e8650fab07d793ea4dd58b3f6e9fffc554162d8"
+  "snapshotId": "713a72b0498b212b8f7dab2570e009488c72209581fe629c9127a44f1d5ad0e5"
 }
