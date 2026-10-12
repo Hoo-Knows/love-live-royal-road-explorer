@@ -5,11 +5,11 @@
     "enrichment": "https://love-live.fandom.com/api.php"
   },
   "collection": {
-    "startedAt": "2026-10-05T05:02:03.646873Z",
-    "finishedAt": "2026-10-05T05:02:50.417572Z"
+    "startedAt": "2026-10-12T05:23:06.195663Z",
+    "finishedAt": "2026-10-12T05:24:00.643052Z"
   },
   "files": {
-    "song-info.json": "4295b4c6b9c79fe90cf3723c8e569b16283d81f6681cd8911e91996829007502",
+    "song-info.json": "9e364531615bd50befc78fa9a026b5ab3c1bcaa1cba7be99e9c4adf4575188e1",
     "artists-info.json": "e2a825d0f558656d069e512df8cb1e4cb17e39574778a5d50484ec377c3822a1",
     "series-info.json": "4b86da1c6116059a0d6704dbeace385e833feae746570766777f01ecb8d7afd9"
   },
@@ -38410,29 +38410,61 @@
       },
       "922": {
         "identity": "3d94a421bb3cc89cea53168e80433af0ea6fb6cf92ad4b2db44dffd5519119fc",
-        "status": "missing",
+        "status": "verified",
         "page": {
           "id": 120630,
           "title": "BONES BONES BONES",
-          "revision": 284207
+          "revision": 285043
         },
         "performerMatch": true,
-        "candidates": [],
-        "reason": "no_audio",
-        "recordings": []
+        "candidates": [
+          "File:01. BONES BONES BONES.ogg"
+        ],
+        "files": [
+          {
+            "id": 120877,
+            "title": "File:01. BONES BONES BONES.ogg",
+            "timestamp": "2026-10-07T00:30:08Z",
+            "sha1": "e9a5fc39da0eff220f13e4e95e11c55fd8fb7a92",
+            "url": "https://static.wikia.nocookie.net/love-live/images/f/fe/01._BONES_BONES_BONES.ogg/revision/latest?cb=20261007003008"
+          }
+        ],
+        "file": {
+          "id": 120877,
+          "title": "File:01. BONES BONES BONES.ogg",
+          "timestamp": "2026-10-07T00:30:08Z",
+          "sha1": "e9a5fc39da0eff220f13e4e95e11c55fd8fb7a92",
+          "url": "https://static.wikia.nocookie.net/love-live/images/f/fe/01._BONES_BONES_BONES.ogg/revision/latest?cb=20261007003008"
+        }
       },
       "923": {
         "identity": "bb20e79e7cec59d21bcb48460239fadc8bd7a03ff5757851720ff9c90bfb83ed",
-        "status": "missing",
+        "status": "verified",
         "page": {
           "id": 120631,
           "title": "Kokoro TAKE OFF",
-          "revision": 284208
+          "revision": 285045
         },
         "performerMatch": true,
-        "candidates": [],
-        "reason": "no_audio",
-        "recordings": []
+        "candidates": [
+          "File:02. Kokoro TAKE OFF.ogg"
+        ],
+        "files": [
+          {
+            "id": 120878,
+            "title": "File:02. Kokoro TAKE OFF.ogg",
+            "timestamp": "2026-10-07T00:30:16Z",
+            "sha1": "ffad0f3499488f7c65607cdf321c10530847965c",
+            "url": "https://static.wikia.nocookie.net/love-live/images/a/af/02._Kokoro_TAKE_OFF.ogg/revision/latest?cb=20261007003016"
+          }
+        ],
+        "file": {
+          "id": 120878,
+          "title": "File:02. Kokoro TAKE OFF.ogg",
+          "timestamp": "2026-10-07T00:30:16Z",
+          "sha1": "ffad0f3499488f7c65607cdf321c10530847965c",
+          "url": "https://static.wikia.nocookie.net/love-live/images/a/af/02._Kokoro_TAKE_OFF.ogg/revision/latest?cb=20261007003016"
+        }
       },
       "924": {
         "identity": "234b8c129e2e25b057a12506c9003e60b60ac48c0d2a11a7ee58382e8250290f",
@@ -41844,5 +41876,5 @@
       }
     }
   },
-  "snapshotId": "e65bce3b35162a6d213184086d7aad572ea01d9eb253ba8b0ab2e006dc2af3d6"
+  "snapshotId": "181a191928c10d7404e3c404b80397accf9e2f347ca8d6f05dc3b36b83de9c61"
 }

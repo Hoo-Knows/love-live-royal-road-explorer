@@ -12,11 +12,11 @@
     }
   ],
   "metrics": {
-    "matchingSongCount": 401,
-    "totalOccurrenceCount": 1611,
-    "analyzedSongCount": 899,
+    "matchingSongCount": 402,
+    "totalOccurrenceCount": 1614,
+    "analyzedSongCount": 901,
     "catalogSongCount": 917,
-    "unavailableSongCount": 18,
+    "unavailableSongCount": 16,
     "failedSongCount": 0
   },
   "songs": [
@@ -97430,11 +97430,11 @@
           ]
         }
       ],
-      "audioUrl": null,
+      "audioUrl": "https://static.wikia.nocookie.net/love-live/images/f/fe/01._BONES_BONES_BONES.ogg/revision/latest?cb=20261007003008",
       "releaseDate": "2026-10-07",
-      "status": "unavailable",
-      "durationSeconds": null,
-      "error": "No wiki audio URL was present in the source snapshot.",
+      "status": "analyzed",
+      "durationSeconds": 200.04,
+      "error": null,
       "occurrenceCount": 0,
       "occurrences": []
     },
@@ -97464,13 +97464,131 @@
           "aliases": []
         }
       ],
-      "audioUrl": null,
+      "audioUrl": "https://static.wikia.nocookie.net/love-live/images/a/af/02._Kokoro_TAKE_OFF.ogg/revision/latest?cb=20261007003016",
       "releaseDate": "2026-10-07",
-      "status": "unavailable",
-      "durationSeconds": null,
-      "error": "No wiki audio URL was present in the source snapshot.",
-      "occurrenceCount": 0,
-      "occurrences": []
+      "status": "analyzed",
+      "durationSeconds": 184.373333,
+      "error": null,
+      "occurrenceCount": 3,
+      "occurrences": [
+        {
+          "id": "rr-923-393d5f47c80bb84e",
+          "exactStartSeconds": 66.89668934240363,
+          "exactEndSeconds": 72.46947845804989,
+          "playbackStartSeconds": 66.39668934240363,
+          "playbackEndSeconds": 72.96947845804989,
+          "chordLabels": [
+            "Ab:maj7",
+            "Bb:maj",
+            "G:min",
+            "C:min"
+          ],
+          "chordBounds": [
+            {
+              "startSeconds": 66.89668934240363,
+              "endSeconds": 68.4756462585034
+            },
+            {
+              "startSeconds": 68.4756462585034,
+              "endSeconds": 70.0778231292517
+            },
+            {
+              "startSeconds": 70.0778231292517,
+              "endSeconds": 71.63356009070294
+            },
+            {
+              "startSeconds": 71.63356009070294,
+              "endSeconds": 72.46947845804989
+            }
+          ],
+          "patternIds": [
+            "iv-v-iii-vi"
+          ],
+          "romanNumeralAnalyses": [
+            "IVmaj7 → V → iii → vi"
+          ],
+          "passingChordIndex": null,
+          "provenance": "automatic"
+        },
+        {
+          "id": "rr-923-e0dbc16e86ed7be3",
+          "exactStartSeconds": 123.73913832199547,
+          "exactEndSeconds": 129.33514739229025,
+          "playbackStartSeconds": 123.23913832199547,
+          "playbackEndSeconds": 129.83514739229025,
+          "chordLabels": [
+            "Ab:maj7",
+            "Bb:maj",
+            "G:min",
+            "C:min7"
+          ],
+          "chordBounds": [
+            {
+              "startSeconds": 123.73913832199547,
+              "endSeconds": 125.31809523809524
+            },
+            {
+              "startSeconds": 125.31809523809524,
+              "endSeconds": 126.92027210884353
+            },
+            {
+              "startSeconds": 126.92027210884353,
+              "endSeconds": 128.4760090702948
+            },
+            {
+              "startSeconds": 128.4760090702948,
+              "endSeconds": 129.33514739229025
+            }
+          ],
+          "patternIds": [
+            "iv-v-iii-vi"
+          ],
+          "romanNumeralAnalyses": [
+            "IVmaj7 → V → iii → vi7"
+          ],
+          "passingChordIndex": null,
+          "provenance": "automatic"
+        },
+        {
+          "id": "rr-923-b82997a2e4d707f3",
+          "exactStartSeconds": 164.79201814058956,
+          "exactEndSeconds": 170.504126984127,
+          "playbackStartSeconds": 164.29201814058956,
+          "playbackEndSeconds": 171.004126984127,
+          "chordLabels": [
+            "Ab:maj7",
+            "Bb:maj",
+            "G:min",
+            "C:min"
+          ],
+          "chordBounds": [
+            {
+              "startSeconds": 164.79201814058956,
+              "endSeconds": 166.37097505668933
+            },
+            {
+              "startSeconds": 166.37097505668933,
+              "endSeconds": 167.97315192743764
+            },
+            {
+              "startSeconds": 167.97315192743764,
+              "endSeconds": 169.5288888888889
+            },
+            {
+              "startSeconds": 169.5288888888889,
+              "endSeconds": 170.504126984127
+            }
+          ],
+          "patternIds": [
+            "iv-v-iii-vi"
+          ],
+          "romanNumeralAnalyses": [
+            "IVmaj7 → V → iii → vi"
+          ],
+          "passingChordIndex": null,
+          "provenance": "automatic"
+        }
+      ]
     },
     {
       "id": "924",
