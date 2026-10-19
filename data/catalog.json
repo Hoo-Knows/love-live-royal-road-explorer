@@ -12,10 +12,10 @@
     }
   ],
   "metrics": {
-    "matchingSongCount": 402,
-    "totalOccurrenceCount": 1614,
-    "analyzedSongCount": 901,
-    "catalogSongCount": 917,
+    "matchingSongCount": 403,
+    "totalOccurrenceCount": 1619,
+    "analyzedSongCount": 903,
+    "catalogSongCount": 919,
     "unavailableSongCount": 16,
     "failedSongCount": 0
   },
@@ -97727,13 +97727,209 @@
           "aliases": []
         }
       ],
-      "audioUrl": null,
+      "audioUrl": "https://static.wikia.nocookie.net/love-live/images/e/e9/01._Soleil_Smile.ogg/revision/latest?cb=20261014004734",
       "releaseDate": "2026-10-14",
-      "status": "unavailable",
-      "durationSeconds": null,
-      "error": "No wiki audio URL was present in the source snapshot.",
-      "occurrenceCount": 0,
-      "occurrences": []
+      "status": "analyzed",
+      "durationSeconds": 225.64,
+      "error": null,
+      "occurrenceCount": 5,
+      "occurrences": [
+        {
+          "id": "rr-927-93695597ebb65e7b",
+          "exactStartSeconds": 1.811156462585034,
+          "exactEndSeconds": 6.965986394557823,
+          "playbackStartSeconds": 1.311156462585034,
+          "playbackEndSeconds": 7.465986394557823,
+          "chordLabels": [
+            "C:maj",
+            "D:maj",
+            "B:maj",
+            "E:min"
+          ],
+          "chordBounds": [
+            {
+              "startSeconds": 1.811156462585034,
+              "endSeconds": 2.8328344671201813
+            },
+            {
+              "startSeconds": 2.8328344671201813,
+              "endSeconds": 4.342131519274377
+            },
+            {
+              "startSeconds": 4.342131519274377,
+              "endSeconds": 5.50312925170068
+            },
+            {
+              "startSeconds": 5.50312925170068,
+              "endSeconds": 6.965986394557823
+            }
+          ],
+          "patternIds": [
+            "iv-v-iii-substitution-vi"
+          ],
+          "romanNumeralAnalyses": [
+            "IV → V → III → vi"
+          ],
+          "passingChordIndex": null,
+          "provenance": "automatic"
+        },
+        {
+          "id": "rr-927-a797639a9c7a05f5",
+          "exactStartSeconds": 54.96163265306122,
+          "exactEndSeconds": 60.32544217687075,
+          "playbackStartSeconds": 54.46163265306122,
+          "playbackEndSeconds": 60.82544217687075,
+          "chordLabels": [
+            "C:maj",
+            "D:maj",
+            "B:min",
+            "E:min"
+          ],
+          "chordBounds": [
+            {
+              "startSeconds": 54.96163265306122,
+              "endSeconds": 56.26195011337869
+            },
+            {
+              "startSeconds": 56.26195011337869,
+              "endSeconds": 57.63192743764172
+            },
+            {
+              "startSeconds": 57.63192743764172,
+              "endSeconds": 58.816145124716556
+            },
+            {
+              "startSeconds": 58.816145124716556,
+              "endSeconds": 60.32544217687075
+            }
+          ],
+          "patternIds": [
+            "iv-v-iii-vi"
+          ],
+          "romanNumeralAnalyses": [
+            "IV → V → iii → vi"
+          ],
+          "passingChordIndex": null,
+          "provenance": "automatic"
+        },
+        {
+          "id": "rr-927-fc825ad11d8b598d",
+          "exactStartSeconds": 129.66022675736963,
+          "exactEndSeconds": 134.9775963718821,
+          "playbackStartSeconds": 129.16022675736963,
+          "playbackEndSeconds": 135.4775963718821,
+          "chordLabels": [
+            "C:maj",
+            "D:maj",
+            "B:maj",
+            "E:min"
+          ],
+          "chordBounds": [
+            {
+              "startSeconds": 129.66022675736963,
+              "endSeconds": 130.93732426303856
+            },
+            {
+              "startSeconds": 130.93732426303856,
+              "endSeconds": 132.9342403628118
+            },
+            {
+              "startSeconds": 132.9342403628118,
+              "endSeconds": 133.44507936507938
+            },
+            {
+              "startSeconds": 133.44507936507938,
+              "endSeconds": 134.9775963718821
+            }
+          ],
+          "patternIds": [
+            "iv-v-iii-substitution-vi"
+          ],
+          "romanNumeralAnalyses": [
+            "IV → V → III → vi"
+          ],
+          "passingChordIndex": null,
+          "provenance": "automatic"
+        },
+        {
+          "id": "rr-927-0f86016dbe93a04b",
+          "exactStartSeconds": 150.97614512471657,
+          "exactEndSeconds": 156.31673469387755,
+          "playbackStartSeconds": 150.47614512471657,
+          "playbackEndSeconds": 156.81673469387755,
+          "chordLabels": [
+            "D:maj",
+            "E:maj",
+            "C#:maj",
+            "F#:min"
+          ],
+          "chordBounds": [
+            {
+              "startSeconds": 150.97614512471657,
+              "endSeconds": 152.3461224489796
+            },
+            {
+              "startSeconds": 152.3461224489796,
+              "endSeconds": 153.64643990929704
+            },
+            {
+              "startSeconds": 153.64643990929704,
+              "endSeconds": 154.78421768707483
+            },
+            {
+              "startSeconds": 154.78421768707483,
+              "endSeconds": 156.31673469387755
+            }
+          ],
+          "patternIds": [
+            "iv-v-iii-substitution-vi"
+          ],
+          "romanNumeralAnalyses": [
+            "IV → V → III → vi"
+          ],
+          "passingChordIndex": null,
+          "provenance": "automatic"
+        },
+        {
+          "id": "rr-927-30d8a433176adf2a",
+          "exactStartSeconds": 170.08616780045352,
+          "exactEndSeconds": 174.98557823129252,
+          "playbackStartSeconds": 169.58616780045352,
+          "playbackEndSeconds": 175.48557823129252,
+          "chordLabels": [
+            "C#:maj",
+            "Eb:maj",
+            "C:maj",
+            "F:min"
+          ],
+          "chordBounds": [
+            {
+              "startSeconds": 170.08616780045352,
+              "endSeconds": 170.92208616780044
+            },
+            {
+              "startSeconds": 170.92208616780044,
+              "endSeconds": 172.36172335600907
+            },
+            {
+              "startSeconds": 172.36172335600907,
+              "endSeconds": 173.3601814058957
+            },
+            {
+              "startSeconds": 173.3601814058957,
+              "endSeconds": 174.98557823129252
+            }
+          ],
+          "patternIds": [
+            "iv-v-iii-substitution-vi"
+          ],
+          "romanNumeralAnalyses": [
+            "IV → V → III → vi"
+          ],
+          "passingChordIndex": null,
+          "provenance": "automatic"
+        }
+      ]
     },
     {
       "id": "928",
@@ -97768,8 +97964,64 @@
           ]
         }
       ],
-      "audioUrl": null,
+      "audioUrl": "https://static.wikia.nocookie.net/love-live/images/3/32/02._Hyaku_Okunen_Bun_no_Shiawase.ogg/revision/latest?cb=20261014004752",
       "releaseDate": "2026-10-14",
+      "status": "analyzed",
+      "durationSeconds": 238.32,
+      "error": null,
+      "occurrenceCount": 0,
+      "occurrences": []
+    },
+    {
+      "id": "929",
+      "titles": {
+        "ja": "Songbirds",
+        "en": "Songbirds",
+        "phonetic": "そんぐばーず"
+      },
+      "artistNames": [
+        "Liella!"
+      ],
+      "artistAliases": [
+        "Liella!"
+      ],
+      "seriesNames": [
+        "ラブライブ！スーパースター!!"
+      ],
+      "seriesAliases": [
+        "Love Live! Superstar!!"
+      ],
+      "creators": [],
+      "audioUrl": null,
+      "releaseDate": "2026-11-18",
+      "status": "unavailable",
+      "durationSeconds": null,
+      "error": "No wiki audio URL was present in the source snapshot.",
+      "occurrenceCount": 0,
+      "occurrences": []
+    },
+    {
+      "id": "930",
+      "titles": {
+        "ja": "Dreaming Free",
+        "en": "Dreaming Free",
+        "phonetic": "どりーみんぐふりー"
+      },
+      "artistNames": [
+        "虹ヶ咲学園スクールアイドル同好会"
+      ],
+      "artistAliases": [
+        "Nijigasaki High School Idol Club"
+      ],
+      "seriesNames": [
+        "虹ヶ咲学園スクールアイドル同好会"
+      ],
+      "seriesAliases": [
+        "Nijigasaki High School Idol Club"
+      ],
+      "creators": [],
+      "audioUrl": null,
+      "releaseDate": null,
       "status": "unavailable",
       "durationSeconds": null,
       "error": "No wiki audio URL was present in the source snapshot.",

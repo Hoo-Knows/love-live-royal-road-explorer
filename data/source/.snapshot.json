@@ -5,12 +5,12 @@
     "enrichment": "https://love-live.fandom.com/api.php"
   },
   "collection": {
-    "startedAt": "2026-10-12T05:23:06.195663Z",
-    "finishedAt": "2026-10-12T05:24:00.643052Z"
+    "startedAt": "2026-10-19T04:07:03.440193Z",
+    "finishedAt": "2026-10-19T04:08:03.248811Z"
   },
   "files": {
-    "song-info.json": "9e364531615bd50befc78fa9a026b5ab3c1bcaa1cba7be99e9c4adf4575188e1",
-    "artists-info.json": "e2a825d0f558656d069e512df8cb1e4cb17e39574778a5d50484ec377c3822a1",
+    "song-info.json": "55e11bf2bd6b86a3158e7abf37726e59e561e1f69a281f40a3dc070fc7358b2b",
+    "artists-info.json": "83f698f43cb0bc362bbd95e50c48340308e5b13ab030562a226c68e8d94cd516",
     "series-info.json": "4b86da1c6116059a0d6704dbeace385e833feae746570766777f01ecb8d7afd9"
   },
   "wiki": {
@@ -38507,24 +38507,82 @@
       },
       "927": {
         "identity": "b304b08f3393295abf71333f6ef3ed2c24de8ac2b9b3d2ab9a8d2757aeaaa50c",
-        "status": "missing",
+        "status": "verified",
         "page": {
           "id": 120804,
           "title": "Soleil Smile",
-          "revision": 284868
+          "revision": 285188
+        },
+        "performerMatch": true,
+        "candidates": [
+          "File:01. Soleil Smile.ogg"
+        ],
+        "files": [
+          {
+            "id": 120899,
+            "title": "File:01. Soleil Smile.ogg",
+            "timestamp": "2026-10-14T00:47:34Z",
+            "sha1": "4ba3a6d618ea8aab721d38de4f5578d9dcedeb57",
+            "url": "https://static.wikia.nocookie.net/love-live/images/e/e9/01._Soleil_Smile.ogg/revision/latest?cb=20261014004734"
+          }
+        ],
+        "file": {
+          "id": 120899,
+          "title": "File:01. Soleil Smile.ogg",
+          "timestamp": "2026-10-14T00:47:34Z",
+          "sha1": "4ba3a6d618ea8aab721d38de4f5578d9dcedeb57",
+          "url": "https://static.wikia.nocookie.net/love-live/images/e/e9/01._Soleil_Smile.ogg/revision/latest?cb=20261014004734"
+        }
+      },
+      "928": {
+        "identity": "2fbeebdc0c8ac1fe66d4b46c8a366be05d04ae2ad67e1797429870cee395a36e",
+        "status": "verified",
+        "page": {
+          "id": 120805,
+          "title": "Hyaku Okunen Bun no Shiawase",
+          "revision": 285166
+        },
+        "performerMatch": true,
+        "candidates": [
+          "File:02. Hyaku Okunen Bun no Shiawase.ogg"
+        ],
+        "files": [
+          {
+            "id": 120901,
+            "title": "File:02. Hyaku Okunen Bun no Shiawase.ogg",
+            "timestamp": "2026-10-14T00:47:52Z",
+            "sha1": "daa984de0ac5763f49f575377a11f82f27299e3c",
+            "url": "https://static.wikia.nocookie.net/love-live/images/3/32/02._Hyaku_Okunen_Bun_no_Shiawase.ogg/revision/latest?cb=20261014004752"
+          }
+        ],
+        "file": {
+          "id": 120901,
+          "title": "File:02. Hyaku Okunen Bun no Shiawase.ogg",
+          "timestamp": "2026-10-14T00:47:52Z",
+          "sha1": "daa984de0ac5763f49f575377a11f82f27299e3c",
+          "url": "https://static.wikia.nocookie.net/love-live/images/3/32/02._Hyaku_Okunen_Bun_no_Shiawase.ogg/revision/latest?cb=20261014004752"
+        }
+      },
+      "929": {
+        "identity": "39bb4b0cf9f80c3034e168c98e2fe22bed90aaff9a0f6f401fb0a152d2808cf7",
+        "status": "missing",
+        "page": {
+          "id": 120898,
+          "title": "Songbirds",
+          "revision": 285148
         },
         "performerMatch": true,
         "candidates": [],
         "reason": "no_audio",
         "recordings": []
       },
-      "928": {
-        "identity": "2fbeebdc0c8ac1fe66d4b46c8a366be05d04ae2ad67e1797429870cee395a36e",
+      "930": {
+        "identity": "b6c431d9a4038ccaeb2cd692f0dcaa62f2ba3d6cfe2d2e59b646bf8783675391",
         "status": "missing",
         "page": {
-          "id": 120805,
-          "title": "Hyaku Okunen Bun no Shiawase",
-          "revision": 285016
+          "id": 120905,
+          "title": "Dreaming Free",
+          "revision": 285172
         },
         "performerMatch": true,
         "candidates": [],
@@ -39492,6 +39550,15 @@
         "identity": "2ee5ace1c7bb9aa91e604a842bcbed820fc0589d2f2f92b64ca0f278392bc20a",
         "status": "missing",
         "reason": "no_matching_title"
+      },
+      "261": {
+        "identity": "ded8172e95e23e091f6257e83dcfda11568deb4887c0328c70c9ea86c914eb8c",
+        "status": "verified",
+        "page": {
+          "id": 120918,
+          "title": "Tasogare no Rinkou",
+          "revision": 285256
+        }
       },
       "15": {
         "identity": "489d23973661cb5b1eb980817819eb646c2f7b45a6fefcbfee58a8ca5c98faf2",
@@ -41876,5 +41943,5 @@
       }
     }
   },
-  "snapshotId": "181a191928c10d7404e3c404b80397accf9e2f347ca8d6f05dc3b36b83de9c61"
+  "snapshotId": "2280aeda881c2593e01c553ea512e6f456adffda856aa03139b91f4a6b00df22"
 }
