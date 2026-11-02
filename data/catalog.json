@@ -15,8 +15,8 @@
     "matchingSongCount": 403,
     "totalOccurrenceCount": 1619,
     "analyzedSongCount": 903,
-    "catalogSongCount": 919,
-    "unavailableSongCount": 16,
+    "catalogSongCount": 922,
+    "unavailableSongCount": 19,
     "failedSongCount": 0
   },
   "songs": [
@@ -97991,7 +97991,23 @@
       "seriesAliases": [
         "Love Live! Superstar!!"
       ],
-      "creators": [],
+      "creators": [
+        {
+          "id": "270",
+          "name": "YUU for YOU",
+          "aliases": []
+        },
+        {
+          "id": "514",
+          "name": "松﨑涼介",
+          "aliases": []
+        },
+        {
+          "id": "300",
+          "name": "水野谷 怜",
+          "aliases": []
+        }
+      ],
       "audioUrl": null,
       "releaseDate": "2026-11-18",
       "status": "unavailable",
@@ -98022,6 +98038,133 @@
       "creators": [],
       "audioUrl": null,
       "releaseDate": null,
+      "status": "unavailable",
+      "durationSeconds": null,
+      "error": "No wiki audio URL was present in the source snapshot.",
+      "occurrenceCount": 0,
+      "occurrences": []
+    },
+    {
+      "id": "931",
+      "titles": {
+        "ja": "Target:01",
+        "en": "Target:01",
+        "phonetic": "たーげっとわん"
+      },
+      "artistNames": [
+        "ウィーン・マルガレーテ、鬼塚冬毬"
+      ],
+      "artistAliases": [
+        "Wien Margarete, Tomari Onitsuka"
+      ],
+      "seriesNames": [
+        "ラブライブ！スーパースター!!"
+      ],
+      "seriesAliases": [
+        "Love Live! Superstar!!"
+      ],
+      "creators": [
+        {
+          "id": "352",
+          "name": "加藤優希",
+          "aliases": []
+        },
+        {
+          "id": "515",
+          "name": "スウィーティー白木",
+          "aliases": []
+        }
+      ],
+      "audioUrl": null,
+      "releaseDate": "2026-11-18",
+      "status": "unavailable",
+      "durationSeconds": null,
+      "error": "No wiki audio URL was present in the source snapshot.",
+      "occurrenceCount": 0,
+      "occurrences": []
+    },
+    {
+      "id": "932",
+      "titles": {
+        "ja": "ギミギミノンストップ",
+        "en": "Gimme Gimme Nonstop",
+        "phonetic": "ぎみぎみのんすとっぷ"
+      },
+      "artistNames": [
+        "桜小路きな子、米女メイ、若菜四季、鬼塚夏美"
+      ],
+      "artistAliases": [
+        "Kinako Sakurakoji, Mei Yoneme, Shiki Wakana, Natsumi Onitsuka"
+      ],
+      "seriesNames": [
+        "ラブライブ！スーパースター!!"
+      ],
+      "seriesAliases": [
+        "Love Live! Superstar!!"
+      ],
+      "creators": [
+        {
+          "id": "516",
+          "name": "Meg.i",
+          "aliases": []
+        },
+        {
+          "id": "517",
+          "name": "Hironori Sugai",
+          "aliases": []
+        },
+        {
+          "id": "301",
+          "name": "野崎心平",
+          "aliases": []
+        }
+      ],
+      "audioUrl": null,
+      "releaseDate": "2026-11-18",
+      "status": "unavailable",
+      "durationSeconds": null,
+      "error": "No wiki audio URL was present in the source snapshot.",
+      "occurrenceCount": 0,
+      "occurrences": []
+    },
+    {
+      "id": "933",
+      "titles": {
+        "ja": "線路の先も今日の空",
+        "en": "Senro no Saki mo Kyou no Sora",
+        "phonetic": "せんろのさきもきょうのそら"
+      },
+      "artistNames": [
+        "澁谷かのん、唐 可可、嵐 千砂都、平安名すみれ、葉月 恋"
+      ],
+      "artistAliases": [
+        "Kanon Shibuya, Keke Tang, Chisato Arashi, Sumire Heanna, Ren Hazuki"
+      ],
+      "seriesNames": [
+        "ラブライブ！スーパースター!!"
+      ],
+      "seriesAliases": [
+        "Love Live! Superstar!!"
+      ],
+      "creators": [
+        {
+          "id": "500",
+          "name": "FUJI",
+          "aliases": []
+        },
+        {
+          "id": "518",
+          "name": "Mizoo",
+          "aliases": []
+        },
+        {
+          "id": "334",
+          "name": "Hoffnung",
+          "aliases": []
+        }
+      ],
+      "audioUrl": null,
+      "releaseDate": "2026-11-18",
       "status": "unavailable",
       "durationSeconds": null,
       "error": "No wiki audio URL was present in the source snapshot.",

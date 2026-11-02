@@ -5,11 +5,11 @@
     "enrichment": "https://love-live.fandom.com/api.php"
   },
   "collection": {
-    "startedAt": "2026-10-19T04:07:03.440193Z",
-    "finishedAt": "2026-10-19T04:08:03.248811Z"
+    "startedAt": "2026-11-02T05:26:27.961666Z",
+    "finishedAt": "2026-11-02T05:27:23.626632Z"
   },
   "files": {
-    "song-info.json": "55e11bf2bd6b86a3158e7abf37726e59e561e1f69a281f40a3dc070fc7358b2b",
+    "song-info.json": "b986dc69f9d6f146651f415b3165820132f810e88955905bb27ea5d4ebee69d4",
     "artists-info.json": "83f698f43cb0bc362bbd95e50c48340308e5b13ab030562a226c68e8d94cd516",
     "series-info.json": "4b86da1c6116059a0d6704dbeace385e833feae746570766777f01ecb8d7afd9"
   },
@@ -38569,7 +38569,7 @@
         "page": {
           "id": 120898,
           "title": "Songbirds",
-          "revision": 285148
+          "revision": 285425
         },
         "performerMatch": true,
         "candidates": [],
@@ -38583,6 +38583,45 @@
           "id": 120905,
           "title": "Dreaming Free",
           "revision": 285172
+        },
+        "performerMatch": true,
+        "candidates": [],
+        "reason": "no_audio",
+        "recordings": []
+      },
+      "931": {
+        "identity": "60e890cfd205a32f356dac0eda9b6011feff366b0f09bbf2ebb69e83bd15dda9",
+        "status": "missing",
+        "page": {
+          "id": 120969,
+          "title": "Target:01",
+          "revision": 285424
+        },
+        "performerMatch": true,
+        "candidates": [],
+        "reason": "no_audio",
+        "recordings": []
+      },
+      "932": {
+        "identity": "890a7ef71d706397a8b1b94c2f68f4b0491f95ffd8c06f350a7ab0608c771413",
+        "status": "missing",
+        "page": {
+          "id": 120970,
+          "title": "Gimme Gimme Nonstop",
+          "revision": 285426
+        },
+        "performerMatch": true,
+        "candidates": [],
+        "reason": "no_audio",
+        "recordings": []
+      },
+      "933": {
+        "identity": "b555a84eb47045d23789b4fd208ff32f5c97179b543fd325fcfd36b4932cfda1",
+        "status": "missing",
+        "page": {
+          "id": 120971,
+          "title": "Senro no Saki mo Kyou no Sora",
+          "revision": 285427
         },
         "performerMatch": true,
         "candidates": [],
@@ -41943,5 +41982,5 @@
       }
     }
   },
-  "snapshotId": "2280aeda881c2593e01c553ea512e6f456adffda856aa03139b91f4a6b00df22"
+  "snapshotId": "ad387f319105c0d097d94ad8e221b62e04452ba53f5648566e841b4ddc884601"
 }

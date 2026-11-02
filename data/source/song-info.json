@@ -26667,7 +26667,23 @@
     "artists": [
       "91"
     ],
-    "creators": [],
+    "creators": [
+      {
+        "id": "270",
+        "name": "YUU for YOU",
+        "aliases": []
+      },
+      {
+        "id": "514",
+        "name": "松﨑涼介",
+        "aliases": []
+      },
+      {
+        "id": "300",
+        "name": "水野谷 怜",
+        "aliases": []
+      }
+    ],
     "seriesIds": [
       "4"
     ],
@@ -26688,6 +26704,97 @@
       "3"
     ],
     "releasedOn": null,
+    "wikiAudioUrl": null,
+    "wikiAudioUrls": []
+  },
+  {
+    "id": "931",
+    "name": "Target:01",
+    "phoneticName": "たーげっとわん",
+    "englishName": "Target:01",
+    "artists": [
+      "197"
+    ],
+    "creators": [
+      {
+        "id": "352",
+        "name": "加藤優希",
+        "aliases": []
+      },
+      {
+        "id": "515",
+        "name": "スウィーティー白木",
+        "aliases": []
+      }
+    ],
+    "seriesIds": [
+      "4"
+    ],
+    "releasedOn": "2026-11-18",
+    "wikiAudioUrl": null,
+    "wikiAudioUrls": []
+  },
+  {
+    "id": "932",
+    "name": "ギミギミノンストップ",
+    "phoneticName": "ぎみぎみのんすとっぷ",
+    "englishName": "Gimme Gimme Nonstop",
+    "artists": [
+      "122"
+    ],
+    "creators": [
+      {
+        "id": "516",
+        "name": "Meg.i",
+        "aliases": []
+      },
+      {
+        "id": "517",
+        "name": "Hironori Sugai",
+        "aliases": []
+      },
+      {
+        "id": "301",
+        "name": "野崎心平",
+        "aliases": []
+      }
+    ],
+    "seriesIds": [
+      "4"
+    ],
+    "releasedOn": "2026-11-18",
+    "wikiAudioUrl": null,
+    "wikiAudioUrls": []
+  },
+  {
+    "id": "933",
+    "name": "線路の先も今日の空",
+    "phoneticName": "せんろのさきもきょうのそら",
+    "englishName": "Senro no Saki mo Kyou no Sora",
+    "artists": [
+      "158"
+    ],
+    "creators": [
+      {
+        "id": "500",
+        "name": "FUJI",
+        "aliases": []
+      },
+      {
+        "id": "518",
+        "name": "Mizoo",
+        "aliases": []
+      },
+      {
+        "id": "334",
+        "name": "Hoffnung",
+        "aliases": []
+      }
+    ],
+    "seriesIds": [
+      "4"
+    ],
+    "releasedOn": "2026-11-18",
     "wikiAudioUrl": null,
     "wikiAudioUrls": []
   }
